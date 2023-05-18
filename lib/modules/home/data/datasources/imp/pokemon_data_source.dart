@@ -16,14 +16,14 @@ class PokemonDataSourceImp implements PokemonDataSource {
   @override
   Future<Result<List<PokemonEntity>>> getPokemons(int page) async {
     try {
-      final response = await _httpClient.get(ApiPaths.pokemon);
+      final response = await _httpClient.get('${ApiPaths.pokemon}?offset=${page * 20}&limit=20');
 
       if (response.isSuccess) {
         final pokemonsResponse = _addImageAndIdToResponse(response.data['results'], page);
         final pokemons = pokemonsResponse.map(PokemonModel.fromJson).toList();
         return Result.success(pokemons);
       } else {
-        return const Result.failure(UnmappedFailure('Something went wrong'));
+        return const Result.failure(ServerFailure('Api error'));
       }
     } on Failure catch (e) {
       return Result.failure(e);

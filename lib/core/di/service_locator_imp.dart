@@ -1,5 +1,11 @@
 import 'package:get_it/get_it.dart';
 
+import '../../modules/details/data/datasources/imp/pokemon_details_data_source_imp.dart';
+import '../../modules/details/data/datasources/interface/pokemon_details_data_source.dart';
+import '../../modules/details/data/repositories/pokemon_details_repository_imp.dart';
+import '../../modules/details/domain/repositories/pokemon_details_repository.dart';
+import '../../modules/details/domain/usecases/get_pokemon_details_use_case.dart';
+import '../../modules/details/presentation/cubits/pokemon_details_cubit.dart';
 import '../../modules/home/data/datasources/imp/pokemon_data_source.dart';
 import '../../modules/home/data/datasources/interface/pokemon_data_source.dart';
 import '../../modules/home/data/repositories/pokemon_repository_imp.dart';
@@ -30,14 +36,25 @@ class ServiceLocatorImp implements ServiceLocator {
     // data sources
     registerFactory<PokemonDataSource>(() => PokemonDataSourceImp(httpClient: get()));
 
+    registerFactory<PokemonDetailsDataSource>(() => PokemonDetailsDataSourceImp(httpClient: get()));
+
     // repositories
     registerFactory<PokemonRepository>(() => PokemonRepositoryImp(pokemonDataSource: get()));
+
+    registerFactory<PokemonDetailsRepository>(
+        () => PokemonDetailsRepositoryImp(pokemonDetailsDataSource: get()));
 
     // use cases
     registerFactory<GetPokemonsUseCase>(() => GetPokemonsUseCaseImp(pokemonRepository: get()));
 
+    registerFactory<GetPokemonDetailsUseCase>(
+        () => GetPokemonDetailsUseCaseImp(pokemonDetailsRepository: get()));
+
     // cubits
     registerFactory<HomeCubit>(() => HomeCubit(getPokemonsUseCase: get()));
+
+    registerFactory<PokemonDetailsCubit>(
+        () => PokemonDetailsCubit(getPokemonDetailsUseCase: get()));
   }
 
   @override

@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 
-import '../../../../core/di/service_locator_imp.dart';
-import '../cubits/home_cubit.dart';
-import '../cubits/home_state.dart';
+import '../../../../../core/di/service_locator_imp.dart';
+import '../../../../../core/routes/route_names.dart';
+import '../../cubits/home_cubit.dart';
+import '../../cubits/home_state.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key, this.addPostFrameCallback}) : super(key: key);
@@ -21,7 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
 
-    _homeCubit.getPokemon(_homeCubit.page);
+    _homeCubit.getPokemons(_homeCubit.page);
   }
 
   @override
@@ -43,7 +44,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 } else {
                   return LazyLoadScrollView(
                     onEndOfPage: _homeCubit.nextPage,
-                    child: ListView.builder(
+                    child: GridView.builder(
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 10,
+                        childAspectRatio: 1,
+                      ),
                       itemCount:
                           state.isLoading ? state.pokemons.length + 1 : state.pokemons.length,
                       itemBuilder: (context, index) =>
@@ -51,18 +57,31 @@ class _HomeScreenState extends State<HomeScreen> {
                               ? const Center(
                                   child: CircularProgressIndicator(),
                                 )
-                              : ListTile(
+                              : InkWell(
                                   onTap: () {
-                                    debugPrint('id: ${state.pokemons[index].id}');
+                                    print('id ${state.pokemons[index].id}');
+                                    Navigator.pushNamed(
+                                      context,
+                                      RouteNames.details,
+                                      arguments: state.pokemons[index].id,
+                                    );
                                   },
-                                  title: Text(
-                                    state.pokemons[index].name,
-                                  ),
-                                  subtitle: Text(
-                                    'id: ${state.pokemons[index].id}',
-                                  ),
-                                  leading: Image.network(
-                                    state.pokemons[index].image,
+                                  child: Card(
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          state.pokemons[index].id.toString(),
+                                        ),
+                                        Expanded(
+                                          child: Image.network(
+                                            state.pokemons[index].image,
+                                          ),
+                                        ),
+                                        Text(
+                                          state.pokemons[index].name,
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                     ),

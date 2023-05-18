@@ -16,7 +16,7 @@ class HomeCubit extends Cubit<HomeState> {
 
   final List<PokemonEntity> _pokemons = [];
 
-  Future<void> getPokemon(int page) async {
+  Future<void> getPokemons(int page) async {
     emit(state.startLoading());
     final result = await _getPokemonsUseCase(page);
     result.when(
@@ -30,6 +30,6 @@ class HomeCubit extends Cubit<HomeState> {
 
   void nextPage() {
     _page++;
-    getPokemon(_page);
+    getPokemons(_page);
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../modules/home/presentation/screens/pokemon_screen.dart';
+import '../../modules/details/presentation/view/screens/pokemon_details_screen.dart';
+import '../../modules/home/presentation/view/screens/pokemon_screen.dart';
 import 'route_names.dart';
 
 class AppRoutes {
@@ -10,6 +11,13 @@ class AppRoutes {
           builder: (_) => const HomeScreen(),
           settings: settings,
         );
+
+      case RouteNames.details:
+        return MaterialPageRoute(
+          builder: (_) => PokemonDetailsScreen(pokemonId: settings.arguments as int),
+          settings: settings,
+        );
+
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(
