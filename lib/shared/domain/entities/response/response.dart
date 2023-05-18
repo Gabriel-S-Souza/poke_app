@@ -9,5 +9,5 @@ class ResponseApp<T> {
     this.statusMessage,
   });
 
-  bool get isOk => statusCode != null && statusCode! >= 200 && statusCode! < 300;
+  bool get isSuccess => statusCode != null && statusCode! >= 200 && statusCode! < 300;
 }
