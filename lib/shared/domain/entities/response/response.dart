@@ -1,10 +1,10 @@
 class ResponseApp<T> {
-  final T data;
+  final T? data;
   final int? statusCode;
   final String? statusMessage;
 
   ResponseApp({
-    required this.data,
+    this.data,
     this.statusCode,
     this.statusMessage,
   });
