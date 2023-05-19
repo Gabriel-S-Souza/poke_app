@@ -88,9 +88,7 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                                 builder: (context) {
                                   if (state is PokemonDetailsLoading) {
                                     return const Center(
-                                      child: CircularProgressIndicator(
-                                        color: Colors.blue,
-                                      ),
+                                      child: CircularProgressIndicator(),
                                     );
                                   } else if (state is PokemonDetailsSuccess) {
                                     return Column(
