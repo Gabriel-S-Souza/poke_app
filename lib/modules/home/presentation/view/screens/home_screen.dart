@@ -4,6 +4,7 @@ import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 
 import '../../../../../core/di/service_locator_imp.dart';
 import '../../../../../core/routes/route_names.dart';
+import '../../../../../shared/domain/entities/dto/pokemon_route_params_dto.dart';
 import '../../../../../shared/presentation/view/widgets/box_content_widget.dart';
 import '../../cubits/home_cubit.dart';
 import '../../cubits/home_state.dart';
@@ -67,17 +68,18 @@ class _HomeScreenState extends State<HomeScreen> {
                                   childCount: state.isLoading
                                       ? state.pokemons.length + 1
                                       : state.pokemons.length,
-                                  (context, index) =>
-                                      state.isLoading && index == state.pokemons.length
-                                          ? PokemonCardWidget.inLoading()
-                                          : PokemonCardWidget(
-                                              pokemon: state.pokemons[index],
-                                              onTap: () => Navigator.pushNamed(
-                                                context,
-                                                RouteNames.details,
-                                                arguments: state.pokemons[index].id,
-                                              ),
-                                            ),
+                                  (context, index) => state.isLoading &&
+                                          index == state.pokemons.length
+                                      ? PokemonCardWidget.inLoading()
+                                      : PokemonCardWidget(
+                                          pokemon: state.pokemons[index],
+                                          onTap: () => Navigator.pushNamed(
+                                            context,
+                                            RouteNames.details,
+                                            arguments:
+                                                PokemonRouteParamsDTO(id: state.pokemons[index].id),
+                                          ),
+                                        ),
                                 ),
                               ),
                             ),

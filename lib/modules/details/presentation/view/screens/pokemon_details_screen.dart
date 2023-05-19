@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/di/service_locator_imp.dart';
 import '../../../../../core/routes/route_names.dart';
 import '../../../../../core/utils/string_extension.dart';
+import '../../../../../shared/domain/entities/dto/pokemon_route_params_dto.dart';
 import '../../../../../shared/presentation/view/widgets/box_content_widget.dart';
 import '../../cubits/pokemon_details_cubit.dart';
 import '../../cubits/pokemon_details_state.dart';
@@ -153,7 +154,10 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                           Navigator.pushReplacementNamed(
                             context,
                             RouteNames.details,
-                            arguments: widget.pokemonId - 1,
+                            arguments: PokemonRouteParamsDTO(
+                              id: widget.pokemonId - 1,
+                              transitionType: PokeDetailsTransitionType.toLeft,
+                            ),
                           );
                         },
                         onRightPressed: () {
@@ -162,7 +166,10 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                           Navigator.pushReplacementNamed(
                             context,
                             RouteNames.details,
-                            arguments: widget.pokemonId + 1,
+                            arguments: PokemonRouteParamsDTO(
+                              id: widget.pokemonId + 1,
+                              transitionType: PokeDetailsTransitionType.toRight,
+                            ),
                           );
                         },
                       )
