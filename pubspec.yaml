@@ -21,6 +21,7 @@ dependencies:
   auto_size_text: ^3.0.0
   google_fonts: ^4.0.4
   flutter_inset_box_shadow: ^1.0.8
+  mocktail: ^0.3.0
 
 dev_dependencies:
   flutter_test:
