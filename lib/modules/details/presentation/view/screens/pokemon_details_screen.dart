@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/di/service_locator_imp.dart';
 import '../../../../../core/routes/route_names.dart';
-import '../../../../../core/utils/get_color_by_poke_type.dart';
 import '../../../../../core/utils/string_extension.dart';
 import '../../../../../shared/presentation/view/widgets/box_content_widget.dart';
 import '../../cubits/pokemon_details_cubit.dart';
@@ -46,8 +45,8 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
           builder: (context, state) => SafeArea(
             child: Scaffold(
               backgroundColor: state is PokemonDetailsSuccess
-                  ? getColorByPokeType(state.pokemonDetails.types.first)
-                  : Theme.of(context).colorScheme.background,
+                  ? Color(state.pokemonDetails.types.first.hexColor)
+                  : Theme.of(context).colorScheme.onSecondary,
               body: LayoutBuilder(
                 builder: (context, constraints) => Padding(
                   padding: const EdgeInsets.all(4),
@@ -100,9 +99,8 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                                         Text(
                                           'About',
                                           style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                                                color: getColorByPokeType(
-                                                  state.pokemonDetails.types.first,
-                                                ),
+                                                color: Color(
+                                                    state.pokemonDetails.types.first.hexColor),
                                               ),
                                         ),
                                         Padding(
@@ -118,15 +116,14 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                                         Text(
                                           'Base Stats',
                                           style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                                                color: getColorByPokeType(
-                                                  state.pokemonDetails.types.first,
-                                                ),
+                                                color: Color(
+                                                    state.pokemonDetails.types.first.hexColor),
                                               ),
                                         ),
                                         PokeStatisticsWidget(
                                           statistics: state.pokemonDetails.statistics,
                                           valueBarColor:
-                                              getColorByPokeType(state.pokemonDetails.types.first),
+                                              Color(state.pokemonDetails.types.first.hexColor),
                                         ),
                                       ],
                                     );
