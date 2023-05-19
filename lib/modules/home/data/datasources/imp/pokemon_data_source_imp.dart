@@ -16,7 +16,7 @@ class PokemonDataSourceImp implements PokemonDataSource {
   @override
   Future<Result<List<PokemonEntity>>> getPokemons(int page) async {
     try {
-      final response = await _httpClient.get('${ApiPaths.pokemon}?offset=${page * 20}&limit=20');
+      final response = await _httpClient.get('${ApiPaths.pokemon}?offset=${page * 100}&limit=100');
 
       if (response.isSuccess) {
         final pokemonsResponse = _addImageAndIdToResponse(response.data['results'], page);
@@ -35,7 +35,7 @@ class PokemonDataSourceImp implements PokemonDataSource {
   // TODO(refactor): move this logic to the interceptor
   List<Map<String, dynamic>> _addImageAndIdToResponse(List pokemons, int page) =>
       List.generate(pokemons.length, (index) {
-        final int id = (index + 1) + (page * 20);
+        final int id = (index + 1) + (page * 100);
         return pokemons[index]
           ..addAll({
             'id': id,
