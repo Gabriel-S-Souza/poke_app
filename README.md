@@ -8,7 +8,7 @@
 </div>
 <br>
 
-O PokeApp é um aplicativo desenvolvido em Flutter com o objetivo de explorar os conceitos de Clean Architecture e outras técnicas de desenvolvimento de software relacionadas. O app consome a API pokeapi.co para exibir uma lista com paginação infinita de pokemons e permitir a visualização dos detalhes de cada um deles.
+O PokeApp é um aplicativo desenvolvido em Flutter com o objetivo de explorar os conceitos de Clean Architecture e outras técnicas de desenvolvimento de software relacionadas. O app consome a API pokeapi.co para exibir uma lista com paginação infinita de pokemons e permite a visualização dos detalhes de cada um deles.
 <br>
 
 ### Técnicas Utilizadas
