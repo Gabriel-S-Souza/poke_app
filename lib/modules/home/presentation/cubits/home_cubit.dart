@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../domain/entities/pokemon_entity.dart';
-import '../../domain/usecase/pokemon_use_case.dart';
+import '../../domain/usecases/pokemon_use_case.dart';
 import 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {

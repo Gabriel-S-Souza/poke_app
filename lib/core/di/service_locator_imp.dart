@@ -10,7 +10,7 @@ import '../../modules/home/data/datasources/imp/pokemon_data_source_imp.dart';
 import '../../modules/home/data/datasources/interface/pokemon_data_source.dart';
 import '../../modules/home/data/repositories/pokemon_repository_imp.dart';
 import '../../modules/home/domain/repositories/pokemon_repository_interface.dart';
-import '../../modules/home/domain/usecase/pokemon_use_case.dart';
+import '../../modules/home/domain/usecases/pokemon_use_case.dart';
 import '../../modules/home/presentation/cubits/home_cubit.dart';
 import '../http/dio_app.dart';
 import '../http/http_client.dart';
