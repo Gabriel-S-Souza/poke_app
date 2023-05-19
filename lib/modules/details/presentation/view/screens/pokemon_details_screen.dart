@@ -219,7 +219,10 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                                           ),
                                         ),
                                         PokeStatisticsWidget(
-                                            statistics: state.pokemonDetails.statistics),
+                                          statistics: state.pokemonDetails.statistics,
+                                          valueBarColor:
+                                              _getColorByPokeType(state.pokemonDetails.types.first),
+                                        ),
                                       ],
                                     );
                                   } else if (state is PokemonDetailsError) {

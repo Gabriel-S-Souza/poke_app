@@ -46,9 +46,9 @@ class PokeStatisticsWidget extends StatelessWidget {
                           const SizedBox(width: 8.0),
                           Expanded(
                             child: LinearProgressIndicator(
-                              value: statistic.value / 100,
-                              valueColor: const AlwaysStoppedAnimation<Color>(
-                                AppColors.primaryColor,
+                              value: statistic.value / 255,
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                valueBarColor,
                               ),
                             ),
                           ),

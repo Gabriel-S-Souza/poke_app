@@ -39,12 +39,6 @@ class HomeState extends Equatable {
       ];
 }
 
-class HomeInitialLoading extends HomeState {
-  const HomeInitialLoading({
-    required super.isLoading,
-  });
-}
-
 class HomeError extends HomeState {
   const HomeError({
     required super.messageError,

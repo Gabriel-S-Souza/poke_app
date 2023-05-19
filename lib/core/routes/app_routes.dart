@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../modules/details/presentation/view/screens/pokemon_details_screen.dart';
-import '../../modules/home/presentation/view/screens/pokemon_screen.dart';
+import '../../modules/home/presentation/view/screens/home_screen.dart';
 import 'route_names.dart';
 
 class AppRoutes {
