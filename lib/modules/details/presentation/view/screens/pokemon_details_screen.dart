@@ -1,15 +1,17 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow;
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/di/service_locator_imp.dart';
-import '../../../../../core/theme/theme.dart';
-import '../../../../../core/utils/assets.dart';
+import '../../../../../core/utils/get_color_by_poke_type.dart';
 import '../../../../../core/utils/string_extension.dart';
-import '../../../domain/entities/poke_type.dart';
+import '../../../../../shared/presentation/view/widgets/box_content_widget.dart';
 import '../../cubits/pokemon_details_cubit.dart';
 import '../../cubits/pokemon_details_state.dart';
 import '../widgets/header_screen_widget.dart';
+import '../widgets/poke_ball_positioned_widget.dart';
 import '../widgets/poke_statistics_widget.dart';
+import '../widgets/row_poke_info_widget.dart';
+import '../widgets/type_tags_widget.dart';
 
 class PokemonDetailsScreen extends StatefulWidget {
   final int pokemonId;
@@ -42,8 +44,8 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
           builder: (context, state) => SafeArea(
             child: Scaffold(
               backgroundColor: state is PokemonDetailsSuccess
-                  ? _getColorByPokeType(state.pokemonDetails.types.first)
-                  : Colors.white,
+                  ? getColorByPokeType(state.pokemonDetails.types.first)
+                  : Theme.of(context).colorScheme.background,
               body: LayoutBuilder(
                 builder: (context, constraints) => Padding(
                   padding: const EdgeInsets.all(4),
@@ -59,17 +61,9 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                             child: Stack(
                               alignment: Alignment.topCenter,
                               children: [
-                                Positioned(
+                                PokeBallPositionedWidget(
+                                  constraints: constraints,
                                   right: 9.05,
-                                  child: SizedBox(
-                                    height: constraints.maxHeight * 0.32 -
-                                        MediaQuery.of(context).padding.vertical,
-                                    child: Image.asset(
-                                      Assets.pokeballImg,
-                                      fit: BoxFit.fitHeight,
-                                      color: AppColors.white.withOpacity(0.1),
-                                    ),
-                                  ),
                                 ),
                                 HeaderScreenWidget(
                                   title: state is PokemonDetailsSuccess
@@ -84,13 +78,9 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                           SizedBox(
                             height: constraints.maxHeight * 0.66 -
                                 MediaQuery.of(context).padding.vertical,
-                            child: Container(
-                              padding: const EdgeInsets.all(16).copyWith(
+                            child: BoxContentWidget(
+                              padding: const EdgeInsets.all(20).copyWith(
                                 top: _getBodyPaddingTop(constraints),
-                              ),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(16),
                               ),
                               child: Builder(
                                 builder: (context) {
@@ -104,124 +94,39 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                                     return Column(
                                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                                       children: [
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: state.pokemonDetails.types
-                                              .map(
-                                                (type) => Container(
-                                                  margin: const EdgeInsets.only(right: 16),
-                                                  padding: const EdgeInsets.symmetric(
-                                                    horizontal: 16,
-                                                    vertical: 8,
-                                                  ),
-                                                  decoration: BoxDecoration(
-                                                    color: _getColorByPokeType(type),
-                                                    borderRadius: BorderRadius.circular(16),
-                                                  ),
-                                                  child: Text(
-                                                      type.toString().split('.').last.capitalize()),
-                                                ),
-                                              )
-                                              .toList(),
+                                        TypeTagsWidget(
+                                          types: state.pokemonDetails.types,
                                         ),
                                         Text(
                                           'About',
-                                          style: TextStyle(
-                                              fontSize: 24,
-                                              fontWeight: FontWeight.bold,
-                                              color: _getColorByPokeType(
-                                                  state.pokemonDetails.types.first)),
+                                          style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                                                color: getColorByPokeType(
+                                                  state.pokemonDetails.types.first,
+                                                ),
+                                              ),
                                         ),
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Column(
-                                              children: [
-                                                Text(
-                                                  '${state.pokemonDetails.height.toStringAsFixed(1)} m',
-                                                  style: const TextStyle(
-                                                    fontSize: 16,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
-                                                const Text(
-                                                  'Height',
-                                                  style: TextStyle(
-                                                    fontSize: 16,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            Container(
-                                              margin: const EdgeInsets.symmetric(horizontal: 16),
-                                              height: 24,
-                                              width: 1,
-                                              color: Colors.grey,
-                                            ),
-                                            Column(
-                                              children: [
-                                                Text(
-                                                  '${state.pokemonDetails.weight.toStringAsFixed(1)} kg',
-                                                  style: const TextStyle(
-                                                    fontSize: 16,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
-                                                const Text(
-                                                  'Weight',
-                                                  style: TextStyle(
-                                                    fontSize: 16,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            Container(
-                                              margin: const EdgeInsets.symmetric(horizontal: 16),
-                                              height: 24,
-                                              width: 1,
-                                              color: Colors.grey,
-                                            ),
-                                            Column(
-                                              children: [
-                                                Text(
-                                                  state.pokemonDetails.abilities
-                                                      .map((ability) => ability.capitalize())
-                                                      .join('\n'),
-                                                  style: const TextStyle(
-                                                    fontSize: 16,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
-                                                const Text(
-                                                  'Moves',
-                                                  style: TextStyle(
-                                                    fontSize: 16,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                                          child: RowPokeInfoWidget(
+                                            pokemonDetails: state.pokemonDetails,
+                                          ),
                                         ),
                                         Text(
                                           state.pokemonDetails.description,
+                                          style: Theme.of(context).textTheme.labelSmall,
                                         ),
                                         Text(
                                           'Base Stats',
-                                          style: TextStyle(
-                                            fontSize: 24,
-                                            fontWeight: FontWeight.bold,
-                                            color: _getColorByPokeType(
-                                                state.pokemonDetails.types.first),
-                                          ),
+                                          style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                                                color: getColorByPokeType(
+                                                  state.pokemonDetails.types.first,
+                                                ),
+                                              ),
                                         ),
                                         PokeStatisticsWidget(
                                           statistics: state.pokemonDetails.statistics,
                                           valueBarColor:
-                                              _getColorByPokeType(state.pokemonDetails.types.first),
+                                              getColorByPokeType(state.pokemonDetails.types.first),
                                         ),
                                       ],
                                     );
@@ -244,7 +149,7 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                         top:
                             constraints.maxHeight * 0.092 - MediaQuery.of(context).padding.vertical,
                         child: SizedBox(
-                          height: constraints.maxHeight * 0.33 -
+                          height: constraints.maxHeight * 0.31 -
                               MediaQuery.of(context).padding.vertical,
                           child: state is PokemonDetailsSuccess
                               ? Image.network(
@@ -262,47 +167,4 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
           ),
         ),
       );
-
-  Color _getColorByPokeType(PokeType type) {
-    switch (type) {
-      case PokeType.bug:
-        return AppColors.bug;
-      case PokeType.dark:
-        return AppColors.dark;
-      case PokeType.dragon:
-        return AppColors.dragon;
-      case PokeType.electric:
-        return AppColors.electric;
-      case PokeType.fairy:
-        return AppColors.fairy;
-      case PokeType.fighting:
-        return AppColors.fighting;
-      case PokeType.fire:
-        return AppColors.fire;
-      case PokeType.flying:
-        return AppColors.flying;
-      case PokeType.ghost:
-        return AppColors.ghost;
-      case PokeType.grass:
-        return AppColors.grass;
-      case PokeType.ground:
-        return AppColors.ground;
-      case PokeType.ice:
-        return AppColors.ice;
-      case PokeType.normal:
-        return AppColors.normal;
-      case PokeType.poison:
-        return AppColors.poison;
-      case PokeType.psychic:
-        return AppColors.psychic;
-      case PokeType.rock:
-        return AppColors.rock;
-      case PokeType.steel:
-        return AppColors.steel;
-      case PokeType.water:
-        return AppColors.water;
-      default:
-        return AppColors.normal;
-    }
-  }
 }

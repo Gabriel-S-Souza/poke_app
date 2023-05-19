@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../core/utils/string_extension.dart';
 import '../../../domain/entities/pokemon_entity.dart';
 
 class PokemonCardWidget extends StatelessWidget {
@@ -41,7 +42,8 @@ class PokemonCardWidget extends StatelessWidget {
                   boxShadow: [
                     BoxShadow(
                       color: Theme.of(context).colorScheme.inversePrimary.withOpacity(0.2),
-                      blurRadius: 8,
+                      blurRadius: 3,
+                      spreadRadius: 1,
                       offset: const Offset(0, 2),
                     ),
                   ],
@@ -89,7 +91,7 @@ class PokemonCardWidget extends StatelessWidget {
                                   ),
                                   const SizedBox(height: 4),
                                   Text(
-                                    pokemon.name,
+                                    pokemon.name.capitalize(),
                                     style: Theme.of(context).textTheme.bodyMedium,
                                   ),
                                 ],

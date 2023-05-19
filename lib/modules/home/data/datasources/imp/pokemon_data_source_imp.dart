@@ -32,6 +32,7 @@ class PokemonDataSourceImp implements PokemonDataSource {
     }
   }
 
+  // TODO(refactor): move this to the interceptor
   List<Map<String, dynamic>> _addImageAndIdToResponse(List pokemons, int page) =>
       List.generate(pokemons.length, (index) {
         final int id = (index + 1) + (page * 20);

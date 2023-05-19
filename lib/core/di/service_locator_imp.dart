@@ -6,7 +6,7 @@ import '../../modules/details/data/repositories/pokemon_details_repository_imp.d
 import '../../modules/details/domain/repositories/pokemon_details_repository.dart';
 import '../../modules/details/domain/usecases/get_pokemon_details_use_case.dart';
 import '../../modules/details/presentation/cubits/pokemon_details_cubit.dart';
-import '../../modules/home/data/datasources/imp/pokemon_data_source.dart';
+import '../../modules/home/data/datasources/imp/pokemon_data_source_imp.dart';
 import '../../modules/home/data/datasources/interface/pokemon_data_source.dart';
 import '../../modules/home/data/repositories/pokemon_repository_imp.dart';
 import '../../modules/home/domain/repositories/pokemon_repository_interface.dart';

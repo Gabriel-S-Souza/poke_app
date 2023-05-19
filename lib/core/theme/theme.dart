@@ -19,6 +19,21 @@ final appTheme = ThemeData(
       fontWeight: FontWeight.w700,
       color: AppColors.white,
     ),
+    headlineSmall: GoogleFonts.poppins(
+      fontSize: 12,
+      fontWeight: FontWeight.w700,
+      color: AppColors.white,
+    ),
+    labelLarge: GoogleFonts.poppins(
+      fontSize: 14,
+      fontWeight: FontWeight.w700,
+      color: AppColors.textDefaultColor,
+    ),
+    labelSmall: GoogleFonts.poppins(
+      fontSize: 10,
+      fontWeight: FontWeight.w400,
+      color: AppColors.textDefaultColor,
+    ),
     bodyMedium: GoogleFonts.poppins(
       fontSize: 10,
       fontWeight: FontWeight.w500,

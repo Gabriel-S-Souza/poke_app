@@ -1,4 +1,7 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+
+import '../../../../../core/utils/assets.dart';
 
 class HeaderScreenWidget extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -23,15 +26,32 @@ class HeaderScreenWidget extends StatelessWidget implements PreferredSizeWidget 
           children: [
             Align(
               alignment: Alignment.centerLeft,
-              child: IconButton(
-                onPressed: () => Navigator.of(context).pop(),
-                visualDensity: VisualDensity.compact,
-                splashRadius: 28,
-                icon: Transform.translate(
-                  offset: const Offset(-2, 0),
-                  child: const Icon(
-                    Icons.arrow_back_ios,
-                    size: 24,
+              child: SizedBox(
+                width: 46,
+                child: IconButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  style: ButtonStyle(
+                    padding: MaterialStateProperty.all(EdgeInsets.zero),
+                    shape: MaterialStateProperty.all(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                    maximumSize: MaterialStateProperty.all(const Size(50, 50)),
+                  ),
+                  splashRadius: 28,
+                  iconSize: 36,
+                  icon: Transform.translate(
+                    offset: const Offset(-2, 0),
+                    child: Transform.scale(
+                      scale: 1.2,
+                      child: Image.asset(
+                        Assets.arrowBack,
+                        width: 36,
+                        height: 36,
+                        color: Theme.of(context).colorScheme.secondary,
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -39,14 +59,11 @@ class HeaderScreenWidget extends StatelessWidget implements PreferredSizeWidget 
             Expanded(
               child: Align(
                 alignment: Alignment.centerLeft,
-                child: Text(
+                child: AutoSizeText(
                   title,
                   textAlign: TextAlign.center,
                   maxLines: 1,
-                  style: const TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.w900,
-                  ),
+                  style: Theme.of(context).textTheme.headlineMedium,
                 ),
               ),
             ),
@@ -54,10 +71,7 @@ class HeaderScreenWidget extends StatelessWidget implements PreferredSizeWidget 
               pokeIdFormatted,
               textAlign: TextAlign.center,
               maxLines: 1,
-              style: const TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.w900,
-              ),
+              style: Theme.of(context).textTheme.headlineSmall,
             ),
           ],
         ),

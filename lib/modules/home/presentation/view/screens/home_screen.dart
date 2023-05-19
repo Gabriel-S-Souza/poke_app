@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow;
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 
 import '../../../../../core/di/service_locator_imp.dart';
 import '../../../../../core/routes/route_names.dart';
+import '../../../../../shared/presentation/view/widgets/box_content_widget.dart';
 import '../../cubits/home_cubit.dart';
 import '../../cubits/home_state.dart';
 import '../widgets/app_bar_widget.dart';
@@ -50,25 +50,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                         Expanded(
-                          child: Container(
+                          child: BoxContentWidget(
                             height: constraints.maxHeight - 134,
                             clipBehavior: Clip.antiAlias,
-                            decoration: BoxDecoration(
-                              color: Theme.of(context).colorScheme.secondary,
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(8),
-                              ),
-                              boxShadow: [
-                                BoxShadow(
-                                  offset: const Offset(0, -2),
-                                  blurRadius: 5,
-                                  spreadRadius: 4,
-                                  color:
-                                      Theme.of(context).colorScheme.inversePrimary.withOpacity(0.5),
-                                  inset: true,
-                                ),
-                              ],
-                            ),
                             child: LazyLoadScrollView(
                               onEndOfPage: _homeCubit.nextPage,
                               child: GridView.custom(
