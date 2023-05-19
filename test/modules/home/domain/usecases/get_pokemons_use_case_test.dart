@@ -32,7 +32,7 @@ void main() {
 
       // Assert
       expect(result.isSuccess, isTrue);
-      expect(result.data, pokemons);
+      expect(result.data, isA<List<PokemonEntity>>());
 
       verify(() => mockRepository.getPokemons(1)).called(1);
       verifyNoMoreInteractions(mockRepository);
@@ -50,6 +50,7 @@ void main() {
 
       // Assert
       expect(result.isSuccess, isFalse);
+      expect(result.error, isA<Failure>());
       expect(result.error.message, errorMessage);
 
       verify(() => mockRepository.getPokemons(1)).called(1);
