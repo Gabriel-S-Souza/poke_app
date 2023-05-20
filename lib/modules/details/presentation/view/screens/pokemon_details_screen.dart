@@ -70,9 +70,10 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                                 HeaderScreenWidget(
                                   title: state is PokemonDetailsSuccess
                                       ? state.pokemonDetails.name.capitalize()
-                                      : 'Pokemon Details',
-                                  pokeId:
-                                      state is PokemonDetailsSuccess ? state.pokemonDetails.id : 0,
+                                      : '',
+                                  pokeId: state is PokemonDetailsSuccess
+                                      ? state.pokemonDetails.id
+                                      : null,
                                 ),
                               ],
                             ),

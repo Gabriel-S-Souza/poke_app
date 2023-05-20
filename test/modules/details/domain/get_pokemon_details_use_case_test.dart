@@ -45,7 +45,7 @@ void main() {
       const String mockErrorMessage = 'Failed to fetch Pokemon details';
 
       when(() => mockRepository.getDetails(any()))
-          .thenAnswer((invocation) async => const Result.failure(Failure(mockErrorMessage)));
+          .thenAnswer((invocation) async => Result.failure(const Failure(mockErrorMessage)));
 
       // Act
       final result = await useCase.call(1);

@@ -55,7 +55,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
                   ),
                 ),
                 const SizedBox(width: 16),
-                IconButtonApp(
+                CircleButtonApp(
                   onPressed: () {},
                   child: Image.asset(
                     Assets.hash,

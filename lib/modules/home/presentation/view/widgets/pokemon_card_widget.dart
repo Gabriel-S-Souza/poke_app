@@ -84,9 +84,7 @@ class PokemonCardWidget extends StatelessWidget {
                                   Expanded(
                                     child: Transform.scale(
                                       scale: 1.05,
-                                      child: Image.network(
-                                        pokemon.image,
-                                      ),
+                                      child: Image.network(pokemon.image),
                                     ),
                                   ),
                                   const SizedBox(height: 4),

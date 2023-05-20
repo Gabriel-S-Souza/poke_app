@@ -113,49 +113,40 @@ class HttpClient {
     if (e is! DioError) return UnmappedFailure(e.toString());
 
     if (e.response != null && e.response!.statusCode != null) {
-      final error = _handleErrorByStatusCode(e.response!.statusCode!);
+      final error = _handleErrorByStatusCode(e.response!.statusCode);
       if (error != null) {
         return error;
       }
     }
 
-    final error = _handleErrorByType(e);
-
-    if (error != null) {
-      return error;
-    }
-
-    return UnmappedFailure(e.toString());
+    return _handleErrorByType(e);
   }
 
-  Failure? _handleErrorByStatusCode(Object e) {
-    if (e is! DioError) return UnmappedFailure(e.toString());
-    switch (e.response!.statusCode) {
+  Failure? _handleErrorByStatusCode(int? statusCode) {
+    switch (statusCode) {
       case 400:
-        return BadRequestFailure(e.response!.data.toString());
+        return const BadRequestFailure();
       case 401:
-        return UnauthorizedFailure();
+        return const UnauthorizedFailure();
       case 404:
-        return NotFoundFailure();
+        return const NotFoundFailure();
       case 500:
-        return ServerFailure(e.response!.data.toString());
+        return const ServerFailure();
       default:
         return null;
     }
   }
 
-  Failure? _handleErrorByType(DioError e) {
+  Failure _handleErrorByType(DioError e) {
     switch (e.type) {
-      case DioErrorType.unknown:
-        return UnmappedFailure(e.message != null ? e.message.toString() : e.error.toString());
       case DioErrorType.connectionTimeout:
-        return OfflineFailure();
+        return OfflineFailure(e.message);
       case DioErrorType.cancel:
       case DioErrorType.receiveTimeout:
       case DioErrorType.badResponse:
-        return ServerFailure(e.message.toString());
+        return ServerFailure(e.message);
       default:
-        return null;
+        return UnmappedFailure(e.message);
     }
   }
 }

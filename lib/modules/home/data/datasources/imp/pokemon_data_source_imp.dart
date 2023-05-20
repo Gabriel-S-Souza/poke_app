@@ -23,7 +23,7 @@ class PokemonDataSourceImp implements PokemonDataSource {
         final pokemons = pokemonsResponse.map(PokemonModel.fromJson).toList();
         return Result.success(pokemons);
       } else {
-        return const Result.failure(ServerFailure('Api error'));
+        return Result.failure(const ServerFailure('Api error'));
       }
     } on Failure catch (e) {
       return Result.failure(e);
@@ -39,8 +39,9 @@ class PokemonDataSourceImp implements PokemonDataSource {
         return pokemons[index]
           ..addAll({
             'id': id,
-            'imageUrl':
-                'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/$id.png',
+            'imageUrl': id <= 1010
+                ? 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/$id.png'
+                : 'https://upload.wikimedia.org/wikipedia/commons/b/b1/Pok%C3%A9ball.png'
           });
       });
 }

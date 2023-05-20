@@ -24,6 +24,7 @@ class AppRoutes {
           );
         }
 
+        // TODO(refactor): separate the custom route builder to a new file
         return PageRouteBuilder(
           settings: settings,
           reverseTransitionDuration: const Duration(milliseconds: 100),
@@ -48,7 +49,7 @@ class AppRoutes {
                   child: child,
                 ),
               );
-            } else if (transitionType == PokeDetailsTransitionType.toLeft) {
+            } else {
               begin = const Offset(-0.6, 0.0);
 
               tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
@@ -60,8 +61,6 @@ class AppRoutes {
                   child: child,
                 ),
               );
-            } else {
-              return child;
             }
           },
         );
