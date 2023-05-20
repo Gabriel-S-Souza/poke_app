@@ -1,6 +1,6 @@
 import 'package:poke_app/modules/home/domain/entities/pokemon_entity.dart';
 
-final List<PokemonEntity> mockPokemons = [
+final List<PokemonEntity> pokemonsMock = [
   PokemonEntity(
       id: 25,
       name: 'Pikachu',

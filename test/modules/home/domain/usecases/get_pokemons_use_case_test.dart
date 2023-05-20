@@ -6,7 +6,7 @@ import 'package:poke_app/modules/home/domain/usecases/pokemon_use_case.dart';
 import 'package:poke_app/shared/domain/entities/failure/failure.dart';
 import 'package:poke_app/shared/domain/entities/result/result.dart';
 
-import '../../mocks/mock_pokemons.dart';
+import '../../../../mocks/pokemons_mock.dart';
 
 class MockPokemonRepository extends Mock implements PokemonRepository {}
 
@@ -22,7 +22,7 @@ void main() {
   group('GetPokemonsUseCase |', () {
     test('success: hould return a Result with a list of PokemonEntity', () async {
       // Arrange
-      final List<PokemonEntity> pokemons = mockPokemons;
+      final List<PokemonEntity> pokemons = pokemonsMock;
 
       when(() => mockRepository.getPokemons(any()))
           .thenAnswer((invocation) async => Result.success(pokemons));
