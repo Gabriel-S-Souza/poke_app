@@ -22,7 +22,7 @@ void main() {
   });
 
   group('GetPokemonDetailsUseCase |', () {
-    test('success: should return PokemonDetailsEntity', () async {
+    test('success: should return a Result with a PokemonDetailsEntity', () async {
       // Arrange
       final PokemonDetailsEntity pokemonDetails = mockPokemonDetails;
 
@@ -40,7 +40,9 @@ void main() {
       verifyNoMoreInteractions(mockRepository);
     });
 
-    test('failure: should return a Failure', () async {
+    test(
+        'failure: should return a Result with a Failure when the response of the repository is not successful',
+        () async {
       // Arrange
       const String mockErrorMessage = 'Failed to fetch Pokemon details';
 

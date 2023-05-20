@@ -20,7 +20,7 @@ void main() {
   });
 
   group('GetPokemonsUseCase |', () {
-    test('success: should return a list of PokemonEntity', () async {
+    test('success: hould return a Result with a list of PokemonEntity', () async {
       // Arrange
       final List<PokemonEntity> pokemons = mockPokemons;
 
@@ -38,7 +38,9 @@ void main() {
       verifyNoMoreInteractions(mockRepository);
     });
 
-    test('failure: should return a Failure', () async {
+    test(
+        'failure: should return a Result with a Failure when the response of the repository is not successful',
+        () async {
       // Arrange
       const String errorMessage = 'Failed to fetch Pokemons';
 
