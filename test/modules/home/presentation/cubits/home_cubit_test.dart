@@ -34,7 +34,7 @@ void main() {
     });
 
     blocTest(
-      'success: should emit HomeState with loading and then emit HomeState with the fetched pokemons this same order',
+      'success: should emit HomeState with loading and then emit HomeState with the fetched pokemon',
       // Arrange
       build: () {
         when(() => mockGetPokemonsUseCase.call(0))
@@ -57,7 +57,7 @@ void main() {
     );
 
     blocTest(
-      'failure: should emit a HomeSate with failure when response from GetPokemonsUseCase is unsuccessful',
+      'failure: should emit a HomeSate with failure when response from use case is unsuccessful',
       // Arrange
       build: () {
         const String errorMessage = 'Failed to fetch Pokemons';
