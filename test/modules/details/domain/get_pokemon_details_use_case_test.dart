@@ -41,7 +41,7 @@ void main() {
     });
 
     test(
-        'failure: should return a Result with a Failure when the response of the repository is not successful',
+        'failure: should return a Result with a Failure when the response of the repository is unsuccessful',
         () async {
       // Arrange
       const String mockErrorMessage = 'Failed to fetch Pokemon details';
