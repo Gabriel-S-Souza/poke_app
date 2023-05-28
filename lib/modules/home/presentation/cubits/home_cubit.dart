@@ -19,6 +19,7 @@ class HomeCubit extends Cubit<HomeState> {
   Future<void> getPokemons(int page) async {
     emit(state.startLoading());
     final result = await _getPokemonsUseCase(page);
+
     result.when(
       onSuccess: (pokemons) {
         _pokemons.addAll(pokemons);
@@ -28,8 +29,11 @@ class HomeCubit extends Cubit<HomeState> {
     );
   }
 
-  void nextPage() {
+  Future<void> nextPage() async {
     _page++;
-    getPokemons(_page);
+    await getPokemons(_page);
+    if (state.hasError) {
+      _page--;
+    }
   }
 }
