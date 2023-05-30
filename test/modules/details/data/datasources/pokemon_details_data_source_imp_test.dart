@@ -1,11 +1,13 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:poke_app/core/http/http_client.dart';
+import 'package:poke_app/core/utils/api_paths.dart';
 import 'package:poke_app/modules/details/data/datasources/imp/pokemon_details_data_source_imp.dart';
 import 'package:poke_app/modules/details/domain/entities/pokemon_details_entity.dart';
 import 'package:poke_app/shared/domain/entities/failure/failure.dart';
 import 'package:poke_app/shared/domain/entities/response/response.dart';
 
+import '../../../../fixtures/get_pokemon_description_fixture.dart';
 import '../../../../fixtures/get_pokemon_details_fixture.dart';
 
 class MockHttpClient extends Mock implements HttpClient {}
@@ -13,6 +15,9 @@ class MockHttpClient extends Mock implements HttpClient {}
 void main() {
   late PokemonDetailsDataSourceImp dataSource;
   late MockHttpClient mockHttpClient;
+  const int pokemonId = 1;
+  const String detailsUrl = '${ApiPaths.pokemon}/$pokemonId';
+  const String descriptionUrl = '${ApiPaths.pokemonSpecies}/$pokemonId';
 
   setUp(() {
     mockHttpClient = MockHttpClient();
@@ -22,11 +27,16 @@ void main() {
   group('PokemonDetailsDataSource.getDetails |', () {
     test('success: should return a Result with a PokemonDetailsEntity', () async {
       // Arrange
-      const int pokemonId = 1;
       final response = getPokemonDetailsFixture;
+      final responseDescription = getPokemonDescriptionFixture;
 
-      when(() => mockHttpClient.get(any())).thenAnswer((_) async => ResponseApp(
+      when(() => mockHttpClient.get(detailsUrl)).thenAnswer((_) async => ResponseApp(
             data: response,
+            statusCode: 200,
+          ));
+
+      when(() => mockHttpClient.get(descriptionUrl)).thenAnswer((_) async => ResponseApp(
+            data: responseDescription,
             statusCode: 200,
           ));
 
@@ -37,7 +47,7 @@ void main() {
       expect(result.isSuccess, isTrue);
       expect(result.data, isA<PokemonDetailsEntity>());
 
-      verify(() => mockHttpClient.get(any())).called(1);
+      verify(() => mockHttpClient.get(any())).called(2);
       verifyNoMoreInteractions(mockHttpClient);
     });
 
@@ -45,7 +55,6 @@ void main() {
         'failure: should return a Result with a ServerFailure when the status code is not within the range 200-299',
         () async {
       // Arrange
-      const int pokemonId = 1;
 
       when(() => mockHttpClient.get(any())).thenAnswer((_) async => ResponseApp(
             statusCode: 500,
@@ -59,7 +68,7 @@ void main() {
       expect(result.isSuccess, isFalse);
       expect(result.error, const ServerFailure('Api error'));
 
-      verify(() => mockHttpClient.get(any())).called(1);
+      verify(() => mockHttpClient.get(any())).called(2);
       verifyNoMoreInteractions(mockHttpClient);
     });
 
