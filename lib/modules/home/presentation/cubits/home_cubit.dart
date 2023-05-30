@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../domain/entities/pokemon_entity.dart';
 import '../../domain/usecases/pokemon_use_case.dart';
+import '../view/widgets/radio_tile_widget.dart';
 import 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
@@ -23,7 +24,13 @@ class HomeCubit extends Cubit<HomeState> {
     result.when(
       onSuccess: (pokemons) {
         _pokemons.addAll(pokemons);
-        emit(HomeState(pokemons: _pokemons));
+        if (state.sortBy != SortPokeBy.number) {
+          sortPokemons(state.sortBy, updateState: false);
+        }
+        emit(state.copyWith(
+          pokemons: _pokemons,
+          isLoading: false,
+        ));
       },
       onFailure: (failure) => emit(state.error(failure.message)),
     );
@@ -35,5 +42,38 @@ class HomeCubit extends Cubit<HomeState> {
     if (state.hasError) {
       _page--;
     }
+  }
+
+  void sortPokemons(SortPokeBy sort, {bool updateState = true}) {
+    _pokemons.sort(
+      (a, b) {
+        switch (sort) {
+          case SortPokeBy.number:
+            return a.id.compareTo(b.id);
+          case SortPokeBy.name:
+            return a.name.compareTo(b.name);
+        }
+      },
+    );
+
+    if (updateState) {
+      emit(state.copyWith(
+        pokemons: _pokemons,
+        sortBy: sort,
+      ));
+    }
+  }
+
+  void searchPokemons(String query) {
+    final pokemons = _pokemons.where((element) {
+      final name = element.name.toLowerCase();
+      final number = '#${element.id.toString().padLeft(3, '0')}';
+      final lowerQuery = query.toLowerCase();
+      return name.contains(lowerQuery) || number.contains(lowerQuery);
+    }).toList();
+
+    emit(state.copyWith(
+      pokemons: pokemons,
+    ));
   }
 }

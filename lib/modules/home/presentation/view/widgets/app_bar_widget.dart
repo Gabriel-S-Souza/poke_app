@@ -2,12 +2,28 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../core/utils/assets.dart';
-import 'icon_button_widget.dart';
+import 'radio_tile_widget.dart';
+import 'sort_button_widget.dart';
 import 'text_field_widget.dart';
 
 class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   final double height;
-  const AppBarWidget({super.key, this.height = 80});
+  final void Function(SortPokeBy)? onSort;
+  final SortPokeBy currentSortBy;
+  final void Function(String)? onSearch;
+  final TextEditingController? searchController;
+
+  const AppBarWidget({
+    super.key,
+    this.height = 80,
+    this.onSort,
+    this.currentSortBy = SortPokeBy.number,
+    this.onSearch,
+    this.searchController,
+  });
+
+  @override
+  Size get preferredSize => Size.fromHeight(height);
 
   @override
   Widget build(BuildContext context) => Container(
@@ -48,27 +64,26 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
                     height: 36,
                     child: TextFieldWidget(
                       hint: 'Search',
-                      onChanged: (value) {},
+                      onChanged: onSearch,
+                      controller: searchController,
                       prefix: Icon(Icons.search, color: Theme.of(context).colorScheme.primary),
-                      readOnly: true,
+                      readOnly: false,
                     ),
                   ),
                 ),
                 const SizedBox(width: 16),
-                CircleButtonApp(
-                  onPressed: () {},
-                  child: Image.asset(
-                    Assets.hash,
-                    height: 24,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
+                Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    SortButtonWidget(
+                      onSelected: onSort,
+                      currentSortBy: currentSortBy,
+                    ),
+                  ],
                 ),
               ],
             ),
           ],
         ),
       );
-
-  @override
-  Size get preferredSize => Size.fromHeight(height);
 }

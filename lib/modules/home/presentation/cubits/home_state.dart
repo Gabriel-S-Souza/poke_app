@@ -1,26 +1,31 @@
 import 'package:equatable/equatable.dart';
 
 import '../../domain/entities/pokemon_entity.dart';
+import '../view/widgets/radio_tile_widget.dart';
 
 class HomeState extends Equatable {
   final List<PokemonEntity> pokemons;
   final String? messageError;
   final bool isLoading;
+  final SortPokeBy sortBy;
   const HomeState({
     this.pokemons = const [],
     this.isLoading = false,
     this.messageError,
+    this.sortBy = SortPokeBy.number,
   });
 
   HomeState copyWith({
     List<PokemonEntity>? pokemons,
     bool? isLoading,
     String? messageError,
+    SortPokeBy? sortBy,
   }) =>
       HomeState(
         pokemons: pokemons ?? this.pokemons,
         isLoading: isLoading ?? this.isLoading,
         messageError: messageError,
+        sortBy: sortBy ?? this.sortBy,
       );
 
   HomeState startLoading() => copyWith(isLoading: true);
@@ -36,6 +41,7 @@ class HomeState extends Equatable {
         pokemons,
         isLoading,
         messageError,
+        sortBy,
       ];
 }
 
