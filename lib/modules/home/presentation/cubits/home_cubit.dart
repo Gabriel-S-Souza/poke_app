@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../domain/entities/pokemon_entity.dart';
@@ -16,6 +17,9 @@ class HomeCubit extends Cubit<HomeState> {
   int get page => _page;
 
   final List<PokemonEntity> _pokemons = [];
+
+  @visibleForTesting
+  List<PokemonEntity> get pokemons => _pokemons;
 
   Future<void> getPokemons(int page) async {
     emit(state.startLoading());

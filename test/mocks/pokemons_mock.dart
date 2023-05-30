@@ -11,4 +11,9 @@ final List<PokemonEntity> pokemonsMock = [
       name: 'Charizard',
       image:
           'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/6.png'),
+  PokemonEntity(
+      id: 4,
+      name: 'Charmander',
+      image:
+          'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/4.png'),
 ];
