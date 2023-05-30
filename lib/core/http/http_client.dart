@@ -3,10 +3,10 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
-import '../../shared/domain/entities/failure/failure.dart';
 import '../../shared/domain/entities/response/response.dart';
+import 'handle_req_error_mixin.dart';
 
-class HttpClient {
+class HttpClient with HandleReqErrorMixin {
   final Dio _dio;
 
   HttpClient(this._dio) {
@@ -30,7 +30,7 @@ class HttpClient {
       );
       return ResponseApp(data: response.data, statusCode: response.statusCode);
     } catch (e) {
-      throw _handleError(e);
+      throw handleError(e);
     }
   }
 
@@ -53,7 +53,7 @@ class HttpClient {
       );
       return ResponseApp(data: response.data, statusCode: response.statusCode);
     } catch (e) {
-      throw _handleError(e);
+      throw handleError(e);
     }
   }
 
@@ -76,7 +76,7 @@ class HttpClient {
       );
       return ResponseApp(data: response.data, statusCode: response.statusCode);
     } catch (e) {
-      throw _handleError(e);
+      throw handleError(e);
     }
   }
 
@@ -97,7 +97,7 @@ class HttpClient {
       );
       return ResponseApp(data: response.data, statusCode: response.statusCode);
     } catch (e) {
-      throw _handleError(e);
+      throw handleError(e);
     }
   }
 
@@ -107,46 +107,5 @@ class HttpClient {
       responseBody: true,
       logPrint: (object) => debugPrint(object.toString()),
     ));
-  }
-
-  Failure _handleError(Object e) {
-    if (e is! DioError) return UnmappedFailure(e.toString());
-
-    if (e.response != null && e.response!.statusCode != null) {
-      final error = _handleErrorByStatusCode(e.response!.statusCode);
-      if (error != null) {
-        return error;
-      }
-    }
-
-    return _handleErrorByType(e);
-  }
-
-  Failure? _handleErrorByStatusCode(int? statusCode) {
-    switch (statusCode) {
-      case 400:
-        return const BadRequestFailure();
-      case 401:
-        return const UnauthorizedFailure();
-      case 404:
-        return const NotFoundFailure();
-      case 500:
-        return const ServerFailure();
-      default:
-        return null;
-    }
-  }
-
-  Failure _handleErrorByType(DioError e) {
-    switch (e.type) {
-      case DioErrorType.connectionTimeout:
-        return OfflineFailure(e.message);
-      case DioErrorType.cancel:
-      case DioErrorType.receiveTimeout:
-      case DioErrorType.badResponse:
-        return ServerFailure(e.message);
-      default:
-        return UnmappedFailure(e.message);
-    }
   }
 }
