@@ -17,9 +17,20 @@ class PokemonDetailsDataSourceImp implements PokemonDetailsDataSource {
   Future<Result<PokemonDetailsEntity>> getDetails(int pokemonId) async {
     try {
       final response = await _httpClient.get('${ApiPaths.pokemon}/$pokemonId');
+      final responseDescription = await _httpClient.get('${ApiPaths.pokemonSpecies}/$pokemonId');
 
       if (response.isSuccess) {
-        return Result.success(PokemonDetailsModel.fromJson(response.data));
+        final String descriptionText;
+        if (responseDescription.isSuccess) {
+          final descriptionJson = responseDescription.data['flavor_text_entries']
+              .firstWhere((element) => element['language']['name'] == 'en');
+          descriptionText = descriptionJson['flavor_text'];
+        } else {
+          descriptionText =
+              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
+        }
+        final data = response.data..['description'] = _removeModifiers(descriptionText);
+        return Result.success(PokemonDetailsModel.fromJson(data));
       } else {
         return Result.failure(const ServerFailure('Api error'));
       }
@@ -29,4 +40,7 @@ class PokemonDetailsDataSourceImp implements PokemonDetailsDataSource {
       return Result.failure(UnmappedFailure(e.toString()));
     }
   }
+
+  /// Remove ```\n``` and ```\f``` from description text
+  String _removeModifiers(String text) => text.replaceAll('\n', ' ').replaceAll('\f', '').trim();
 }

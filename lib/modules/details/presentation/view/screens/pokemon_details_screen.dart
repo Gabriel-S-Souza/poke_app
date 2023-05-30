@@ -114,6 +114,7 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                                         Text(
                                           state.pokemonDetails.description,
                                           style: Theme.of(context).textTheme.labelSmall,
+                                          textAlign: TextAlign.justify,
                                         ),
                                         Text(
                                           'Base Stats',

@@ -25,7 +25,8 @@ class PokemonDetailsModel extends PokemonDetailsEntity {
         types: _getTypes(json['types']),
         moves: _getMoves(json['moves']),
         abilities: _getAbilities(json['abilities']),
-        description: 'Loren ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod.',
+        description: json['description'],
+        // ignore: unnecessary_lambdas
         statistics: (json['stats'] as List).map((e) => PokeStatisticModel.fromJson(e)).toList(),
       );
 }
