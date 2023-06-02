@@ -17,7 +17,7 @@ class AppRoutes {
         final PokemonRouteParamsDTO routeParams = settings.arguments as PokemonRouteParamsDTO;
         final PokeDetailsTransitionType transitionType = routeParams.transitionType;
 
-        if (routeParams.transitionType == PokeDetailsTransitionType.normal) {
+        if (transitionType == PokeDetailsTransitionType.normal) {
           return MaterialPageRoute(
             builder: (_) => PokemonDetailsScreen(pokemonId: routeParams.id),
             settings: settings,
@@ -36,32 +36,23 @@ class AppRoutes {
             const Curve curve = Curves.ease;
 
             final Offset begin;
-
             Animatable<Offset> tween;
+
             if (transitionType == PokeDetailsTransitionType.toRight) {
               begin = const Offset(0.6, 0.0);
               tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-
-              return SlideTransition(
-                position: animation.drive(tween),
-                child: FadeTransition(
-                  opacity: animation,
-                  child: child,
-                ),
-              );
             } else {
               begin = const Offset(-0.6, 0.0);
-
               tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-
-              return SlideTransition(
-                position: animation.drive(tween),
-                child: FadeTransition(
-                  opacity: animation,
-                  child: child,
-                ),
-              );
             }
+
+            return SlideTransition(
+              position: animation.drive(tween),
+              child: FadeTransition(
+                opacity: animation,
+                child: child,
+              ),
+            );
           },
         );
 
