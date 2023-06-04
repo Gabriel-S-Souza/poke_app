@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow;
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 
@@ -73,27 +73,28 @@ class _HomeScreenState extends State<HomeScreen> {
                         : const AlwaysScrollableScrollPhysics(),
                     slivers: [
                       SliverToBoxAdapter(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.all(4),
-                              height: 124,
+                        child: Container(
+                          padding: const EdgeInsets.all(4),
+                          height: 124,
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              width: 0,
                               color: Theme.of(context).colorScheme.primary,
-                              child: AppBarWidget(
-                                height: 124,
-                                currentSortBy: state.sortBy,
-                                searchController: _searchController,
-                                onSort: (sortBy) {
-                                  _homeCubit.sortPokemons(sortBy);
-                                  if (_searchController.text.isNotEmpty) {
-                                    _homeCubit.searchPokemons(_searchController.text);
-                                  }
-                                },
-                                onSearch: _homeCubit.searchPokemons,
-                              ),
                             ),
-                          ],
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                          child: AppBarWidget(
+                            height: 124,
+                            currentSortBy: state.sortBy,
+                            searchController: _searchController,
+                            onSort: (sortBy) {
+                              _homeCubit.sortPokemons(sortBy);
+                              if (_searchController.text.isNotEmpty) {
+                                _homeCubit.searchPokemons(_searchController.text);
+                              }
+                            },
+                            onSearch: _homeCubit.searchPokemons,
+                          ),
                         ),
                       ),
                       SliverToBoxAdapter(
