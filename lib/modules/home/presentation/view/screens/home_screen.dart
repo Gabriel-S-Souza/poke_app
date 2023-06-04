@@ -33,7 +33,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
     _gridScrollController.addListener(() {
       final double bodyScrollOffset = _bodyScrollController.position.pixels;
-
       if (bodyScrollOffset >= appBarOffset &&
           _gridScrollController.position.pixels == _gridScrollController.position.minScrollExtent) {
         _bodyScrollController.animateTo(
@@ -134,13 +133,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                               ? PokemonCardWidget.inLoading()
                                               : PokemonCardWidget(
                                                   pokemon: state.pokemons[index],
-                                                  onTap: () => Navigator.pushNamed(
-                                                    context,
-                                                    RouteNames.details,
-                                                    arguments: PokemonRouteParamsDTO(
-                                                      id: state.pokemons[index].id,
-                                                    ),
-                                                  ),
+                                                  onTap: () {
+                                                    FocusScope.of(context).unfocus();
+                                                    Navigator.pushNamed(
+                                                      context,
+                                                      RouteNames.details,
+                                                      arguments: PokemonRouteParamsDTO(
+                                                        id: state.pokemons[index].id,
+                                                      ),
+                                                    );
+                                                  },
                                                 ),
                                     ),
                                   ),
