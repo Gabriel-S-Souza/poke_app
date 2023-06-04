@@ -22,18 +22,40 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final _homeCubit = ServiceLocatorImp.I.get<HomeCubit>();
   final TextEditingController _searchController = TextEditingController();
+  final ScrollController _bodyScrollController = ScrollController();
+  final ScrollController _gridScrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
     _homeCubit.getPokemons(_homeCubit.page);
+    const double appBarOffset = 100;
+
+    _gridScrollController.addListener(() {
+      final double bodyScrollOffset = _bodyScrollController.position.pixels;
+
+      if (bodyScrollOffset >= appBarOffset &&
+          _gridScrollController.position.pixels == _gridScrollController.position.minScrollExtent) {
+        _bodyScrollController.animateTo(
+          _bodyScrollController.position.minScrollExtent + appBarOffset / 2,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+        );
+      }
+    });
   }
 
   @override
   void dispose() {
     _searchController.dispose();
+    _bodyScrollController.dispose();
+    _gridScrollController.dispose();
     super.dispose();
   }
+
+  double get screenHeight => MediaQuery.sizeOf(context).height;
+  double get bodyHeight => screenHeight - (124 + MediaQuery.of(context).padding.vertical + 8);
+  Orientation get orientation => MediaQuery.orientationOf(context);
 
   @override
   Widget build(BuildContext context) => ColoredBox(
@@ -42,75 +64,93 @@ class _HomeScreenState extends State<HomeScreen> {
           onTap: () => FocusScope.of(context).unfocus(),
           child: SafeArea(
             child: Scaffold(
-              backgroundColor: Theme.of(context).colorScheme.primary,
               body: BlocProvider(
                 create: (_) => _homeCubit,
                 child: BlocBuilder<HomeCubit, HomeState>(
-                  builder: (context, state) => Padding(
-                    padding: const EdgeInsets.all(4),
-                    child: LayoutBuilder(
-                      builder: (context, constraints) => Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          SizedBox(
-                            height: 124,
-                            child: AppBarWidget(
+                  builder: (context, state) => CustomScrollView(
+                    controller: _bodyScrollController,
+                    physics: orientation == Orientation.portrait
+                        ? const NeverScrollableScrollPhysics()
+                        : const AlwaysScrollableScrollPhysics(),
+                    slivers: [
+                      SliverToBoxAdapter(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.all(4),
                               height: 124,
-                              currentSortBy: state.sortBy,
-                              searchController: _searchController,
-                              onSort: (sortBy) {
-                                _homeCubit.sortPokemons(sortBy);
-                                if (_searchController.text.isNotEmpty) {
-                                  _homeCubit.searchPokemons(_searchController.text);
-                                }
-                              },
-                              onSearch: _homeCubit.searchPokemons,
-                            ),
-                          ),
-                          SizedBox(
-                            height: constraints.maxHeight - 124,
-                            child: BoxContentWidget(
-                              height: constraints.maxHeight - 134,
-                              clipBehavior: Clip.antiAlias,
-                              child: LazyLoadScrollView(
-                                onEndOfPage: () {
-                                  if (_searchController.text.isEmpty) {
-                                    _homeCubit.nextPage();
+                              color: Theme.of(context).colorScheme.primary,
+                              child: AppBarWidget(
+                                height: 124,
+                                currentSortBy: state.sortBy,
+                                searchController: _searchController,
+                                onSort: (sortBy) {
+                                  _homeCubit.sortPokemons(sortBy);
+                                  if (_searchController.text.isNotEmpty) {
+                                    _homeCubit.searchPokemons(_searchController.text);
                                   }
                                 },
-                                child: GridView.custom(
-                                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 24),
-                                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 3,
-                                    mainAxisSpacing: 8,
-                                    crossAxisSpacing: 8,
-                                    childAspectRatio: 0.96296,
-                                  ),
-                                  childrenDelegate: SliverChildBuilderDelegate(
-                                    childCount: state.isLoading
-                                        ? state.pokemons.length + 1
-                                        : state.pokemons.length,
-                                    (context, index) =>
-                                        state.isLoading && index == state.pokemons.length
-                                            ? PokemonCardWidget.inLoading()
-                                            : PokemonCardWidget(
-                                                pokemon: state.pokemons[index],
-                                                onTap: () => Navigator.pushNamed(
-                                                  context,
-                                                  RouteNames.details,
-                                                  arguments: PokemonRouteParamsDTO(
-                                                    id: state.pokemons[index].id,
+                                onSearch: _homeCubit.searchPokemons,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SliverToBoxAdapter(
+                        child: SizedBox(
+                          height: orientation == Orientation.portrait ? bodyHeight + 8 : null,
+                          child: SingleChildScrollView(
+                            physics: const NeverScrollableScrollPhysics(),
+                            child: Container(
+                              height: bodyHeight + 8,
+                              padding: const EdgeInsets.all(4),
+                              color: Theme.of(context).colorScheme.primary,
+                              child: BoxContentWidget(
+                                height: bodyHeight,
+                                clipBehavior: Clip.antiAlias,
+                                child: LazyLoadScrollView(
+                                  onEndOfPage: () {
+                                    if (_searchController.text.isEmpty) {
+                                      _homeCubit.nextPage();
+                                    }
+                                  },
+                                  child: GridView.custom(
+                                    controller: _gridScrollController,
+                                    padding:
+                                        const EdgeInsets.symmetric(horizontal: 12, vertical: 24),
+                                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: orientation == Orientation.portrait ? 3 : 4,
+                                      mainAxisSpacing: 8,
+                                      crossAxisSpacing: 8,
+                                      childAspectRatio: 0.96296,
+                                    ),
+                                    childrenDelegate: SliverChildBuilderDelegate(
+                                      childCount: state.isLoading
+                                          ? state.pokemons.length + 1
+                                          : state.pokemons.length,
+                                      (context, index) =>
+                                          state.isLoading && index == state.pokemons.length
+                                              ? PokemonCardWidget.inLoading()
+                                              : PokemonCardWidget(
+                                                  pokemon: state.pokemons[index],
+                                                  onTap: () => Navigator.pushNamed(
+                                                    context,
+                                                    RouteNames.details,
+                                                    arguments: PokemonRouteParamsDTO(
+                                                      id: state.pokemons[index].id,
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
                           ),
-                        ],
+                        ),
                       ),
-                    ),
+                    ],
                   ),
                 ),
               ),
