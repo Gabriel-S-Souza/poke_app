@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2023-06-09 13:28:54</td>
+            <td class="headerValue">2023-06-09 16:32:47</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryHi">-</td>
@@ -63,11 +63,11 @@
 <span id="L1"><span class="lineNum">       1</span>              : class Failure implements Exception {</span>
 <span id="L2"><span class="lineNum">       2</span>              :   final String message;</span>
 <span id="L3"><span class="lineNum">       3</span>              : </span>
-<span id="L4"><span class="lineNum">       4</span> <span class="tlaGNC tlaBgGNC">          29 :   const Failure(this.message);</span></span>
+<span id="L4"><span class="lineNum">       4</span> <span class="tlaGNC tlaBgGNC">          26 :   const Failure(this.message);</span></span>
 <span id="L5"><span class="lineNum">       5</span>              : }</span>
 <span id="L6"><span class="lineNum">       6</span>              : </span>
 <span id="L7"><span class="lineNum">       7</span>              : class ServerFailure extends Failure {</span>
-<span id="L8"><span class="lineNum">       8</span> <span class="tlaGNC">          23 :   const ServerFailure([String? message]) : super(message ?? 'Erro interno no servidor');</span></span>
+<span id="L8"><span class="lineNum">       8</span> <span class="tlaGNC">          20 :   const ServerFailure([String? message]) : super(message ?? 'Erro interno no servidor');</span></span>
 <span id="L9"><span class="lineNum">       9</span>              : </span>
 <span id="L10"><span class="lineNum">      10</span> <span class="tlaUNC tlaBgUNC">           0 :   @override</span></span>
 <span id="L11"><span class="lineNum">      11</span> <span class="tlaUNC">           0 :   String toString() =&gt; 'ServerFailure($message)';</span></span>
