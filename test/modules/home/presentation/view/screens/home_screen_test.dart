@@ -89,20 +89,19 @@ void main() {
     testWidgets('Check if pagination with infinite scroll is correct', (tester) async {
       await mockNetworkImagesFor(() async {
         await tester.pumpWidget(appWidget);
-
         await tester.pumpAndSettle();
 
         final pokemonCardFinder = find.byType(PokemonCardWidget);
+
         final pokemonCardCountBeforeScroll = tester.widgetList(pokemonCardFinder).length;
         final pokemonQuantityBeforeScroll = List.from(homeCubit.state.pokemons).length;
 
         final gridFinder = find.byType(GridView);
-        await tester.fling(gridFinder, const Offset(0, -1000), 1000);
 
+        await tester.fling(gridFinder, const Offset(0, -1000), 1000);
         await tester.pumpAndSettle();
 
-        final pokemonCardFinderAfterScroll = find.byType(PokemonCardWidget);
-        final pokemonCardCountAfterScroll = tester.widgetList(pokemonCardFinderAfterScroll).length;
+        final pokemonCardCountAfterScroll = tester.widgetList(pokemonCardFinder).length;
         final pokemonQuantityAfterScroll = homeCubit.state.pokemons.length;
 
         expect(pokemonCardCountAfterScroll, greaterThan(pokemonCardCountBeforeScroll));
