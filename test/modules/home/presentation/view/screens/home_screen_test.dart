@@ -70,6 +70,22 @@ void main() {
   });
 
   group('HomeScreen behavior |', () {
+    testWidgets(
+        'When the sorting settings are changed, it should triggers the new state emission, having the sorted pokemons',
+        (tester) async {});
+
+    testWidgets(
+        'When the search field is filled, it should triggers the new state emission, having the filtered pokemons',
+        (tester) async {});
+
+    testWidgets(
+        'When clicking on the pokemon card then should navigate to the pokémon details screen',
+        (tester) async {});
+
+    testWidgets(
+        'When clicking on the pokemon card with the loading state it should not navigate to the pokémon details screen',
+        (tester) async {});
+
     testWidgets('Check if pagination with infinite scroll is correct', (tester) async {
       await mockNetworkImagesFor(() async {
         await tester.pumpWidget(appWidget);
