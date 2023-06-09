@@ -72,12 +72,30 @@ void main() {
       verifyNoMoreInteractions(mockHttpClient);
     });
 
+    test('fallure: should return a Failure when a Failure occurs', () async {
+      // Arrange
+      const int pokemonId = 1;
+      const String errorMessage = 'Error';
+
+      when(() => mockHttpClient.get(any())).thenThrow(const Failure(errorMessage));
+
+      // Act
+      final result = await dataSource.getDetails(pokemonId);
+
+      // Assert
+      expect(result.isSuccess, isFalse);
+      expect(result.error, isA<Failure>());
+
+      verify(() => mockHttpClient.get(any())).called(1);
+      verifyNoMoreInteractions(mockHttpClient);
+    });
+
     test('fallure: should return a Failure when any error occurs', () async {
       // Arrange
       const int pokemonId = 1;
       const String errorMessage = 'Error';
 
-      when(() => mockHttpClient.get(any())).thenThrow(errorMessage);
+      when(() => mockHttpClient.get(any())).thenThrow(Exception(errorMessage));
 
       // Act
       final result = await dataSource.getDetails(pokemonId);
