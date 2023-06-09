@@ -93,19 +93,19 @@ void main() {
 
         final pokemonCardFinder = find.byType(PokemonCardWidget);
 
+        final pokemonCountBeforeScroll = List.from(homeCubit.state.pokemons).length;
         final pokemonCardCountBeforeScroll = tester.widgetList(pokemonCardFinder).length;
-        final pokemonQuantityBeforeScroll = List.from(homeCubit.state.pokemons).length;
 
         final gridFinder = find.byType(GridView);
 
         await tester.fling(gridFinder, const Offset(0, -1000), 1000);
         await tester.pumpAndSettle();
 
+        final pokemonCountAfterScroll = homeCubit.state.pokemons.length;
         final pokemonCardCountAfterScroll = tester.widgetList(pokemonCardFinder).length;
-        final pokemonQuantityAfterScroll = homeCubit.state.pokemons.length;
 
+        expect(pokemonCountAfterScroll, greaterThan(pokemonCountBeforeScroll));
         expect(pokemonCardCountAfterScroll, greaterThan(pokemonCardCountBeforeScroll));
-        expect(pokemonQuantityAfterScroll, greaterThan(pokemonQuantityBeforeScroll));
 
         verify(() => mockGetPokemonsUseCase.call(0)).called(1);
         verify(() => mockGetPokemonsUseCase.call(1)).called(1);
