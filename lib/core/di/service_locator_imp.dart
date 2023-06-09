@@ -69,4 +69,7 @@ class ServiceLocatorImp implements ServiceLocator {
   void registerSingleton<T extends Object>(T instance) {
     _getIt.registerSingleton<T>(instance);
   }
+
+  @override
+  bool isRegistered<T extends Object>() => _getIt.isRegistered<T>();
 }
