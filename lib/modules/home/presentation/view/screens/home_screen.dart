@@ -9,7 +9,7 @@ import '../../../../../shared/presentation/view/widgets/box_content_widget.dart'
 import '../../cubits/home_cubit.dart';
 import '../../cubits/home_state.dart';
 import '../widgets/app_bar_widget.dart';
-import '../widgets/pokemon_card_widget.dart';
+import '../widgets/grid_pokemons_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key, this.addPostFrameCallback}) : super(key: key);
@@ -97,32 +97,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                         _homeCubit.nextPage();
                                       }
                                     },
-                                    child: GridView.custom(
-                                      padding:
-                                          const EdgeInsets.symmetric(horizontal: 12, vertical: 24),
-                                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: orientation == Orientation.portrait ? 3 : 5,
-                                        mainAxisSpacing: 8,
-                                        crossAxisSpacing: 8,
-                                        childAspectRatio: 0.96296,
-                                      ),
-                                      childrenDelegate: SliverChildBuilderDelegate(
-                                        childCount: state.isLoading
-                                            ? state.pokemons.length + 1
-                                            : state.pokemons.length,
-                                        (context, index) =>
-                                            state.isLoading && index == state.pokemons.length
-                                                ? PokemonCardWidget.inLoading()
-                                                : PokemonCardWidget(
-                                                    pokemon: state.pokemons[index],
-                                                    onTap: () => Navigator.pushNamed(
-                                                      context,
-                                                      RouteNames.details,
-                                                      arguments: PokemonRouteParamsDTO(
-                                                        id: state.pokemons[index].id,
-                                                      ),
-                                                    ),
-                                                  ),
+                                    child: GridPokemonsWidget(
+                                      isLoading: state.isLoading,
+                                      pokemons: state.pokemons,
+                                      onPokemonTap: (pokemon) => Navigator.pushNamed(
+                                        context,
+                                        RouteNames.details,
+                                        arguments: PokemonRouteParamsDTO(
+                                          id: pokemon.id,
+                                        ),
                                       ),
                                     ),
                                   ),
