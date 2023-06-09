@@ -99,9 +99,13 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                                   child: Builder(
                                     builder: (context) {
                                       if (state is PokemonDetailsLoading) {
-                                        return const Center(
-                                          child: Text('Carregando...'),
-                                        );
+                                        return orientation == Orientation.portrait
+                                            ? const Center(
+                                                child: CircularProgressIndicator(),
+                                              )
+                                            : const Center(
+                                                child: Text('Carregando...'),
+                                              );
                                       } else if (state is PokemonDetailsSuccess) {
                                         return Column(
                                           mainAxisAlignment: MainAxisAlignment.spaceAround,

@@ -50,7 +50,9 @@ class PokeFloatingImageWidget extends StatelessWidget {
               SizedBox(
                 height: constraints.maxHeight * 0.31 - MediaQuery.of(context).padding.vertical,
                 child: isLoading
-                    ? const Center(child: CircularProgressIndicator())
+                    ? MediaQuery.of(context).orientation == Orientation.portrait
+                        ? const SizedBox()
+                        : const Center(child: CircularProgressIndicator())
                     : Image.network(
                         imageUrl!,
                         fit: BoxFit.contain,
