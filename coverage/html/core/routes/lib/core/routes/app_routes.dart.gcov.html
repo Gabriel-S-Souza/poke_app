@@ -31,13 +31,13 @@
             <td class="headerValue">lcov.info</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntryLo">20.0&nbsp;%</td>
+            <td class="headerCovTableEntryLo">44.0&nbsp;%</td>
             <td class="headerCovTableEntry">25</td>
-            <td class="headerCovTableEntry">5</td>
+            <td class="headerCovTableEntry">11</td>
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2023-06-09 16:32:47</td>
+            <td class="headerValue">2023-06-10 20:37:52</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryHi">-</td>
@@ -75,19 +75,19 @@
 <span id="L13"><span class="lineNum">      13</span>              :           settings: settings,</span>
 <span id="L14"><span class="lineNum">      14</span>              :         );</span>
 <span id="L15"><span class="lineNum">      15</span>              : </span>
-<span id="L16"><span class="lineNum">      16</span> <span class="tlaUNC tlaBgUNC">           0 :       case RouteNames.details:</span></span>
-<span id="L17"><span class="lineNum">      17</span> <span class="tlaUNC">           0 :         final PokemonRouteParamsDTO routeParams = settings.arguments as PokemonRouteParamsDTO;</span></span>
-<span id="L18"><span class="lineNum">      18</span> <span class="tlaUNC">           0 :         final PokeDetailsTransitionType transitionType = routeParams.transitionType;</span></span>
+<span id="L16"><span class="lineNum">      16</span> <span class="tlaGNC">           1 :       case RouteNames.details:</span></span>
+<span id="L17"><span class="lineNum">      17</span> <span class="tlaGNC">           1 :         final PokemonRouteParamsDTO routeParams = settings.arguments as PokemonRouteParamsDTO;</span></span>
+<span id="L18"><span class="lineNum">      18</span> <span class="tlaGNC">           1 :         final PokeDetailsTransitionType transitionType = routeParams.transitionType;</span></span>
 <span id="L19"><span class="lineNum">      19</span>              : </span>
-<span id="L20"><span class="lineNum">      20</span> <span class="tlaUNC">           0 :         if (transitionType == PokeDetailsTransitionType.normal) {</span></span>
-<span id="L21"><span class="lineNum">      21</span> <span class="tlaUNC">           0 :           return MaterialPageRoute(</span></span>
-<span id="L22"><span class="lineNum">      22</span> <span class="tlaUNC">           0 :             builder: (_) =&gt; PokemonDetailsScreen(pokemonId: routeParams.id),</span></span>
+<span id="L20"><span class="lineNum">      20</span> <span class="tlaGNC">           1 :         if (transitionType == PokeDetailsTransitionType.normal) {</span></span>
+<span id="L21"><span class="lineNum">      21</span> <span class="tlaGNC">           1 :           return MaterialPageRoute(</span></span>
+<span id="L22"><span class="lineNum">      22</span> <span class="tlaGNC">           3 :             builder: (_) =&gt; PokemonDetailsScreen(pokemonId: routeParams.id),</span></span>
 <span id="L23"><span class="lineNum">      23</span>              :             settings: settings,</span>
 <span id="L24"><span class="lineNum">      24</span>              :           );</span>
 <span id="L25"><span class="lineNum">      25</span>              :         }</span>
 <span id="L26"><span class="lineNum">      26</span>              : </span>
 <span id="L27"><span class="lineNum">      27</span>              :         // TODO(refactor): separate the custom route builder to a new file</span>
-<span id="L28"><span class="lineNum">      28</span> <span class="tlaUNC">           0 :         return PageRouteBuilder(</span></span>
+<span id="L28"><span class="lineNum">      28</span> <span class="tlaUNC tlaBgUNC">           0 :         return PageRouteBuilder(</span></span>
 <span id="L29"><span class="lineNum">      29</span>              :           settings: settings,</span>
 <span id="L30"><span class="lineNum">      30</span>              :           reverseTransitionDuration: const Duration(milliseconds: 100),</span>
 <span id="L31"><span class="lineNum">      31</span>              :           transitionDuration: const Duration(milliseconds: 200),</span>

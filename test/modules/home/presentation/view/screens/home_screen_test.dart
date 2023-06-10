@@ -5,35 +5,55 @@ import 'package:mocktail/mocktail.dart';
 import 'package:network_image_mock/network_image_mock.dart';
 import 'package:poke_app/core/di/service_locator_imp.dart';
 import 'package:poke_app/core/utils/assets.dart';
+import 'package:poke_app/modules/details/domain/usecases/get_pokemon_details_use_case.dart';
+import 'package:poke_app/modules/details/presentation/cubits/pokemon_details_cubit.dart';
+import 'package:poke_app/modules/details/presentation/view/screens/pokemon_details_screen.dart';
 import 'package:poke_app/modules/home/domain/usecases/pokemon_use_case.dart';
 import 'package:poke_app/modules/home/presentation/cubits/home_cubit.dart';
 import 'package:poke_app/modules/home/presentation/view/screens/home_screen.dart';
 import 'package:poke_app/modules/home/presentation/view/widgets/app_bar_widget.dart';
 import 'package:poke_app/modules/home/presentation/view/widgets/pokemon_card_widget.dart';
+import 'package:poke_app/modules/home/presentation/view/widgets/radio_tile_widget.dart';
+import 'package:poke_app/modules/home/presentation/view/widgets/sort_button_widget.dart';
+import 'package:poke_app/modules/home/presentation/view/widgets/text_field_widget.dart';
 import 'package:poke_app/shared/domain/entities/result/result.dart';
 
+import '../../../../../mocks/pokemon_details_mock.dart';
 import '../../../../../mocks/pokemons_mock_by_page.dart';
 import '../../../../../setup/make_app_widget.dart';
 
-class MockGetPokemonsUseCase extends Mock implements GetPokemonsUseCaseImp {}
+class MockGetPokemonsUseCase extends Mock implements GetPokemonsUseCase {}
+
+class MockGetPokemonDetailsUseCase extends Mock implements GetPokemonDetailsUseCase {}
 
 void main() {
   late MaterialApp appWidget;
   late MockGetPokemonsUseCase mockGetPokemonsUseCase;
+  late MockGetPokemonDetailsUseCase mockGetPokemonDetailsUseCase;
   late HomeCubit homeCubit;
 
   setUp(() {
     mockGetPokemonsUseCase = MockGetPokemonsUseCase();
     homeCubit = HomeCubit(getPokemonsUseCase: mockGetPokemonsUseCase);
-    if (!ServiceLocatorImp.I.isRegistered<HomeCubit>()) {
-      ServiceLocatorImp.I.registerFactory<HomeCubit>(() => homeCubit);
-    }
-    appWidget = makeAppWidget(const HomeScreen());
+    mockGetPokemonDetailsUseCase = MockGetPokemonDetailsUseCase();
+
     for (var i = 0; i < 8; i++) {
       final pokemons = getPokemonsMockByPage(i);
       when(() => mockGetPokemonsUseCase.call(i))
           .thenAnswer((invocation) async => Result.success(pokemons));
     }
+
+    when(() => mockGetPokemonDetailsUseCase.call(any()))
+        .thenAnswer((invocation) async => Result.success(pokemonDetailsMock));
+
+    if (!ServiceLocatorImp.I.isRegistered<HomeCubit>()) {
+      ServiceLocatorImp.I.registerFactory<HomeCubit>(() => homeCubit);
+    }
+    if (!ServiceLocatorImp.I.isRegistered<PokemonDetailsCubit>()) {
+      ServiceLocatorImp.I.registerFactory<PokemonDetailsCubit>(
+          () => PokemonDetailsCubit(getPokemonDetailsUseCase: mockGetPokemonDetailsUseCase));
+    }
+    appWidget = makeAppWidget(const HomeScreen());
   });
 
   setUpAll(() async {
@@ -71,20 +91,121 @@ void main() {
 
   group('HomeScreen behavior |', () {
     testWidgets(
-        'When the sorting settings are changed, it should triggers the new state emission, having the sorted pokemons',
-        (tester) async {});
+        'When the sorting settings are changed, it should upadates the pokemons grid with the new pokemon sorting',
+        (tester) async {
+      await mockNetworkImagesFor(() async {
+        await tester.pumpWidget(appWidget);
+        await tester.pumpAndSettle();
+
+        final pokemonCardsPrevious =
+            List<PokemonCardWidget>.from(tester.widgetList(find.byType(PokemonCardWidget)));
+
+        final sortButtonFinder = find.ancestor(
+          of: find.byType(SortButtonWidget),
+          matching: find.byType(Stack),
+        );
+
+        await tester.tap(sortButtonFinder);
+        await tester.pump();
+
+        final radioSortByNameFinder = find.byWidgetPredicate(
+            (widget) => widget is RadioTileWidget && widget.value == SortPokeBy.name);
+
+        // Change the sorting settings to sort by name
+        await tester.tap(radioSortByNameFinder);
+        await tester.pumpAndSettle();
+
+        final pokemonCardsCurrent =
+            List<PokemonCardWidget>.from(tester.widgetList(find.byType(PokemonCardWidget)));
+
+        final Matcher cardsAreSortedByName = pairwiseCompare<PokemonCardWidget, PokemonCardWidget>(
+          pokemonCardsCurrent,
+          (a, b) => a.pokemon.name.compareTo(b.pokemon.name) <= 0,
+          'Cards are sorted by name',
+        );
+
+        expect(pokemonCardsPrevious, isNot(cardsAreSortedByName));
+        expect(pokemonCardsCurrent, cardsAreSortedByName);
+      });
+    });
 
     testWidgets(
-        'When the search field is filled, it should triggers the new state emission, having the filtered pokemons',
-        (tester) async {});
+        'When the search field is filled, it should upadates the pokemons grid with the pokemons that contains the query',
+        (tester) async {
+      await mockNetworkImagesFor(() async {
+        const query = 'char';
+
+        await tester.pumpWidget(appWidget);
+        await tester.pumpAndSettle();
+
+        final pokemonCardsPrevious =
+            List<PokemonCardWidget>.from(tester.widgetList(find.byType(PokemonCardWidget)));
+
+        // Fill the search field with the query
+        await tester.enterText(find.byType(TextFieldWidget), query);
+        await tester.pumpAndSettle();
+
+        final pokemonCardsCurrent =
+            List<PokemonCardWidget>.from(tester.widgetList(find.byType(PokemonCardWidget)));
+
+        final Matcher allCardsContainsQuery = everyElement(isA<PokemonCardWidget>().having(
+          (e) =>
+              e.pokemon.name.contains(query.toLowerCase()) ||
+              e.pokemon.id.toString().contains(query.toLowerCase()),
+          'name',
+          true,
+        ));
+
+        expect(pokemonCardsCurrent.length, lessThan(pokemonCardsPrevious.length));
+        expect(pokemonCardsCurrent, allCardsContainsQuery);
+      });
+    });
 
     testWidgets(
-        'When clicking on the pokemon card then should navigate to the pokémon details screen',
-        (tester) async {});
+        'When clicking on the pokémon card then must navigate to the pokémon details screen of the clicked pokémon',
+        (tester) async {
+      await mockNetworkImagesFor(() async {
+        await tester.pumpWidget(appWidget);
+        await tester.pumpAndSettle();
 
-    testWidgets(
-        'When clicking on the pokemon card with the loading state it should not navigate to the pokémon details screen',
-        (tester) async {});
+        const pokeIdClicked = 1;
+
+        final firstPokemonCardFinder = find.byWidgetPredicate(
+          (widget) => widget is PokemonCardWidget && widget.pokemon.id == pokeIdClicked,
+        );
+
+        // Click on the pokemon card with id 1
+        await tester.tap(firstPokemonCardFinder);
+        await tester.pumpAndSettle();
+
+        final detailsScreenFinder = find.byType(PokemonDetailsScreen);
+
+        final idPassed = tester.firstWidget<PokemonDetailsScreen>(detailsScreenFinder).pokemonId;
+
+        expect(detailsScreenFinder, findsOneWidget);
+        expect(idPassed, equals(pokeIdClicked));
+      });
+    });
+
+    testWidgets('When clicking on the pokemon card with the loading state do nothing',
+        (tester) async {
+      await mockNetworkImagesFor(() async {
+        await tester.pumpWidget(appWidget);
+
+        final cardWithLoadingFinder = find.ancestor(
+          of: find.byType(CircularProgressIndicator),
+          matching: find.byType(PokemonCardWidget),
+        );
+
+        // Click on the pokemon card with loading state
+        await tester.tap(cardWithLoadingFinder);
+        await tester.pumpAndSettle();
+
+        final detailsScreenFinder = find.byType(PokemonDetailsScreen);
+
+        expect(detailsScreenFinder, findsNothing);
+      });
+    });
 
     testWidgets('Check if pagination with infinite scroll is correct', (tester) async {
       await mockNetworkImagesFor(() async {
@@ -98,6 +219,7 @@ void main() {
 
         final gridFinder = find.byType(GridView);
 
+        // Scroll to the bottom of the grid
         await tester.fling(gridFinder, const Offset(0, -1000), 1000);
         await tester.pumpAndSettle();
 
