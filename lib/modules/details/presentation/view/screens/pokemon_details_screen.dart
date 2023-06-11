@@ -180,7 +180,7 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                                 RouteNames.details,
                                 arguments: PokemonRouteParamsDTO(
                                   id: widget.pokemonId - 1,
-                                  transitionType: PokeDetailsTransitionType.toLeft,
+                                  transitionType: TransitionType.toLeft,
                                 ),
                               );
                             },
@@ -192,7 +192,7 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                                 RouteNames.details,
                                 arguments: PokemonRouteParamsDTO(
                                   id: widget.pokemonId + 1,
-                                  transitionType: PokeDetailsTransitionType.toRight,
+                                  transitionType: TransitionType.toRight,
                                 ),
                               );
                             },

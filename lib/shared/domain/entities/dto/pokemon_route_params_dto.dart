@@ -1,13 +1,13 @@
 class PokemonRouteParamsDTO {
   final int id;
-  final PokeDetailsTransitionType transitionType;
+  final TransitionType transitionType;
   PokemonRouteParamsDTO({
     required this.id,
-    this.transitionType = PokeDetailsTransitionType.normal,
+    this.transitionType = TransitionType.normal,
   });
 }
 
-enum PokeDetailsTransitionType {
+enum TransitionType {
   normal,
   toLeft,
   toRight,
