@@ -4,9 +4,9 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 import '../../shared/domain/entities/response/response.dart';
-import 'handle_req_error_mixin.dart';
+import 'handle_request_error_mixin.dart';
 
-class HttpClient with HandleReqErrorMixin {
+class HttpClient with HandleRequestErrorMixin {
   final Dio _dio;
 
   HttpClient(this._dio) {

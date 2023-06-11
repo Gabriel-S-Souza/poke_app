@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 
 import '../../shared/domain/entities/failure/failure.dart';
 
-mixin HandleReqErrorMixin {
+mixin HandleRequestErrorMixin {
   Failure handleError(Object e) {
     if (e is! DioError) return UnmappedFailure(e.toString());
 
