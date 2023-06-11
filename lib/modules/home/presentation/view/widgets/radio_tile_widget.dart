@@ -28,11 +28,13 @@ class RadioTileWidget<T> extends StatelessWidget {
                   onChanged: onChanged,
                   visualDensity: VisualDensity.compact,
                 ),
-                Text(
-                  title,
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        fontWeight: FontWeight.w400,
-                      ),
+                Flexible(
+                  child: Text(
+                    title,
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.w400,
+                        ),
+                  ),
                 ),
               ],
             ),

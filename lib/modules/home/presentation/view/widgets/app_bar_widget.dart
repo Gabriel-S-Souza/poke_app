@@ -15,7 +15,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
 
   const AppBarWidget({
     super.key,
-    this.height = 80,
+    this.height = 124,
     this.onSort,
     this.currentSortBy = SortPokeBy.number,
     this.onSearch,
