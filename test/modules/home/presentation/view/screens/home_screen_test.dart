@@ -53,7 +53,7 @@ void main() {
       ServiceLocatorImp.I.registerFactory<PokemonDetailsCubit>(
           () => PokemonDetailsCubit(getPokemonDetailsUseCase: mockGetPokemonDetailsUseCase));
     }
-    appWidget = makeAppWidget(const HomeScreen());
+    appWidget = makeAppWidget(child: const HomeScreen());
   });
 
   setUpAll(() async {

@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2023-06-10 20:37:52</td>
+            <td class="headerValue">2023-06-11 01:10:30</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryHi">-</td>
@@ -67,21 +67,21 @@
 <span id="L5"><span class="lineNum">       5</span>              : import 'route_names.dart';</span>
 <span id="L6"><span class="lineNum">       6</span>              : </span>
 <span id="L7"><span class="lineNum">       7</span>              : class AppRoutes {</span>
-<span id="L8"><span class="lineNum">       8</span> <span class="tlaGNC tlaBgGNC">           1 :   static Route&lt;dynamic&gt; generateRoute(RouteSettings settings) {</span></span>
-<span id="L9"><span class="lineNum">       9</span> <span class="tlaGNC">           1 :     switch (settings.name) {</span></span>
-<span id="L10"><span class="lineNum">      10</span> <span class="tlaGNC">           1 :       case RouteNames.home:</span></span>
-<span id="L11"><span class="lineNum">      11</span> <span class="tlaGNC">           1 :         return MaterialPageRoute(</span></span>
-<span id="L12"><span class="lineNum">      12</span> <span class="tlaGNC">           1 :           builder: (_) =&gt; const HomeScreen(),</span></span>
+<span id="L8"><span class="lineNum">       8</span> <span class="tlaGNC tlaBgGNC">           2 :   static Route&lt;dynamic&gt; generateRoute(RouteSettings settings) {</span></span>
+<span id="L9"><span class="lineNum">       9</span> <span class="tlaGNC">           2 :     switch (settings.name) {</span></span>
+<span id="L10"><span class="lineNum">      10</span> <span class="tlaGNC">           2 :       case RouteNames.home:</span></span>
+<span id="L11"><span class="lineNum">      11</span> <span class="tlaGNC">           2 :         return MaterialPageRoute(</span></span>
+<span id="L12"><span class="lineNum">      12</span> <span class="tlaGNC">           2 :           builder: (_) =&gt; const HomeScreen(),</span></span>
 <span id="L13"><span class="lineNum">      13</span>              :           settings: settings,</span>
 <span id="L14"><span class="lineNum">      14</span>              :         );</span>
 <span id="L15"><span class="lineNum">      15</span>              : </span>
-<span id="L16"><span class="lineNum">      16</span> <span class="tlaGNC">           1 :       case RouteNames.details:</span></span>
-<span id="L17"><span class="lineNum">      17</span> <span class="tlaGNC">           1 :         final PokemonRouteParamsDTO routeParams = settings.arguments as PokemonRouteParamsDTO;</span></span>
-<span id="L18"><span class="lineNum">      18</span> <span class="tlaGNC">           1 :         final PokeDetailsTransitionType transitionType = routeParams.transitionType;</span></span>
+<span id="L16"><span class="lineNum">      16</span> <span class="tlaGNC">           2 :       case RouteNames.details:</span></span>
+<span id="L17"><span class="lineNum">      17</span> <span class="tlaGNC">           2 :         final PokemonRouteParamsDTO routeParams = settings.arguments as PokemonRouteParamsDTO;</span></span>
+<span id="L18"><span class="lineNum">      18</span> <span class="tlaGNC">           2 :         final PokeDetailsTransitionType transitionType = routeParams.transitionType;</span></span>
 <span id="L19"><span class="lineNum">      19</span>              : </span>
-<span id="L20"><span class="lineNum">      20</span> <span class="tlaGNC">           1 :         if (transitionType == PokeDetailsTransitionType.normal) {</span></span>
-<span id="L21"><span class="lineNum">      21</span> <span class="tlaGNC">           1 :           return MaterialPageRoute(</span></span>
-<span id="L22"><span class="lineNum">      22</span> <span class="tlaGNC">           3 :             builder: (_) =&gt; PokemonDetailsScreen(pokemonId: routeParams.id),</span></span>
+<span id="L20"><span class="lineNum">      20</span> <span class="tlaGNC">           2 :         if (transitionType == PokeDetailsTransitionType.normal) {</span></span>
+<span id="L21"><span class="lineNum">      21</span> <span class="tlaGNC">           2 :           return MaterialPageRoute(</span></span>
+<span id="L22"><span class="lineNum">      22</span> <span class="tlaGNC">           6 :             builder: (_) =&gt; PokemonDetailsScreen(pokemonId: routeParams.id),</span></span>
 <span id="L23"><span class="lineNum">      23</span>              :             settings: settings,</span>
 <span id="L24"><span class="lineNum">      24</span>              :           );</span>
 <span id="L25"><span class="lineNum">      25</span>              :         }</span>

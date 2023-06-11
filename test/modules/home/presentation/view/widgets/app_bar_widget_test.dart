@@ -29,7 +29,7 @@ void main() {
     searchController = TextEditingController();
     appWidget = makeAppWidget(
       defaultConfig: false,
-      Scaffold(
+      child: Scaffold(
         body: AppBarWidget(
           onSort: mockSortCallback.call,
           onSearch: mockSearchCallback.call,

@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2023-06-10 20:37:52</td>
+            <td class="headerValue">2023-06-11 01:10:30</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryHi">-</td>
@@ -79,15 +79,15 @@
 <span id="L17"><span class="lineNum">      17</span>              : import 'service_locator.dart';</span>
 <span id="L18"><span class="lineNum">      18</span>              : </span>
 <span id="L19"><span class="lineNum">      19</span>              : class ServiceLocatorImp implements ServiceLocator {</span>
-<span id="L20"><span class="lineNum">      20</span> <span class="tlaGNC tlaBgGNC">           3 :   static final ServiceLocatorImp I = ServiceLocatorImp._internal();</span></span>
+<span id="L20"><span class="lineNum">      20</span> <span class="tlaGNC tlaBgGNC">           6 :   static final ServiceLocatorImp I = ServiceLocatorImp._internal();</span></span>
 <span id="L21"><span class="lineNum">      21</span>              : </span>
 <span id="L22"><span class="lineNum">      22</span>              :   late final GetIt _getIt;</span>
 <span id="L23"><span class="lineNum">      23</span>              : </span>
-<span id="L24"><span class="lineNum">      24</span> <span class="tlaGNC">           1 :   ServiceLocatorImp._internal();</span></span>
+<span id="L24"><span class="lineNum">      24</span> <span class="tlaGNC">           2 :   ServiceLocatorImp._internal();</span></span>
 <span id="L25"><span class="lineNum">      25</span>              : </span>
-<span id="L26"><span class="lineNum">      26</span> <span class="tlaGNC">           1 :   factory ServiceLocatorImp([GetIt? getIt]) {</span></span>
-<span id="L27"><span class="lineNum">      27</span> <span class="tlaGNC">           2 :     I._getIt = getIt ?? GetIt.instance;</span></span>
-<span id="L28"><span class="lineNum">      28</span> <span class="tlaGNC">           1 :     return I;</span></span>
+<span id="L26"><span class="lineNum">      26</span> <span class="tlaGNC">           2 :   factory ServiceLocatorImp([GetIt? getIt]) {</span></span>
+<span id="L27"><span class="lineNum">      27</span> <span class="tlaGNC">           4 :     I._getIt = getIt ?? GetIt.instance;</span></span>
+<span id="L28"><span class="lineNum">      28</span> <span class="tlaGNC">           2 :     return I;</span></span>
 <span id="L29"><span class="lineNum">      29</span>              :   }</span>
 <span id="L30"><span class="lineNum">      30</span>              : </span>
 <span id="L31"><span class="lineNum">      31</span> <span class="tlaUNC tlaBgUNC">           0 :   @override</span></span>
@@ -119,12 +119,12 @@
 <span id="L57"><span class="lineNum">      57</span> <span class="tlaUNC">           0 :         () =&gt; PokemonDetailsCubit(getPokemonDetailsUseCase: get()));</span></span>
 <span id="L58"><span class="lineNum">      58</span>              :   }</span>
 <span id="L59"><span class="lineNum">      59</span>              : </span>
-<span id="L60"><span class="lineNum">      60</span> <span class="tlaGNC tlaBgGNC">           1 :   @override</span></span>
-<span id="L61"><span class="lineNum">      61</span> <span class="tlaGNC">           2 :   T get&lt;T extends Object&gt;() =&gt; _getIt.get&lt;T&gt;();</span></span>
+<span id="L60"><span class="lineNum">      60</span> <span class="tlaGNC tlaBgGNC">           2 :   @override</span></span>
+<span id="L61"><span class="lineNum">      61</span> <span class="tlaGNC">           4 :   T get&lt;T extends Object&gt;() =&gt; _getIt.get&lt;T&gt;();</span></span>
 <span id="L62"><span class="lineNum">      62</span>              : </span>
-<span id="L63"><span class="lineNum">      63</span> <span class="tlaGNC">           1 :   @override</span></span>
+<span id="L63"><span class="lineNum">      63</span> <span class="tlaGNC">           2 :   @override</span></span>
 <span id="L64"><span class="lineNum">      64</span>              :   void registerFactory&lt;T extends Object&gt;(T Function() factory) {</span>
-<span id="L65"><span class="lineNum">      65</span> <span class="tlaGNC">           2 :     _getIt.registerFactory&lt;T&gt;(factory);</span></span>
+<span id="L65"><span class="lineNum">      65</span> <span class="tlaGNC">           4 :     _getIt.registerFactory&lt;T&gt;(factory);</span></span>
 <span id="L66"><span class="lineNum">      66</span>              :   }</span>
 <span id="L67"><span class="lineNum">      67</span>              : </span>
 <span id="L68"><span class="lineNum">      68</span> <span class="tlaUNC tlaBgUNC">           0 :   @override</span></span>
@@ -132,8 +132,8 @@
 <span id="L70"><span class="lineNum">      70</span> <span class="tlaUNC">           0 :     _getIt.registerSingleton&lt;T&gt;(instance);</span></span>
 <span id="L71"><span class="lineNum">      71</span>              :   }</span>
 <span id="L72"><span class="lineNum">      72</span>              : </span>
-<span id="L73"><span class="lineNum">      73</span> <span class="tlaGNC tlaBgGNC">           1 :   @override</span></span>
-<span id="L74"><span class="lineNum">      74</span> <span class="tlaGNC">           2 :   bool isRegistered&lt;T extends Object&gt;() =&gt; _getIt.isRegistered&lt;T&gt;();</span></span>
+<span id="L73"><span class="lineNum">      73</span> <span class="tlaGNC tlaBgGNC">           2 :   @override</span></span>
+<span id="L74"><span class="lineNum">      74</span> <span class="tlaGNC">           4 :   bool isRegistered&lt;T extends Object&gt;() =&gt; _getIt.isRegistered&lt;T&gt;();</span></span>
 <span id="L75"><span class="lineNum">      75</span>              : }</span>
         </pre>
               </td>

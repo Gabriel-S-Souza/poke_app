@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2023-06-10 20:37:52</td>
+            <td class="headerValue">2023-06-11 01:10:30</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryHi">-</td>
@@ -66,16 +66,16 @@
 <span id="L4"><span class="lineNum">       4</span>              : </span>
 <span id="L5"><span class="lineNum">       5</span>              : class PokemonDetailsCubit extends Cubit&lt;PokemonDetailsState&gt; {</span>
 <span id="L6"><span class="lineNum">       6</span>              :   final GetPokemonDetailsUseCase _getPokemonDetailsUseCase;</span>
-<span id="L7"><span class="lineNum">       7</span> <span class="tlaGNC tlaBgGNC">           2 :   PokemonDetailsCubit({</span></span>
+<span id="L7"><span class="lineNum">       7</span> <span class="tlaGNC tlaBgGNC">           3 :   PokemonDetailsCubit({</span></span>
 <span id="L8"><span class="lineNum">       8</span>              :     required GetPokemonDetailsUseCase getPokemonDetailsUseCase,</span>
 <span id="L9"><span class="lineNum">       9</span>              :   })  : _getPokemonDetailsUseCase = getPokemonDetailsUseCase,</span>
-<span id="L10"><span class="lineNum">      10</span> <span class="tlaGNC">           2 :         super(const PokemonDetailsInitial());</span></span>
+<span id="L10"><span class="lineNum">      10</span> <span class="tlaGNC">           3 :         super(const PokemonDetailsInitial());</span></span>
 <span id="L11"><span class="lineNum">      11</span>              : </span>
-<span id="L12"><span class="lineNum">      12</span> <span class="tlaGNC">           2 :   Future&lt;void&gt; getDetails(int pokemonId) async {</span></span>
-<span id="L13"><span class="lineNum">      13</span> <span class="tlaGNC">           2 :     emit(const PokemonDetailsLoading());</span></span>
-<span id="L14"><span class="lineNum">      14</span> <span class="tlaGNC">           4 :     final result = await _getPokemonDetailsUseCase(pokemonId);</span></span>
-<span id="L15"><span class="lineNum">      15</span> <span class="tlaGNC">           2 :     result.when(</span></span>
-<span id="L16"><span class="lineNum">      16</span> <span class="tlaGNC">           6 :       onSuccess: (details) =&gt; emit(PokemonDetailsSuccess(details)),</span></span>
+<span id="L12"><span class="lineNum">      12</span> <span class="tlaGNC">           3 :   Future&lt;void&gt; getDetails(int pokemonId) async {</span></span>
+<span id="L13"><span class="lineNum">      13</span> <span class="tlaGNC">           3 :     emit(const PokemonDetailsLoading());</span></span>
+<span id="L14"><span class="lineNum">      14</span> <span class="tlaGNC">           6 :     final result = await _getPokemonDetailsUseCase(pokemonId);</span></span>
+<span id="L15"><span class="lineNum">      15</span> <span class="tlaGNC">           3 :     result.when(</span></span>
+<span id="L16"><span class="lineNum">      16</span> <span class="tlaGNC">           9 :       onSuccess: (details) =&gt; emit(PokemonDetailsSuccess(details)),</span></span>
 <span id="L17"><span class="lineNum">      17</span> <span class="tlaGNC">           4 :       onFailure: (failure) =&gt; emit(PokemonDetailsError(failure.message)),</span></span>
 <span id="L18"><span class="lineNum">      18</span>              :     );</span>
 <span id="L19"><span class="lineNum">      19</span>              :   }</span>

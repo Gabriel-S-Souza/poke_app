@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2023-06-10 20:37:52</td>
+            <td class="headerValue">2023-06-11 01:10:30</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryHi">-</td>
@@ -70,31 +70,31 @@
 <span id="L8"><span class="lineNum">       8</span>              : </span>
 <span id="L9"><span class="lineNum">       9</span>              : class HomeCubit extends Cubit&lt;HomeState&gt; {</span>
 <span id="L10"><span class="lineNum">      10</span>              :   final GetPokemonsUseCase _getPokemonsUseCase;</span>
-<span id="L11"><span class="lineNum">      11</span> <span class="tlaGNC tlaBgGNC">           2 :   HomeCubit({</span></span>
+<span id="L11"><span class="lineNum">      11</span> <span class="tlaGNC tlaBgGNC">           3 :   HomeCubit({</span></span>
 <span id="L12"><span class="lineNum">      12</span>              :     required GetPokemonsUseCase getPokemonsUseCase,</span>
 <span id="L13"><span class="lineNum">      13</span>              :   })  : _getPokemonsUseCase = getPokemonsUseCase,</span>
-<span id="L14"><span class="lineNum">      14</span> <span class="tlaGNC">           2 :         super(const HomeState());</span></span>
+<span id="L14"><span class="lineNum">      14</span> <span class="tlaGNC">           3 :         super(const HomeState());</span></span>
 <span id="L15"><span class="lineNum">      15</span>              : </span>
 <span id="L16"><span class="lineNum">      16</span>              :   int _page = 0;</span>
-<span id="L17"><span class="lineNum">      17</span> <span class="tlaGNC">           4 :   int get page =&gt; _page;</span></span>
+<span id="L17"><span class="lineNum">      17</span> <span class="tlaGNC">           6 :   int get page =&gt; _page;</span></span>
 <span id="L18"><span class="lineNum">      18</span>              : </span>
 <span id="L19"><span class="lineNum">      19</span>              :   final List&lt;PokemonEntity&gt; _pokemons = [];</span>
 <span id="L20"><span class="lineNum">      20</span>              : </span>
 <span id="L21"><span class="lineNum">      21</span> <span class="tlaGNC">           1 :   @visibleForTesting</span></span>
 <span id="L22"><span class="lineNum">      22</span> <span class="tlaGNC">           1 :   List&lt;PokemonEntity&gt; get pokemons =&gt; _pokemons;</span></span>
 <span id="L23"><span class="lineNum">      23</span>              : </span>
-<span id="L24"><span class="lineNum">      24</span> <span class="tlaGNC">           2 :   Future&lt;void&gt; getPokemons(int page) async {</span></span>
-<span id="L25"><span class="lineNum">      25</span> <span class="tlaGNC">           6 :     emit(state.startLoading());</span></span>
-<span id="L26"><span class="lineNum">      26</span> <span class="tlaGNC">           4 :     final result = await _getPokemonsUseCase(page);</span></span>
+<span id="L24"><span class="lineNum">      24</span> <span class="tlaGNC">           3 :   Future&lt;void&gt; getPokemons(int page) async {</span></span>
+<span id="L25"><span class="lineNum">      25</span> <span class="tlaGNC">           9 :     emit(state.startLoading());</span></span>
+<span id="L26"><span class="lineNum">      26</span> <span class="tlaGNC">           6 :     final result = await _getPokemonsUseCase(page);</span></span>
 <span id="L27"><span class="lineNum">      27</span>              : </span>
-<span id="L28"><span class="lineNum">      28</span> <span class="tlaGNC">           2 :     result.when(</span></span>
-<span id="L29"><span class="lineNum">      29</span> <span class="tlaGNC">           2 :       onSuccess: (pokemons) {</span></span>
-<span id="L30"><span class="lineNum">      30</span> <span class="tlaGNC">           4 :         _pokemons.addAll(pokemons);</span></span>
-<span id="L31"><span class="lineNum">      31</span> <span class="tlaGNC">           6 :         if (state.sortBy != SortPokeBy.number) {</span></span>
+<span id="L28"><span class="lineNum">      28</span> <span class="tlaGNC">           3 :     result.when(</span></span>
+<span id="L29"><span class="lineNum">      29</span> <span class="tlaGNC">           3 :       onSuccess: (pokemons) {</span></span>
+<span id="L30"><span class="lineNum">      30</span> <span class="tlaGNC">           6 :         _pokemons.addAll(pokemons);</span></span>
+<span id="L31"><span class="lineNum">      31</span> <span class="tlaGNC">           9 :         if (state.sortBy != SortPokeBy.number) {</span></span>
 <span id="L32"><span class="lineNum">      32</span> <span class="tlaUNC tlaBgUNC">           0 :           sortPokemons(state.sortBy, updateState: false);</span></span>
 <span id="L33"><span class="lineNum">      33</span>              :         }</span>
-<span id="L34"><span class="lineNum">      34</span> <span class="tlaGNC tlaBgGNC">           6 :         emit(state.copyWith(</span></span>
-<span id="L35"><span class="lineNum">      35</span> <span class="tlaGNC">           2 :           pokemons: _pokemons,</span></span>
+<span id="L34"><span class="lineNum">      34</span> <span class="tlaGNC tlaBgGNC">           9 :         emit(state.copyWith(</span></span>
+<span id="L35"><span class="lineNum">      35</span> <span class="tlaGNC">           3 :           pokemons: _pokemons,</span></span>
 <span id="L36"><span class="lineNum">      36</span>              :           isLoading: false,</span>
 <span id="L37"><span class="lineNum">      37</span>              :         ));</span>
 <span id="L38"><span class="lineNum">      38</span>              :       },</span>
