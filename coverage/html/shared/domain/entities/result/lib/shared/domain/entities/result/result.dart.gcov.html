@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2023-06-11 01:10:30</td>
+            <td class="headerValue">2023-06-11 01:43:02</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryHi">-</td>
@@ -66,17 +66,17 @@
 <span id="L4"><span class="lineNum">       4</span>              :   final T? _data;</span>
 <span id="L5"><span class="lineNum">       5</span>              :   final Failure? _failure;</span>
 <span id="L6"><span class="lineNum">       6</span>              : </span>
-<span id="L7"><span class="lineNum">       7</span> <span class="tlaGNC tlaBgGNC">           8 :   const Result._(this._data, this._failure);</span></span>
+<span id="L7"><span class="lineNum">       7</span> <span class="tlaGNC tlaBgGNC">          10 :   const Result._(this._data, this._failure);</span></span>
 <span id="L8"><span class="lineNum">       8</span>              : </span>
-<span id="L9"><span class="lineNum">       9</span> <span class="tlaGNC">          16 :   factory Result.success(T data) =&gt; Result._(data, null);</span></span>
+<span id="L9"><span class="lineNum">       9</span> <span class="tlaGNC">          20 :   factory Result.success(T data) =&gt; Result._(data, null);</span></span>
 <span id="L10"><span class="lineNum">      10</span>              : </span>
-<span id="L11"><span class="lineNum">      11</span> <span class="tlaGNC">          12 :   factory Result.failure(Failure failure) =&gt; Result._(null, failure);</span></span>
+<span id="L11"><span class="lineNum">      11</span> <span class="tlaGNC">          16 :   factory Result.failure(Failure failure) =&gt; Result._(null, failure);</span></span>
 <span id="L12"><span class="lineNum">      12</span>              : </span>
-<span id="L13"><span class="lineNum">      13</span> <span class="tlaGNC">           8 :   bool get isSuccess =&gt; _data != null;</span></span>
+<span id="L13"><span class="lineNum">      13</span> <span class="tlaGNC">          12 :   bool get isSuccess =&gt; _data != null;</span></span>
 <span id="L14"><span class="lineNum">      14</span>              : </span>
-<span id="L15"><span class="lineNum">      15</span> <span class="tlaGNC">          16 :   T get data =&gt; _data!;</span></span>
+<span id="L15"><span class="lineNum">      15</span> <span class="tlaGNC">          20 :   T get data =&gt; _data!;</span></span>
 <span id="L16"><span class="lineNum">      16</span>              : </span>
-<span id="L17"><span class="lineNum">      17</span> <span class="tlaGNC">          12 :   Failure get error =&gt; _failure!;</span></span>
+<span id="L17"><span class="lineNum">      17</span> <span class="tlaGNC">          16 :   Failure get error =&gt; _failure!;</span></span>
 <span id="L18"><span class="lineNum">      18</span>              : </span>
 <span id="L19"><span class="lineNum">      19</span> <span class="tlaGNC">           4 :   void when({</span></span>
 <span id="L20"><span class="lineNum">      20</span>              :     required void Function(T) onSuccess,</span>
