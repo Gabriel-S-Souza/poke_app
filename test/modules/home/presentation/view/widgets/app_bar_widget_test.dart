@@ -65,6 +65,12 @@ void main() {
     testWidgets(
         'When to write in the text field should be called the onSearch callback passing the added text',
         (tester) async {
+      final searchParams = <String>[];
+
+      when(() => mockSearchCallback.call(any())).thenAnswer((invocation) {
+        searchParams.add(invocation.positionalArguments[0] as String);
+      });
+
       await tester.pumpWidget(appWidget);
       await tester.pumpAndSettle();
 
@@ -76,6 +82,7 @@ void main() {
       await tester.enterText(find.byWidget(textFieldWidget), 'cha');
       await tester.pump();
 
+      expect(searchParams, containsAll(['c', 'ch', 'cha']));
       verify(() => mockSearchCallback.call(any())).called(3);
     });
 
