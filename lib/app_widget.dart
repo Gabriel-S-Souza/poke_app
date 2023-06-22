@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'core/routes/app_routes.dart';
 import 'core/routes/route_names.dart';
 import 'core/theme/theme.dart';
-import 'shared/presentation/toast/view/toast_widget.dart';
+import 'shared/presentation/toast/controller/toast_controller.dart';
+import 'shared/presentation/toast/view/toast_zone_widget.dart';
 
 class AppWidget extends StatelessWidget {
   const AppWidget({super.key});

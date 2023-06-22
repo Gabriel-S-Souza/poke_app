@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../shared/presentation/toast/controller/app_global.dart';
+import '../../../../shared/presentation/toast/controller/toast_controller.dart';
 import '../../domain/entities/pokemon_entity.dart';
 import '../../domain/usecases/pokemon_use_case.dart';
 import '../view/widgets/radio_tile_widget.dart';
@@ -38,7 +38,7 @@ class HomeCubit extends Cubit<HomeState> {
         ));
       },
       onFailure: (failure) {
-        ToastController.show(failure.message);
+        Toast.show(failure.message);
         emit(state.error(failure.message));
       },
     );
