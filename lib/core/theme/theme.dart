@@ -11,7 +11,7 @@ final appTheme = ThemeData(
     onTertiary: AppColors.greyExtraLight,
     inversePrimary: AppColors.black,
   ),
-  scaffoldBackgroundColor: const Color(0xFFF2F2F2),
+  scaffoldBackgroundColor: AppColors.backgroundColor,
   fontFamily: GoogleFonts.poppins().fontFamily,
   textTheme: TextTheme(
     headlineMedium: GoogleFonts.poppins(
@@ -52,11 +52,14 @@ class AppColors {
   static const Color primaryColor = Color(0xFFDC0A2D);
   static const Color backgroundColor = Color(0xFFEFEFEF);
   static const Color textDefaultColor = Color(0xFF1D1D1D);
+  static const Color errorColor = Color(0xFFDC5A0A);
+  static const Color warningColor = Color(0xFFDC9A0A);
+  static const Color successColor = Color(0xFF00A650);
 
-  // Grayscale
+  // Greyscale
   static const Color white = Color(0xFFFFFFFF);
-  static const Color black = Color(0xFF212121);
-  static const Color greyDark = Color(0xFF666666);
-  static const Color greyLight = Color(0xFFE0E0E0);
   static const Color greyExtraLight = Color(0xFFEFEFEF);
+  static const Color greyLight = Color(0xFFE0E0E0);
+  static const Color greyDark = Color(0xFF666666);
+  static const Color black = Color(0xFF212121);
 }

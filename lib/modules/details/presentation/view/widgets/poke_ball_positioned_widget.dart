@@ -23,10 +23,10 @@ class PokeBallPositionedWidget extends StatelessWidget {
         left: left,
         top: top,
         bottom: bottom,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8),
-          child: SizedBox(
-            height: constraints.maxHeight * 0.32 - MediaQuery.of(context).padding.vertical,
+        child: SizedBox(
+          height: constraints.maxHeight * 0.328 - MediaQuery.of(context).padding.vertical,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8),
             child: Image.asset(
               Assets.pokeballImg,
               fit: BoxFit.fitHeight,

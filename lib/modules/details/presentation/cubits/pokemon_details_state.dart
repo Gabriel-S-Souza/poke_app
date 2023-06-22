@@ -10,14 +10,14 @@ class PokemonDetailsLoading extends PokemonDetailsState {
   const PokemonDetailsLoading();
 
   @override
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => [];
 }
 
 class PokemonDetailsInitial extends PokemonDetailsState {
   const PokemonDetailsInitial();
 
   @override
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => [];
 }
 
 class PokemonDetailsSuccess extends PokemonDetailsState {
@@ -26,7 +26,7 @@ class PokemonDetailsSuccess extends PokemonDetailsState {
   const PokemonDetailsSuccess(this.pokemonDetails);
 
   @override
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => [pokemonDetails];
 }
 
 class PokemonDetailsError extends PokemonDetailsState {
@@ -35,5 +35,5 @@ class PokemonDetailsError extends PokemonDetailsState {
   const PokemonDetailsError(this.message);
 
   @override
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => [message];
 }

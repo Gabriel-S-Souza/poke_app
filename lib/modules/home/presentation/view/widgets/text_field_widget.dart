@@ -57,6 +57,9 @@ class TextFieldWidget extends StatelessWidget {
             enabled: enabled,
             readOnly: readOnly,
             autofocus: false,
+            style: const TextStyle(
+              fontSize: 12,
+            ),
             onFieldSubmitted: (value) {
               if (value.isNotEmpty) {
                 onSubmitted?.call(value);

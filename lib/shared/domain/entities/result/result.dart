@@ -4,11 +4,16 @@ class Result<T> {
   final T? _data;
   final Failure? _failure;
 
-  const Result.success(this._data) : _failure = null;
-  const Result.failure(this._failure) : _data = null;
+  const Result._(this._data, this._failure);
+
+  factory Result.success(T data) => Result._(data, null);
+
+  factory Result.failure(Failure failure) => Result._(null, failure);
 
   bool get isSuccess => _data != null;
+
   T get data => _data!;
+
   Failure get error => _failure!;
 
   void when({

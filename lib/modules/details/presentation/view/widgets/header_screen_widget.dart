@@ -6,7 +6,7 @@ import '../../../../../core/utils/assets.dart';
 class HeaderScreenWidget extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final double fontSize;
-  final int pokeId;
+  final int? pokeId;
 
   const HeaderScreenWidget({
     Key? key,
@@ -15,7 +15,7 @@ class HeaderScreenWidget extends StatelessWidget implements PreferredSizeWidget 
     required this.pokeId,
   }) : super(key: key);
 
-  String get pokeIdFormatted => '#${pokeId.toString().padLeft(3, '0')}';
+  String get pokeIdFormatted => pokeId != null ? '#${pokeId!.toString().padLeft(3, '0')}' : '';
 
   @override
   Widget build(BuildContext context) => Container(

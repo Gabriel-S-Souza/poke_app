@@ -32,7 +32,7 @@ class BoxContentWidget extends StatelessWidget {
             BoxShadow(
               offset: const Offset(0, 0),
               blurRadius: 4,
-              spreadRadius: 5,
+              spreadRadius: 4,
               color: Theme.of(context).colorScheme.inversePrimary.withOpacity(0.5),
               inset: true,
             ),

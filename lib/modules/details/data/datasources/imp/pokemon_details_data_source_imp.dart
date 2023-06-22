@@ -16,17 +16,17 @@ class PokemonDetailsDataSourceImp implements PokemonDetailsDataSource {
   @override
   Future<Result<PokemonDetailsEntity>> getDetails(int pokemonId) async {
     try {
-      final response = await _httpClient.get('${ApiPaths.pokemon}/$pokemonId');
+      final response = await _httpClient.get('${ApiPaths.details}/$pokemonId');
 
       if (response.isSuccess) {
         return Result.success(PokemonDetailsModel.fromJson(response.data));
       } else {
-        return const Result.failure(ServerFailure('Api error'));
+        return Result.failure(const ServerFailure(message: 'Api error'));
       }
     } on Failure catch (e) {
       return Result.failure(e);
     } catch (e) {
-      return Result.failure(UnmappedFailure(e.toString()));
+      return Result.failure(UnmappedFailure(message: e.toString()));
     }
   }
 }

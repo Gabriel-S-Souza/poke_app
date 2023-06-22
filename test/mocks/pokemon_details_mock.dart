@@ -2,7 +2,7 @@ import 'package:poke_app/modules/details/domain/entities/poke_statistics_entity.
 import 'package:poke_app/modules/details/domain/entities/poke_type.dart';
 import 'package:poke_app/modules/details/domain/entities/pokemon_details_entity.dart';
 
-final mockPokemonDetails = PokemonDetailsEntity(
+final pokemonDetailsMock = PokemonDetailsEntity(
   id: 25,
   name: 'Pikachu',
   image:

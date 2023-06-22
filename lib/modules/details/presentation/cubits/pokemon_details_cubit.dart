@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../shared/presentation/toast/controller/toast_controller.dart';
 import '../../domain/usecases/get_pokemon_details_use_case.dart';
 import 'pokemon_details_state.dart';
 
@@ -14,7 +15,10 @@ class PokemonDetailsCubit extends Cubit<PokemonDetailsState> {
     final result = await _getPokemonDetailsUseCase(pokemonId);
     result.when(
       onSuccess: (details) => emit(PokemonDetailsSuccess(details)),
-      onFailure: (failure) => emit(PokemonDetailsError(failure.message)),
+      onFailure: (failure) {
+        Toast.show(failure.message);
+        emit(PokemonDetailsError(failure.message));
+      },
     );
   }
 }

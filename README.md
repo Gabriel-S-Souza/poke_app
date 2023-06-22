@@ -33,7 +33,7 @@ O PokeApp é um aplicativo desenvolvido em Flutter com o objetivo de explorar os
 
 Certifique-se de ter o Flutter instalado em sua máquina. Caso contrário, siga as instruções de instalação disponíveis em [flutter.dev](https://flutter.dev/).
 
-Versão do Flutter utilizada: 3.7.12.
+Versão do Flutter utilizada: 3.10.3
 
 - Passos: <br>
 

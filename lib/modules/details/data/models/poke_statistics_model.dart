@@ -7,7 +7,7 @@ class PokeStatisticModel extends PokeStatisticEntity {
   });
 
   factory PokeStatisticModel.fromJson(Map<String, dynamic> json) => PokeStatisticModel(
-        name: json['stat']['name'],
-        value: json['base_stat'],
+        name: json['name'],
+        value: json['value'],
       );
 }

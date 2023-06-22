@@ -8,6 +8,7 @@ class PokeFloatingImageWidget extends StatelessWidget {
   final VoidCallback? onLeftPressed;
   final VoidCallback? onRightPressed;
   final BoxConstraints constraints;
+  final bool isLoading;
 
   const PokeFloatingImageWidget({
     super.key,
@@ -16,65 +17,68 @@ class PokeFloatingImageWidget extends StatelessWidget {
     required this.constraints,
     this.onLeftPressed,
     this.onRightPressed,
+    this.isLoading = false,
   });
 
   @override
-  Widget build(BuildContext context) {
-    if (imageUrl == null) return const SizedBox.shrink();
-
-    return Positioned(
-      width: constraints.maxWidth - 8,
-      top: constraints.maxHeight * 0.092 - MediaQuery.of(context).padding.vertical,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Visibility(
-              visible: pokemonId > 1,
-              maintainSize: true,
-              maintainAnimation: true,
-              maintainState: true,
-              child: Transform.translate(
-                offset: Offset(0, constraints.maxHeight * 0.024),
-                child: IconButton(
-                  onPressed: onLeftPressed,
-                  icon: Image.asset(
-                    Assets.arrowLeft,
-                    width: 38,
-                    height: 38,
-                    color: Theme.of(context).colorScheme.secondary,
+  Widget build(BuildContext context) => Positioned(
+        width: constraints.maxWidth - 8,
+        top: constraints.maxHeight * 0.092 - MediaQuery.of(context).padding.vertical,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Visibility(
+                visible: pokemonId != 1 && !isLoading,
+                maintainSize: true,
+                maintainAnimation: true,
+                maintainState: true,
+                child: Transform.translate(
+                  offset: Offset(0, constraints.maxHeight * 0.024),
+                  child: IconButton(
+                    onPressed: onLeftPressed,
+                    icon: Image.asset(
+                      Assets.arrowLeft,
+                      width: 38,
+                      height: 38,
+                      color: Theme.of(context).colorScheme.secondary,
+                    ),
                   ),
                 ),
               ),
-            ),
-            SizedBox(
+              SizedBox(
                 height: constraints.maxHeight * 0.31 - MediaQuery.of(context).padding.vertical,
-                child: Image.network(
-                  imageUrl!,
-                  fit: BoxFit.fitHeight,
-                )),
-            Visibility(
-              visible: pokemonId < 1281,
-              maintainSize: true,
-              maintainAnimation: true,
-              maintainState: true,
-              child: Transform.translate(
-                offset: Offset(0, constraints.maxHeight * 0.024),
-                child: IconButton(
-                  onPressed: onRightPressed,
-                  icon: Image.asset(
-                    Assets.arrowRight,
-                    width: 38,
-                    height: 38,
-                    color: Theme.of(context).colorScheme.secondary,
+                child: isLoading
+                    ? MediaQuery.of(context).orientation == Orientation.portrait
+                        ? const SizedBox()
+                        : const Center(child: CircularProgressIndicator())
+                    : Image.network(
+                        imageUrl ?? '',
+                        fit: BoxFit.contain,
+                        errorBuilder: (_, __, ___) => const Icon(Icons.error),
+                      ),
+              ),
+              Visibility(
+                visible: pokemonId < 1281 && !isLoading,
+                maintainSize: true,
+                maintainAnimation: true,
+                maintainState: true,
+                child: Transform.translate(
+                  offset: Offset(0, constraints.maxHeight * 0.024),
+                  child: IconButton(
+                    onPressed: onRightPressed,
+                    icon: Image.asset(
+                      Assets.arrowRight,
+                      width: 38,
+                      height: 38,
+                      color: Theme.of(context).colorScheme.secondary,
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
-    );
-  }
+      );
 }

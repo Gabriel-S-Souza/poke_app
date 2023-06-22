@@ -1,35 +1,58 @@
-class Failure implements Exception {
+class Failure<T> implements Exception {
   final String message;
+  final T? cachedData;
 
-  const Failure(this.message);
+  const Failure(this.message, {this.cachedData});
+
+  Failure<type> copyWith<type extends Object>({String? message, type? cachedData}) => Failure<type>(
+        message ?? this.message,
+        cachedData: cachedData,
+      );
+}
+
+class ServerFailure<T> extends Failure<T> {
+  const ServerFailure({String? message, super.cachedData})
+      : super(message ?? 'Erro interno no servidor');
 
   @override
-  String toString() => 'Failure: $message';
+  String toString() => 'ServerFailure($message)';
 }
 
-class ServerFailure extends Failure {
-  const ServerFailure([super.message = 'Erro na comunicação com o servidor']);
-}
-
-class BadRequestFailure extends Failure {
-  const BadRequestFailure([super.message = 'Requisição inválida']);
-}
-
-class NotFoundFailure extends Failure {
-  const NotFoundFailure([super.message = 'Não encontrado']);
-}
-
-class UnauthorizedFailure extends Failure {
-  const UnauthorizedFailure([super.message = 'Não autorizado']);
-}
-
-class OfflineFailure extends Failure {
-  const OfflineFailure([super.message = 'Sem conexão com a internet']);
-}
-
-class UnmappedFailure extends Failure {
-  const UnmappedFailure([super.message = 'Ops, algo deu errado']);
+class BadRequestFailure<T> extends Failure<T> {
+  const BadRequestFailure({String? message, super.cachedData})
+      : super(message ?? 'Requisição inválida');
 
   @override
-  String toString() => 'Ops, algo deu errado: $message. [UnmappedFailure]';
+  String toString() => 'BadRequestFailure($message)';
+}
+
+class NotFoundFailure<T> extends Failure<T> {
+  const NotFoundFailure({String? message, super.cachedData}) : super(message ?? 'Não encontrado');
+
+  @override
+  String toString() => 'NotFoundFailure($message)';
+}
+
+class UnauthorizedFailure<T> extends Failure<T> {
+  const UnauthorizedFailure({String? message, super.cachedData})
+      : super(message ?? 'Não autorizado');
+
+  @override
+  String toString() => 'UnauthorizedFailure($message)';
+}
+
+class OfflineFailure<T> extends Failure<T> {
+  const OfflineFailure({String? message, super.cachedData})
+      : super(message ?? 'Sem conexão com a internet');
+
+  @override
+  String toString() => 'OfflineFailure($message)';
+}
+
+class UnmappedFailure<T> extends Failure<T> {
+  const UnmappedFailure({String? message, super.cachedData})
+      : super(message ?? 'Ops, algo deu errado');
+
+  @override
+  String toString() => 'UnmappedFailure($message)';
 }

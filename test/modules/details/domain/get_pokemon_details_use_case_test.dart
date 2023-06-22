@@ -6,7 +6,7 @@ import 'package:poke_app/modules/details/domain/usecases/get_pokemon_details_use
 import 'package:poke_app/shared/domain/entities/failure/failure.dart';
 import 'package:poke_app/shared/domain/entities/result/result.dart';
 
-import '../mocks/mock_pokemon_details.dart';
+import '../../../mocks/pokemon_details_mock.dart';
 
 class MockPokemonDetailsRepository extends Mock implements PokemonDetailsRepository {}
 
@@ -22,9 +22,9 @@ void main() {
   });
 
   group('GetPokemonDetailsUseCase |', () {
-    test('success: should return PokemonDetailsEntity', () async {
+    test('success: should return a Result with a PokemonDetailsEntity', () async {
       // Arrange
-      final PokemonDetailsEntity pokemonDetails = mockPokemonDetails;
+      final PokemonDetailsEntity pokemonDetails = pokemonDetailsMock;
 
       when(() => mockRepository.getDetails(any()))
           .thenAnswer((invocation) async => Result.success(pokemonDetails));
@@ -40,12 +40,14 @@ void main() {
       verifyNoMoreInteractions(mockRepository);
     });
 
-    test('failure: should return a Failure', () async {
+    test(
+        'failure: should return a Result with a Failure when the response of the repository is unsuccessful',
+        () async {
       // Arrange
       const String mockErrorMessage = 'Failed to fetch Pokemon details';
 
       when(() => mockRepository.getDetails(any()))
-          .thenAnswer((invocation) async => const Result.failure(Failure(mockErrorMessage)));
+          .thenAnswer((invocation) async => Result.failure(const Failure(mockErrorMessage)));
 
       // Act
       final result = await useCase.call(1);

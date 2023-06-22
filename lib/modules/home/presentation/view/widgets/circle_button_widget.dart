@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow;
 import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
 
-class IconButtonApp extends StatelessWidget {
+class CircleButtonWidget extends StatelessWidget {
   final Widget child;
   final VoidCallback? onPressed;
 
-  const IconButtonApp({
+  const CircleButtonWidget({
     super.key,
     required this.child,
     this.onPressed,
