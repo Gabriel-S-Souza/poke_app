@@ -14,9 +14,10 @@ O PokeApp é um aplicativo desenvolvido em Flutter com o objetivo de explorar os
 ### Técnicas Utilizadas
 - Arquitetura Limpa
 - Testes Unitários
-- Injeção de Dependência
 - Princípios SOLID
+- Injeção de Dependência
 - Service Locator
+- Decorator Pattern
 - Factory
 - DRY (Don't Repeat Yourself)
 - AAA (Arrange, Act, Assert)
@@ -45,13 +46,17 @@ git clone https://github.com/Gabriel-S-Souza/poke_app.git
 
 2. Abra o projeto em um editor de código.
 
-3. Baixe as dependências do projeto executando no terminal:
+3. Caso esteja com o FVM, rode o seguinde comando na raiz do projeto para que ele configure a versão do Flutter no projeto:
+```
+fvm use
+```
+4. Baixe as dependências do projeto executando no terminal:
 ```
 flutter pub get
 ```
-4. Conecte seu dispositivo ou inicie um emulador.
+5. Conecte seu dispositivo ou inicie um emulador.
 
-5. Execute o aplicativo com o seguinte comando:
+6. Execute o aplicativo com o seguinte comando:
 
 ```
 flutter run
