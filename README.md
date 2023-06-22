@@ -46,17 +46,17 @@ git clone https://github.com/Gabriel-S-Souza/poke_app.git
 
 2. Abra o projeto em um editor de código.
 
-3. Caso esteja com o FVM, rode o seguinde comando na raiz do projeto para que ele configure a versão do Flutter no projeto:
+3. Caso esteja com o FVM, rode o seguinde comando na raiz do projeto para que ele configure a versão do Flutter:
 ```
 fvm use
 ```
-4. Baixe as dependências do projeto executando no terminal:
+4. Baixe as dependências do projeto:
 ```
 flutter pub get
 ```
 5. Conecte seu dispositivo ou inicie um emulador.
 
-6. Execute o aplicativo com o seguinte comando:
+6. Execute o aplicativo:
 
 ```
 flutter run
