@@ -21,12 +21,12 @@ class PokemonDetailsDataSourceImp implements PokemonDetailsDataSource {
       if (response.isSuccess) {
         return Result.success(PokemonDetailsModel.fromJson(response.data));
       } else {
-        return Result.failure(const ServerFailure('Api error'));
+        return Result.failure(const ServerFailure(message: 'Api error'));
       }
     } on Failure catch (e) {
       return Result.failure(e);
     } catch (e) {
-      return Result.failure(UnmappedFailure(e.toString()));
+      return Result.failure(UnmappedFailure(message: e.toString()));
     }
   }
 }

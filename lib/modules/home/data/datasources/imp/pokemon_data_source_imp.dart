@@ -23,12 +23,12 @@ class PokemonDataSourceImp implements PokemonDataSource {
             (response.data['results'] as List).map((e) => PokemonModel.fromJson(e)).toList();
         return Result.success(pokemons);
       } else {
-        return Result.failure(const ServerFailure('Api error'));
+        return Result.failure(const ServerFailure(message: 'Api error'));
       }
     } on Failure catch (e) {
       return Result.failure(e);
     } catch (e) {
-      return Result.failure(UnmappedFailure(e.toString()));
+      return Result.failure(UnmappedFailure(message: e.toString()));
     }
   }
 }
