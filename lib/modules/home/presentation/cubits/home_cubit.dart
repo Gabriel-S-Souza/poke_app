@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../shared/domain/entities/result/result.dart';
+import '../../../../shared/presentation/toast/controller/toast_controller.dart';
 import '../../domain/entities/pokemon_entity.dart';
 import '../../domain/usecases/pokemon_use_case.dart';
 import '../view/widgets/radio_tile_widget.dart';
@@ -23,7 +25,7 @@ class HomeCubit extends Cubit<HomeState> {
 
   Future<void> getPokemons(int page) async {
     emit(state.startLoading());
-    final result = await _getPokemonsUseCase(page);
+    final Result<List<PokemonEntity>> result = await _getPokemonsUseCase(page);
 
     result.when(
       onSuccess: (pokemons) {
@@ -36,7 +38,15 @@ class HomeCubit extends Cubit<HomeState> {
           isLoading: false,
         ));
       },
-      onFailure: (failure) => emit(state.error(failure.message)),
+      onFailure: (failure) {
+        Toast.show(failure.message);
+        _pokemons.clear();
+        _pokemons.addAll(failure.cachedData);
+        emit(state.copyWith(
+          pokemons: failure.cachedData,
+          isLoading: false,
+        ));
+      },
     );
   }
 
@@ -78,6 +88,7 @@ class HomeCubit extends Cubit<HomeState> {
 
     emit(state.copyWith(
       pokemons: pokemons,
+      searching: query,
     ));
   }
 }

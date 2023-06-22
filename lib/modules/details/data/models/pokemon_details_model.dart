@@ -19,43 +19,13 @@ class PokemonDetailsModel extends PokemonDetailsEntity {
   factory PokemonDetailsModel.fromJson(Map<String, dynamic> json) => PokemonDetailsModel(
         id: json['id'],
         name: json['name'],
-        image: json['sprites']['other']['official-artwork']['front_default'],
+        image: json['imageUrl'],
         height: json['height'] / 10,
         weight: json['weight'] / 10,
-        types: _getTypes(json['types']),
-        moves: _getMoves(json['moves']),
-        abilities: _getAbilities(json['abilities']),
+        types: PokeType.values.where((type) => json['types'].contains(type.toString().split('.').last)).toList(),
+        moves: List<String>.from(json['moves']),
+        abilities: List<String>.from(json['abilities']),
         description: json['description'],
-        // ignore: unnecessary_lambdas
-        statistics: (json['stats'] as List).map((e) => PokeStatisticModel.fromJson(e)).toList(),
+        statistics: (json['statistics'] as List).map((e) => PokeStatisticModel.fromJson(e)).toList(),
       );
-}
-
-List<PokeType> _getTypes(List<dynamic> types) {
-  final List<PokeType> pokeTypes = [];
-  for (final type in types) {
-    pokeTypes.add(
-      PokeType.values.firstWhere(
-        (e) => e.value == '${type['type']['name']}',
-        orElse: () => PokeType.unknown,
-      ),
-    );
-  }
-  return pokeTypes;
-}
-
-List<String> _getMoves(List<dynamic> moves) {
-  final List<String> pokeMoves = [];
-  for (final move in moves) {
-    pokeMoves.add(move['move']['name']);
-  }
-  return pokeMoves;
-}
-
-List<String> _getAbilities(List<dynamic> abilities) {
-  final List<String> pokeAbilities = [];
-  for (final ability in abilities) {
-    pokeAbilities.add(ability['ability']['name']);
-  }
-  return pokeAbilities;
 }

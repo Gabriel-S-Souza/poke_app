@@ -30,7 +30,7 @@ class PokeFloatingImageWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Visibility(
-                visible: pokemonId > 1 && !isLoading,
+                visible: pokemonId != 1 && !isLoading,
                 maintainSize: true,
                 maintainAnimation: true,
                 maintainState: true,
@@ -54,7 +54,7 @@ class PokeFloatingImageWidget extends StatelessWidget {
                         ? const SizedBox()
                         : const Center(child: CircularProgressIndicator())
                     : Image.network(
-                        imageUrl!,
+                        imageUrl ?? '',
                         fit: BoxFit.contain,
                         errorBuilder: (_, __, ___) => const Icon(Icons.error),
                       ),

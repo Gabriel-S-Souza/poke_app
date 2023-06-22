@@ -16,31 +16,19 @@ class PokemonDataSourceImp implements PokemonDataSource {
   @override
   Future<Result<List<PokemonEntity>>> getPokemons(int page) async {
     try {
-      final response = await _httpClient.get('${ApiPaths.pokemon}?offset=${page * 50}&limit=50');
+      final response = await _httpClient.get('${ApiPaths.pokemon}?page=$page');
 
       if (response.isSuccess) {
-        final pokemonsResponse = _addImageAndIdToResponse(response.data['results'], page);
-        final pokemons = pokemonsResponse.map(PokemonModel.fromJson).toList();
+        final pokemons =
+            (response.data['results'] as List).map((e) => PokemonModel.fromJson(e)).toList();
         return Result.success(pokemons);
       } else {
-        return Result.failure(const ServerFailure('Api error'));
+        return Result.failure(const ServerFailure(message: 'Api error'));
       }
     } on Failure catch (e) {
       return Result.failure(e);
     } catch (e) {
-      return Result.failure(UnmappedFailure(e.toString()));
+      return Result.failure(UnmappedFailure(message: e.toString()));
     }
   }
-
-  List<Map<String, dynamic>> _addImageAndIdToResponse(List pokemons, int page) =>
-      List.generate(pokemons.length, (index) {
-        final int id = (index + 1) + (page * 50);
-        return pokemons[index]
-          ..addAll({
-            'id': id,
-            'imageUrl': id <= 1010
-                ? 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/$id.png'
-                : 'https://upload.wikimedia.org/wikipedia/commons/b/b1/Pok%C3%A9ball.png'
-          });
-      });
 }

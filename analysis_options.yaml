@@ -17,7 +17,7 @@ linter:
     prefer_final_locals: true
     unnecessary_await_in_return: true
     unnecessary_const: true
-    unnecessary_lambdas: true
+    unnecessary_lambdas: false
     unnecessary_late: true
     unnecessary_null_aware_assignments: true
     unnecessary_parenthesis: true

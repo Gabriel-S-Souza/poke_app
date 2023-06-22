@@ -17,7 +17,7 @@ void main() {
   late MockHttpClient mockHttpClient;
   const int pokemonId = 1;
   const String detailsUrl = '${ApiPaths.pokemon}/$pokemonId';
-  const String descriptionUrl = '${ApiPaths.pokemonSpecies}/$pokemonId';
+  const String descriptionUrl = '${ApiPaths.details}/$pokemonId';
 
   setUp(() {
     mockHttpClient = MockHttpClient();

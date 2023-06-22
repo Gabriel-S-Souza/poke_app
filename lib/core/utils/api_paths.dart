@@ -1,6 +1,6 @@
 class ApiPaths {
-  static const String baseUrl = 'https://pokeapi.co';
-  static const String basePath = '/api/v2';
-  static const String pokemon = '/pokemon';
-  static const String pokemonSpecies = '/pokemon-species';
+  static const String baseUrl = 'https://fancy-foal-tuxedo.cyclic.app';
+  static const String basePath = '/api';
+  static const String pokemon = '/pokemons';
+  static const String details = '/details';
 }

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../core/utils/string_extension.dart';
@@ -84,7 +85,15 @@ class PokemonCardWidget extends StatelessWidget {
                                   Expanded(
                                     child: Transform.scale(
                                       scale: 1.05,
-                                      child: Image.network(pokemon.image),
+                                      child: CachedNetworkImage(
+                                        imageUrl: pokemon.image,
+                                        fadeInDuration: const Duration(milliseconds: 100),
+                                        fadeOutDuration: const Duration(milliseconds: 100),
+                                        errorWidget: (context, error, stackTrace) => const Icon(
+                                          Icons.error_outline,
+                                          color: Colors.black87,
+                                        ),
+                                      ),
                                     ),
                                   ),
                                   const SizedBox(height: 4),

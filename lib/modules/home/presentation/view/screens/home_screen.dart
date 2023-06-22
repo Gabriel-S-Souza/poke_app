@@ -93,7 +93,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                   clipBehavior: Clip.antiAlias,
                                   child: LazyLoadScrollView(
                                     onEndOfPage: () {
-                                      if (_searchController.text.isEmpty) {
+                                      final bool canLoadNextPage = _searchController.text.isEmpty &&
+                                          state.searching.isEmpty &&
+                                          !state.isLoading;
+
+                                      if (canLoadNextPage) {
                                         _homeCubit.nextPage();
                                       }
                                     },

@@ -12,4 +12,16 @@ class PokemonModel extends PokemonEntity {
         name: json['name'],
         image: json['imageUrl'],
       );
+
+  factory PokemonModel.fromEntity(PokemonEntity pokemon) => PokemonModel(
+        id: pokemon.id,
+        name: pokemon.name,
+        image: pokemon.image,
+      );
+
+  Map<String, dynamic> toJson() => {
+        'id': super.id,
+        'name': super.name,
+        'imageUrl': super.image,
+      };
 }
