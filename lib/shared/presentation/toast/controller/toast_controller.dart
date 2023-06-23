@@ -25,7 +25,7 @@ class Toast {
 
   static void show(
     String message, {
-    Duration duration = const Duration(seconds: 3),
+    Duration duration = const Duration(seconds: 4),
     Color? backgroundColor,
     Color? textColor,
     Color? closeButtonColor,

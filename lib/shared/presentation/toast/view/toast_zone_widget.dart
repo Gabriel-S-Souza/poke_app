@@ -95,9 +95,11 @@ class _ToastHandlerWidget extends State<ToastHandlerWidget> with TickerProviderS
           bottom: behavior == ToastBehavior.pinnedDown
               ? MediaQuery.of(context).viewInsets.bottom
               : behavior == ToastBehavior.floating
-                  ? MediaQuery.of(context).viewInsets.bottom + 50
+                  ? widget.toastHeight + MediaQuery.of(context).viewInsets.bottom
                   : null,
-          top: behavior == ToastBehavior.pinnedUp ? 50 : null,
+          top: behavior == ToastBehavior.pinnedUp
+              ? MediaQuery.of(context).padding.top + widget.toastHeight
+              : null,
           child: ToastWidget(
             toastData: toastData,
             animation: _animation,
@@ -177,69 +179,71 @@ class _ToastWidgetState extends State<ToastWidget> {
     switch (widget.behavior) {
       case ToastBehavior.pinnedDown:
       case ToastBehavior.pinnedUp:
-        return Opacity(
-          opacity: _isShowing ? 1 : 0,
-          child: AnimatedBuilder(
-            animation: widget.animation,
-            builder: (context, child) {
-              final Offset offset;
-              final double opacity;
-              if (widget.behavior == ToastBehavior.pinnedDown) {
-                offset = Offset(0, toastHeight * (1 - widget.animation.value));
-                opacity = 1.0;
-              } else if (widget.behavior == ToastBehavior.pinnedUp) {
-                offset = Offset(0, -toastHeight);
-                opacity = 1.0;
-              } else {
-                offset = Offset.zero;
-                opacity = widget.animation.value;
-              }
-              return Opacity(
-                opacity: opacity,
-                child: Transform.translate(
-                  offset: offset,
-                  child: Material(
-                    color: Colors.transparent,
-                    elevation: 0,
-                    child: Container(
-                      constraints: BoxConstraints(
-                        minHeight: widget.toastMinHeight,
-                      ),
-                      width: MediaQuery.of(context).size.width,
-                      alignment: Alignment.center,
-                      color:
-                          widget.toastData.backgroundColor?.withOpacity(widget.toastData.opacity) ??
-                              Colors.black.withOpacity(widget.toastData.opacity),
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Flexible(
-                            child: Text(
-                              widget.toastData.message,
-                              style: TextStyle(
-                                color: widget.toastData.textColor ?? Colors.white,
-                                fontSize: 16,
+        return SafeArea(
+          child: Opacity(
+            opacity: _isShowing ? 1 : 0,
+            child: AnimatedBuilder(
+              animation: widget.animation,
+              builder: (context, child) {
+                final Offset offset;
+                final double opacity;
+                if (widget.behavior == ToastBehavior.pinnedDown) {
+                  offset = Offset(0, toastHeight * (1 - widget.animation.value));
+                  opacity = 1.0;
+                } else if (widget.behavior == ToastBehavior.pinnedUp) {
+                  offset = Offset(0, -toastHeight - toastHeight * (1 - widget.animation.value));
+                  opacity = 1.0;
+                } else {
+                  offset = Offset.zero;
+                  opacity = widget.animation.value;
+                }
+                return Opacity(
+                  opacity: opacity,
+                  child: Transform.translate(
+                    offset: offset,
+                    child: Material(
+                      color: Colors.transparent,
+                      elevation: 0,
+                      child: Container(
+                        constraints: BoxConstraints(
+                          minHeight: widget.toastMinHeight,
+                        ),
+                        width: MediaQuery.of(context).size.width,
+                        alignment: Alignment.center,
+                        color: widget.toastData.backgroundColor
+                                ?.withOpacity(widget.toastData.opacity) ??
+                            Colors.black.withOpacity(widget.toastData.opacity),
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Flexible(
+                              child: Text(
+                                widget.toastData.message,
+                                style: TextStyle(
+                                  color: widget.toastData.textColor ?? Colors.white,
+                                  fontSize: 16,
+                                ),
                               ),
                             ),
-                          ),
-                          if (widget.toastData.dismissible)
-                            IconButton(
-                              onPressed: () {
-                                widget.toastData.onDismiss?.call();
-                              },
-                              icon: Icon(
-                                Icons.close,
-                                color: widget.toastData.closeButtonColor ?? Colors.white,
+                            if (widget.toastData.dismissible)
+                              IconButton(
+                                onPressed: () {
+                                  widget.toastData.onDismiss?.call();
+                                },
+                                icon: Icon(
+                                  Icons.close,
+                                  color: widget.toastData.closeButtonColor ?? Colors.white,
+                                ),
                               ),
-                            ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
         );
       case ToastBehavior.floating:
@@ -254,7 +258,7 @@ class _ToastWidgetState extends State<ToastWidget> {
                 offset = Offset(0, toastHeight * (1 - widget.animation.value));
                 opacity = 1.0;
               } else if (widget.behavior == ToastBehavior.pinnedUp) {
-                offset = Offset(0, -toastHeight);
+                offset = Offset(0, 1 * widget.animation.value);
                 opacity = 1.0;
               } else {
                 offset = Offset.zero;
@@ -277,12 +281,16 @@ class _ToastWidgetState extends State<ToastWidget> {
                               minHeight: widget.toastMinHeight,
                             ),
                             alignment: Alignment.center,
-                            color: widget.toastData.backgroundColor
-                                    ?.withOpacity(widget.toastData.opacity) ??
-                                Colors.black.withOpacity(widget.toastData.opacity),
+                            decoration: BoxDecoration(
+                                color: widget.toastData.backgroundColor
+                                        ?.withOpacity(widget.toastData.opacity) ??
+                                    Colors.black.withOpacity(widget.toastData.opacity),
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(24),
+                                )),
                             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                             child: Text(
-                              'widget.toastData.message',
+                              widget.toastData.message,
                               style: TextStyle(
                                 color: widget.toastData.textColor ?? Colors.white,
                                 fontSize: 16,
