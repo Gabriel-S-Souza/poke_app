@@ -57,7 +57,7 @@ void main() {
 
       // Assert
       expect(result.isSuccess, isFalse);
-      expect(result.error, const ServerFailure('Api error'));
+      expect(result.error, const ServerFailure(message: 'Api error'));
 
       verify(() => mockHttpClient.get(any())).called(1);
       verifyNoMoreInteractions(mockHttpClient);

@@ -6,6 +6,7 @@ import 'package:poke_app/modules/details/presentation/cubits/pokemon_details_cub
 import 'package:poke_app/modules/details/presentation/cubits/pokemon_details_state.dart';
 import 'package:poke_app/shared/domain/entities/failure/failure.dart';
 import 'package:poke_app/shared/domain/entities/result/result.dart';
+import 'package:poke_app/shared/presentation/toast/controller/toast_controller.dart';
 
 import '../../../../mocks/pokemon_details_mock.dart';
 
@@ -21,6 +22,10 @@ void main() {
     mockGetPokemonDetailsUseCase = MockGetPokemonDetailsUseCase();
     pokemonDetailsCubit =
         PokemonDetailsCubit(getPokemonDetailsUseCase: mockGetPokemonDetailsUseCase);
+  });
+
+  setUpAll(() {
+    Toast.initialize();
   });
 
   group('PokemonDetailsCubit.getDetails |', () {

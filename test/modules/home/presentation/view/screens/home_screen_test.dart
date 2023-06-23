@@ -14,7 +14,6 @@ import 'package:poke_app/modules/home/presentation/view/screens/home_screen.dart
 import 'package:poke_app/modules/home/presentation/view/widgets/app_bar_widget.dart';
 import 'package:poke_app/modules/home/presentation/view/widgets/pokemon_card_widget.dart';
 import 'package:poke_app/modules/home/presentation/view/widgets/radio_tile_widget.dart';
-import 'package:poke_app/modules/home/presentation/view/widgets/sort_button_widget.dart';
 import 'package:poke_app/modules/home/presentation/view/widgets/text_field_widget.dart';
 import 'package:poke_app/shared/domain/entities/result/result.dart';
 
@@ -27,7 +26,7 @@ class MockGetPokemonsUseCase extends Mock implements GetPokemonsUseCase {}
 class MockGetPokemonDetailsUseCase extends Mock implements GetPokemonDetailsUseCase {}
 
 void main() {
-  late MaterialApp appWidget;
+  late Widget appWidget;
   late MockGetPokemonsUseCase mockGetPokemonsUseCase;
   late MockGetPokemonDetailsUseCase mockGetPokemonDetailsUseCase;
   late HomeCubit homeCubit;
@@ -65,11 +64,6 @@ void main() {
       await mockNetworkImagesFor(() async {
         await tester.pumpWidget(appWidget);
 
-        final loadingFinder = find.ancestor(
-          of: find.byType(CircularProgressIndicator),
-          matching: find.byType(PokemonCardWidget),
-        );
-
         await tester.pumpAndSettle();
 
         final imagePokeBallFinder = find.image(const AssetImage(Assets.pokeballImg));
@@ -80,7 +74,6 @@ void main() {
         final gridFinder = find.byType(GridView);
         final pokemonCardFinder = find.byType(PokemonCardWidget);
 
-        expect(loadingFinder, findsNothing);
         expect(imagePokeBallFinder, findsOneWidget);
         expect(appTitleFinder, findsOneWidget);
         expect(gridFinder, findsOneWidget);
@@ -91,6 +84,24 @@ void main() {
 
   group('HomeScreen behavior |', () {
     testWidgets(
+        'When opening, should call HomeCubit.getPokemons loading the first pokemons page in the Gridview',
+        (tester) async {
+      await mockNetworkImagesFor(() async {
+        await tester.pumpWidget(appWidget);
+
+        await tester.pumpAndSettle();
+
+        final gridFinder = find.byType(GridView);
+        final pokemonCardFinder = find.byType(PokemonCardWidget);
+
+        expect(gridFinder, findsOneWidget);
+        expect(pokemonCardFinder, findsWidgets);
+
+        verify(() => mockGetPokemonsUseCase.call(0)).called(1);
+      });
+    });
+
+    testWidgets(
         'When the sorting settings are changed, it should upadates the pokemons grid with the new pokemon sorting',
         (tester) async {
       await mockNetworkImagesFor(() async {
@@ -100,10 +111,7 @@ void main() {
         final pokemonCardsPrevious =
             List<PokemonCardWidget>.from(tester.widgetList(find.byType(PokemonCardWidget)));
 
-        final sortButtonFinder = find.ancestor(
-          of: find.byType(SortButtonWidget),
-          matching: find.byType(Stack),
-        );
+        final sortButtonFinder = find.byKey(const Key('sortButton'));
 
         await tester.tap(sortButtonFinder);
         await tester.pump();

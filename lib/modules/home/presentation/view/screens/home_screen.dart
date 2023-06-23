@@ -94,7 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   child: LazyLoadScrollView(
                                     onEndOfPage: () {
                                       final bool canLoadNextPage = _searchController.text.isEmpty &&
-                                          state.searching.isEmpty &&
+                                          state.searchText.isEmpty &&
                                           !state.isLoading;
 
                                       if (canLoadNextPage) {

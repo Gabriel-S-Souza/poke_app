@@ -13,7 +13,7 @@ import '../../modules/home/data/repositories/pokemon_repository_imp.dart';
 import '../../modules/home/domain/repositories/pokemon_repository_interface.dart';
 import '../../modules/home/domain/usecases/pokemon_use_case.dart';
 import '../../modules/home/presentation/cubits/home_cubit.dart';
-import '../../shared/data/datasources/imp/local_data_source_imp.dart';
+import '../../shared/data/datasources/imp/local_storage_imp.dart';
 import '../../shared/data/datasources/interface/local_storage.dart';
 import '../http/dio_app.dart';
 import '../http/http_client.dart';

@@ -41,10 +41,11 @@ class HomeCubit extends Cubit<HomeState> {
       onFailure: (failure) {
         Toast.show(failure.message);
         _pokemons.clear();
-        _pokemons.addAll(failure.cachedData);
+        _pokemons.addAll(failure.cachedData ?? []);
         emit(state.copyWith(
-          pokemons: failure.cachedData,
+          pokemons: failure.cachedData ?? [],
           isLoading: false,
+          messageError: failure.message,
         ));
       },
     );
@@ -88,7 +89,7 @@ class HomeCubit extends Cubit<HomeState> {
 
     emit(state.copyWith(
       pokemons: pokemons,
-      searching: query,
+      searchText: query,
     ));
   }
 }

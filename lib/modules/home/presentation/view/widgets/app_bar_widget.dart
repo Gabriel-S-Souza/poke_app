@@ -78,6 +78,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
                     SortButtonWidget(
                       onSelected: onSort,
                       currentSortBy: currentSortBy,
+                      key: const Key('sortButton'),
                     ),
                   ],
                 ),
