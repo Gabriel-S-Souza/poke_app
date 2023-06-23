@@ -25,7 +25,7 @@ class PokemonDataSourceCacheableImp extends PokemonDataSourceCacheable {
       return Result.success(result.data);
     } else {
       final cachedPokemons = _getFromCache();
-      switch (result.runtimeType) {
+      switch (result.error.runtimeType) {
         case OfflineFailure:
           return Result.failure(OfflineFailure<List<PokemonEntity>>(cachedData: cachedPokemons));
         default:
