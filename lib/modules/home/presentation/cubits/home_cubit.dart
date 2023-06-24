@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../shared/domain/entities/result/result.dart';
-import '../../../../shared/presentation/toast/controller/toast_controller.dart';
+import '../../../../shared/presentation/toast/controller/toast.dart';
 import '../../domain/entities/pokemon_entity.dart';
 import '../../domain/usecases/pokemon_use_case.dart';
 import '../view/widgets/radio_tile_widget.dart';

@@ -36,10 +36,9 @@ class ServiceLocatorImp implements ServiceLocator {
     // http
     registerFactory<HttpClient>(() => HttpClient(dioApp));
 
+    // local storage
     final localStorage = LocalStorageImp();
     await localStorage.init();
-
-    // local storage
     registerFactory<LocalStorage>(() => localStorage);
 
     // data sources
