@@ -29,14 +29,14 @@ void main() {
 
   group('HomeCubit.getPokemons |', () {
     test('initial: should have the correct initial state', () {
-      expect(
-          homeCubit.state,
-          isA<HomeState>()
-              .having((state) => state.isLoading, 'isLoading', equals(false))
-              .having((state) => state.hasError, 'hasError', equals(false))
-              .having((state) => state.messageError, 'messageError', isNull)
-              .having((state) => state.pokemons, 'pokemons', equals(<PokemonEntity>[]))
-              .having((state) => state.searchText, 'searchText', equals('')));
+      final isInitialStateCorrect = isA<HomeState>()
+          .having((state) => state.isLoading, 'isLoading', equals(false))
+          .having((state) => state.hasError, 'hasError', equals(false))
+          .having((state) => state.messageError, 'messageError', isNull)
+          .having((state) => state.pokemons, 'pokemons', equals(<PokemonEntity>[]))
+          .having((state) => state.searchText, 'searchText', equals(''));
+
+      expect(homeCubit.state, isInitialStateCorrect);
     });
 
     blocTest(
@@ -83,6 +83,8 @@ void main() {
       expect: () => [
         isA<HomeState>().having((state) => state.isLoading, 'isLoading', true),
         isA<HomeState>()
+            .having((state) => state.pokemons, 'pokemons',
+                allOf([isA<List<PokemonEntity>>(), isNotEmpty]))
             .having((state) => state.hasError, 'hasError', equals(true))
             .having((state) => state.messageError, 'messageError', allOf(isNotNull, isNotEmpty)),
       ],
@@ -133,7 +135,7 @@ void main() {
 
   group('HomeCubit.sortPokemons |', () {
     test(
-        'should sort by number the pokemons parameter and emit a new state with the sorted pokemons',
+        'Should sort by number the pokemons parameter and emit a new state with the sorted pokemons',
         () async {
       // Arrange
       when(() => mockGetPokemonsUseCase.call(0))
@@ -163,7 +165,7 @@ void main() {
       expect(homeCubit.state.pokemons, allOf(isSortedByNumber, isNot(previousPokemons)));
     });
 
-    test('should sort by name the pokemons parameter and emit a new state with the sorted pokemons',
+    test('Should sort by name the pokemons parameter and emit a new state with the sorted pokemons',
         () async {
       // Arrange
       when(() => mockGetPokemonsUseCase.call(0))
@@ -195,7 +197,7 @@ void main() {
   });
 
   group('HomeCubit.searchPokemons |', () {
-    test('should emit a new state with the pokemons that match the query', () async {
+    test('Should emit a new state with the pokemons that match the query', () async {
       // Arrange
       const query = 'CHAR';
       final pikachu = pokemonsMock[0];

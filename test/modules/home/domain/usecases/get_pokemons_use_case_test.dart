@@ -20,7 +20,7 @@ void main() {
   });
 
   group('GetPokemonsUseCase |', () {
-    test('success: hould return a Result with a list of PokemonEntity', () async {
+    test('success: should return a Result with a list of PokemonEntity', () async {
       // Arrange
       final List<PokemonEntity> pokemons = pokemonsMock;
 
@@ -53,7 +53,7 @@ void main() {
       // Assert
       expect(result.isSuccess, isFalse);
       expect(result.failure, isA<Failure>());
-      expect(result.failure.message, errorMessage);
+      expect(result.failure.message, equals(errorMessage));
 
       verify(() => mockRepository.getPokemons(1)).called(1);
       verifyNoMoreInteractions(mockRepository);
