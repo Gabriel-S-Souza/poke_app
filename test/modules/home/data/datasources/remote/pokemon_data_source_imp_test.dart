@@ -1,12 +1,12 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:poke_app/core/http/http_client.dart';
-import 'package:poke_app/modules/home/data/datasources/imp/pokemon_data_source_imp.dart';
+import 'package:poke_app/modules/home/data/datasources/remote/imp/pokemon_data_source_imp.dart';
 import 'package:poke_app/modules/home/domain/entities/pokemon_entity.dart';
 import 'package:poke_app/shared/domain/entities/failure/failure.dart';
 import 'package:poke_app/shared/domain/entities/response/response.dart';
 
-import '../../../../fixtures/get_pokemons_fixture.dart';
+import '../../../../../fixtures/get_pokemons_fixture.dart';
 
 class MockHttpClient extends Mock implements HttpClient {}
 
@@ -57,7 +57,7 @@ void main() {
 
       // Assert
       expect(result.isSuccess, isFalse);
-      expect(result.error, const ServerFailure('Api error'));
+      expect(result.failure, isA<ServerFailure>());
 
       verify(() => mockHttpClient.get(any())).called(1);
       verifyNoMoreInteractions(mockHttpClient);
@@ -75,7 +75,7 @@ void main() {
 
       // Assert
       expect(result.isSuccess, isFalse);
-      expect(result.error, isA<Failure>());
+      expect(result.failure, isA<Failure>());
 
       verify(() => mockHttpClient.get(any())).called(1);
       verifyNoMoreInteractions(mockHttpClient);

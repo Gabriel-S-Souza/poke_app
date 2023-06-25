@@ -38,7 +38,7 @@ class _SortButtonWidgetState extends State<SortButtonWidget> {
           Navigator.of(context).push(
             DialogRoute(
               barrierDismissible: true,
-              barrierColor: Theme.of(context).colorScheme.inversePrimary.withOpacity(0.5),
+              barrierColor: Theme.of(context).colorScheme.inversePrimary.withOpacity(0.6),
               context: context,
               builder: (context) => SortPokeDialog(
                 renderBox: renderBox,

@@ -54,8 +54,8 @@ void main() {
 
       // Assert
       expect(result.isSuccess, isFalse);
-      expect(result.error, isA<Failure>());
-      expect(result.error.message, mockErrorMessage);
+      expect(result.failure, isA<Failure>());
+      expect(result.failure.message, mockErrorMessage);
 
       verify(() => mockRepository.getDetails(1)).called(1);
       verifyNoMoreInteractions(mockRepository);

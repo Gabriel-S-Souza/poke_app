@@ -8,6 +8,7 @@ import 'package:poke_app/modules/home/presentation/cubits/home_state.dart';
 import 'package:poke_app/modules/home/presentation/view/widgets/radio_tile_widget.dart';
 import 'package:poke_app/shared/domain/entities/failure/failure.dart';
 import 'package:poke_app/shared/domain/entities/result/result.dart';
+import 'package:poke_app/shared/presentation/toast/controller/toast.dart';
 
 import '../../../../mocks/pokemons_mock.dart';
 
@@ -22,16 +23,20 @@ void main() {
     homeCubit = HomeCubit(getPokemonsUseCase: mockGetPokemonsUseCase);
   });
 
+  setUpAll(() {
+    Toast.initialize();
+  });
+
   group('HomeCubit.getPokemons |', () {
     test('initial: should have the correct initial state', () {
       expect(
-        homeCubit.state,
-        isA<HomeState>()
-            .having((state) => state.isLoading, 'isLoading', equals(false))
-            .having((state) => state.hasError, 'hasError', equals(false))
-            .having((state) => state.messageError, 'messageError', isNull)
-            .having((state) => state.pokemons, 'pokemons', equals(<PokemonEntity>[])),
-      );
+          homeCubit.state,
+          isA<HomeState>()
+              .having((state) => state.isLoading, 'isLoading', equals(false))
+              .having((state) => state.hasError, 'hasError', equals(false))
+              .having((state) => state.messageError, 'messageError', isNull)
+              .having((state) => state.pokemons, 'pokemons', equals(<PokemonEntity>[]))
+              .having((state) => state.searchText, 'searchText', equals('')));
     });
 
     blocTest(
@@ -58,13 +63,16 @@ void main() {
     );
 
     blocTest(
-      'failure: should emit a HomeSate with failure when response from use case is unsuccessful',
+      'failure: should emit a HomeSate with failure when response from use case is unsuccessful. Should have a cached pokemons if any',
       // Arrange
       build: () {
         const String errorMessage = 'Failed to fetch Pokemons';
-        const failure = Failure(errorMessage);
-        when(() => mockGetPokemonsUseCase.call(0))
-            .thenAnswer((invocation) async => Result.failure(failure));
+        final failureResult = Result<List<PokemonEntity>>.failure(
+          const Failure(errorMessage),
+          pokemonsMock,
+        );
+
+        when(() => mockGetPokemonsUseCase.call(0)).thenAnswer((invocation) async => failureResult);
         return homeCubit;
       },
 
@@ -151,7 +159,7 @@ void main() {
       homeCubit.sortPokemons(SortPokeBy.number);
 
       // Assert
-      expect(homeCubit.pokemons, allOf(isSortedByNumber));
+      expect(homeCubit.pokemons, isSortedByNumber);
       expect(homeCubit.state.pokemons, allOf(isSortedByNumber, isNot(previousPokemons)));
     });
 
@@ -211,6 +219,7 @@ void main() {
             isNot(contains(pikachu)),
             isNot(previousPokemons),
           ));
+      expect(homeCubit.state.searchText, equals(query));
     });
   });
 }

@@ -52,8 +52,8 @@ void main() {
 
       // Assert
       expect(result.isSuccess, isFalse);
-      expect(result.error, isA<Failure>());
-      expect(result.error.message, errorMessage);
+      expect(result.failure, isA<Failure>());
+      expect(result.failure.message, errorMessage);
 
       verify(() => mockRepository.getPokemons(1)).called(1);
       verifyNoMoreInteractions(mockRepository);

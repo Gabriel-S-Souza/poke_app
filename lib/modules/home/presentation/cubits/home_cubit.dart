@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../shared/domain/entities/result/result.dart';
-import '../../../../shared/presentation/toast/controller/toast_controller.dart';
+import '../../../../shared/presentation/toast/controller/toast.dart';
 import '../../domain/entities/pokemon_entity.dart';
 import '../../domain/usecases/pokemon_use_case.dart';
 import '../view/widgets/radio_tile_widget.dart';
@@ -38,13 +38,15 @@ class HomeCubit extends Cubit<HomeState> {
           isLoading: false,
         ));
       },
-      onFailure: (failure) {
+      onFailure: (failure, cachedData) {
         Toast.show(failure.message);
-        _pokemons.clear();
-        _pokemons.addAll(failure.cachedData);
+        if (_pokemons.isEmpty) {
+          _pokemons.addAll(cachedData ?? []);
+        }
         emit(state.copyWith(
-          pokemons: failure.cachedData,
+          pokemons: _pokemons,
           isLoading: false,
+          messageError: failure.message,
         ));
       },
     );
@@ -88,7 +90,7 @@ class HomeCubit extends Cubit<HomeState> {
 
     emit(state.copyWith(
       pokemons: pokemons,
-      searching: query,
+      searchText: query,
     ));
   }
 }

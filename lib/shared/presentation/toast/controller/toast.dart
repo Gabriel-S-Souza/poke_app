@@ -12,11 +12,6 @@ class Toast {
     return _instance!;
   }
 
-  factory Toast() {
-    assert(_instance != null, 'Toast must be initialized before use');
-    return _instance!;
-  }
-
   static void initialize() {
     _instance = Toast._internal();
   }
@@ -25,12 +20,9 @@ class Toast {
 
   static void show(
     String message, {
-    Duration duration = const Duration(seconds: 3),
+    Duration duration = const Duration(seconds: 4),
     Color? backgroundColor,
     Color? textColor,
-    Color? closeButtonColor,
-    final bool dismissible = false,
-    VoidCallback? onDismiss,
     double opacity = 0.8,
     ToastBehavior? behavior,
   }) {
@@ -39,9 +31,6 @@ class Toast {
       duration: duration,
       backgroundColor: backgroundColor,
       textColor: textColor,
-      closeButtonColor: closeButtonColor,
-      onDismiss: onDismiss,
-      dismissible: dismissible,
       opacity: opacity,
       behavior: behavior,
     );
@@ -57,22 +46,16 @@ class Toast {
 class ToastData {
   final String message;
   final Duration duration;
-  final VoidCallback? onDismiss;
   final Color? backgroundColor;
   final Color? textColor;
-  final bool dismissible;
-  final Color? closeButtonColor;
   final double opacity;
   final ToastBehavior? behavior;
 
   ToastData({
     required this.message,
     required this.duration,
-    this.onDismiss,
     this.backgroundColor,
     this.textColor,
-    this.dismissible = false,
-    this.closeButtonColor,
     this.opacity = 0.8,
     this.behavior,
   });

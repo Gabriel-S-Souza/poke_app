@@ -24,14 +24,8 @@ class PokemonDataSourceCacheableImp extends PokemonDataSourceCacheable {
       _saveInCache(result.data);
       return Result.success(result.data);
     } else {
-      final cachedPokemons = _getFromCache();
-      switch (result.error.runtimeType) {
-        case OfflineFailure:
-          return Result.failure(OfflineFailure<List<PokemonEntity>>(cachedData: cachedPokemons));
-        default:
-          final failureWithData = result.error.copyWith(cachedData: cachedPokemons);
-          return Result.failure(failureWithData);
-      }
+      final cachedPokemons = page == 0 ? _getFromCache() : <PokemonEntity>[];
+      return Result.failure(const OfflineFailure(), cachedPokemons);
     }
   }
 

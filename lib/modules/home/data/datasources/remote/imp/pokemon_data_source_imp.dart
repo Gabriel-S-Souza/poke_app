@@ -1,9 +1,9 @@
-import '../../../../../core/http/http_client.dart';
-import '../../../../../core/utils/api_paths.dart';
-import '../../../../../shared/domain/entities/failure/failure.dart';
-import '../../../../../shared/domain/entities/result/result.dart';
-import '../../../domain/entities/pokemon_entity.dart';
-import '../../models/pokemon_model.dart';
+import '../../../../../../core/http/http_client.dart';
+import '../../../../../../core/utils/api_paths.dart';
+import '../../../../../../shared/domain/entities/failure/failure.dart';
+import '../../../../../../shared/domain/entities/result/result.dart';
+import '../../../../domain/entities/pokemon_entity.dart';
+import '../../../models/pokemon_model.dart';
 import '../interface/pokemon_data_source.dart';
 
 class PokemonDataSourceImp implements PokemonDataSource {
@@ -23,12 +23,12 @@ class PokemonDataSourceImp implements PokemonDataSource {
             (response.data['results'] as List).map((e) => PokemonModel.fromJson(e)).toList();
         return Result.success(pokemons);
       } else {
-        return Result.failure(const ServerFailure(message: 'Api error'));
+        return Result.failure(const ServerFailure());
       }
     } on Failure catch (e) {
       return Result.failure(e);
     } catch (e) {
-      return Result.failure(UnmappedFailure(message: e.toString()));
+      return Result.failure(UnmappedFailure(e.toString()));
     }
   }
 }

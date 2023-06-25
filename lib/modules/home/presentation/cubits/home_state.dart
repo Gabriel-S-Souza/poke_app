@@ -7,14 +7,14 @@ class HomeState extends Equatable {
   final List<PokemonEntity> pokemons;
   final String? messageError;
   final bool isLoading;
-  final String searching;
+  final String searchText;
   final SortPokeBy sortBy;
   const HomeState({
     this.pokemons = const [],
     this.isLoading = false,
     this.messageError,
     this.sortBy = SortPokeBy.number,
-    this.searching = '',
+    this.searchText = '',
   });
 
   HomeState copyWith({
@@ -22,14 +22,14 @@ class HomeState extends Equatable {
     bool? isLoading,
     String? messageError,
     SortPokeBy? sortBy,
-    String? searching,
+    String? searchText,
   }) =>
       HomeState(
         pokemons: pokemons ?? this.pokemons,
         isLoading: isLoading ?? this.isLoading,
         messageError: messageError,
         sortBy: sortBy ?? this.sortBy,
-        searching: searching ?? this.searching,
+        searchText: searchText ?? this.searchText,
       );
 
   HomeState startLoading() => copyWith(isLoading: true);

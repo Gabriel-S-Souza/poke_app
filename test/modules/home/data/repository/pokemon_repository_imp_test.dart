@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:poke_app/modules/home/data/datasources/interface/pokemon_data_source.dart';
+import 'package:poke_app/modules/home/data/datasources/remote/interface/pokemon_data_source.dart';
 import 'package:poke_app/modules/home/data/repositories/pokemon_repository_imp.dart';
 import 'package:poke_app/modules/home/domain/entities/pokemon_entity.dart';
 import 'package:poke_app/shared/domain/entities/failure/failure.dart';
@@ -51,7 +51,7 @@ void main() {
 
       // Assert
       expect(result.isSuccess, isFalse);
-      expect(result.error, isA<Failure>());
+      expect(result.failure, isA<Failure>());
 
       verify(() => mockDataSource.getPokemons(0)).called(1);
       verifyNoMoreInteractions(mockDataSource);

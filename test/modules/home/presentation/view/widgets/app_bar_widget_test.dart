@@ -18,7 +18,7 @@ class MockSearchCallback extends Mock {
 }
 
 void main() {
-  late MaterialApp appWidget;
+  late Widget appWidget;
   late MockSortCallback mockSortCallback;
   late MockSearchCallback mockSearchCallback;
   late TextEditingController searchController;

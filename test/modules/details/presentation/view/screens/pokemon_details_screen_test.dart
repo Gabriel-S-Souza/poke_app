@@ -26,7 +26,7 @@ class MockGetPokemonsUseCase extends Mock implements GetPokemonsUseCase {}
 class MockGetPokemonDetailsUseCase extends Mock implements GetPokemonDetailsUseCase {}
 
 void main() {
-  late MaterialApp appWidget;
+  late Widget appWidget;
   late MockGetPokemonDetailsUseCase mockGetPokemonDetailsUseCase;
   late PokemonDetailsCubit pokemonDetailsCubit;
   late MockGetPokemonsUseCase mockGetPokemonsUseCase;
