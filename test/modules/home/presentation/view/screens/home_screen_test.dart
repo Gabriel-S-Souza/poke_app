@@ -102,7 +102,7 @@ void main() {
     });
 
     testWidgets(
-        'When the sorting settings are changed, it should upadates the pokemons grid with the new pokemon sorting',
+        'When the sorting option are changed, it should updates the pokemons grid with the pokemons sorted by the new option',
         (tester) async {
       await mockNetworkImagesFor(() async {
         await tester.pumpWidget(appWidget);
@@ -138,7 +138,7 @@ void main() {
     });
 
     testWidgets(
-        'When the search field is filled, it should upadates the pokemons grid with the pokemons that contains the query',
+        'When the search field is filled, it should updates the pokemons grid with the pokemons that contains the query',
         (tester) async {
       await mockNetworkImagesFor(() async {
         const query = 'char';
