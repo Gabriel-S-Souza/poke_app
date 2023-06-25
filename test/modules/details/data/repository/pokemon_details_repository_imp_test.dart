@@ -51,7 +51,7 @@ void main() {
 
       // Assert
       expect(result.isSuccess, isFalse);
-      expect(result.error, isA<Failure>());
+      expect(result.failure, isA<Failure>());
 
       verify(() => mockDataSource.getDetails(0)).called(1);
       verifyNoMoreInteractions(mockDataSource);

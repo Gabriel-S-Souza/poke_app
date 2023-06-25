@@ -68,7 +68,8 @@ void main() {
       build: () {
         const String errorMessage = 'Failed to fetch Pokemons';
         final failureResult = Result<List<PokemonEntity>>.failure(
-          Failure<List<PokemonEntity>>(errorMessage, cachedData: pokemonsMock),
+          const Failure(errorMessage),
+          pokemonsMock,
         );
 
         when(() => mockGetPokemonsUseCase.call(0)).thenAnswer((invocation) async => failureResult);

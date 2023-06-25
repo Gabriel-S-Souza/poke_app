@@ -58,7 +58,7 @@ void main() {
 
       // Assert
       expect(result.isSuccess, isFalse);
-      expect(result.error, const ServerFailure(message: 'Api error'));
+      expect(result.failure, isA<ServerFailure>());
 
       verify(() => mockHttpClient.get(any())).called(1);
       verifyNoMoreInteractions(mockHttpClient);
@@ -76,7 +76,7 @@ void main() {
 
       // Assert
       expect(result.isSuccess, isFalse);
-      expect(result.error, isA<Failure>());
+      expect(result.failure, isA<Failure>());
 
       verify(() => mockHttpClient.get(any())).called(1);
       verifyNoMoreInteractions(mockHttpClient);
@@ -94,7 +94,7 @@ void main() {
 
       // Assert
       expect(result.isSuccess, isFalse);
-      expect(result.error, isA<Failure>());
+      expect(result.failure, isA<Failure>());
 
       verify(() => mockHttpClient.get(any())).called(1);
       verifyNoMoreInteractions(mockHttpClient);

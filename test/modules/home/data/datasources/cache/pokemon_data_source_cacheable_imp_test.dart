@@ -10,7 +10,7 @@ import 'package:poke_app/shared/data/datasources/interface/local_storage.dart';
 import 'package:poke_app/shared/domain/entities/failure/failure.dart';
 import 'package:poke_app/shared/domain/entities/result/result.dart';
 
-import '../../../../mocks/pokemons_mock.dart';
+import '../../../../../mocks/pokemons_mock.dart';
 
 class MockLocalStorage extends Mock implements LocalStorage {}
 
@@ -58,10 +58,10 @@ void main() {
     });
 
     test(
-        'failure: should return a Result with a OfflineFailure having cached data if any, when offline',
+        'failure: when is offline, should return a Result with an OfflineFailure and with the cached data if any',
         () async {
       // Arrange
-      const int page = 1;
+      const int page = 0;
       final pokemonsForCache = pokemonsMock;
       const failure = OfflineFailure();
 
@@ -77,8 +77,8 @@ void main() {
 
       // Assert
       expect(result.isSuccess, isFalse);
-      expect(result.error, isA<Failure<List<PokemonEntity>>>());
-      expect(result.error.cachedData, isA<List<PokemonEntity>>());
+      expect(result.failure, isA<OfflineFailure>());
+      expect(result.cachedData, isA<List<PokemonEntity>>());
 
       verify(() => mockPokemonDataSource.getPokemons(page)).called(1);
       verify(() => mockLocalStorage.getList(any())).called(1);
@@ -87,26 +87,60 @@ void main() {
     });
 
     test(
-        'failure: should return a Result with a Failure and cached data if any, when an error occurs',
+        'failure: when some failure occurs, should return a Result with a Failure subtype and with the cached data if any',
         () async {
       // Arrange
-      const int page = 1;
-      const failure = ServerFailure(message: 'Api error');
+      const int page = 0;
+      final pokemonsForCache = pokemonsMock;
+      const failure = ServerFailure();
 
       when(() => mockPokemonDataSource.getPokemons(page))
           .thenAnswer((_) async => Result.failure(failure));
-      when(() => mockLocalStorage.getList(any())).thenReturn([]);
+      when(() => mockLocalStorage.getList(any())).thenReturn([
+        jsonEncode(PokemonModel.fromEntity(pokemonsForCache[0]).toJson()),
+        jsonEncode(PokemonModel.fromEntity(pokemonsForCache[1]).toJson()),
+      ]);
 
       // Act
       final result = await dataSource.getPokemons(page);
 
       // Assert
       expect(result.isSuccess, isFalse);
-      expect(result.error, isA<Failure>());
-      expect(result.error.cachedData, isA<List<PokemonEntity>>());
+      expect(result.failure, isA<Failure>());
+      expect(result.cachedData, isA<List<PokemonEntity>>());
 
       verify(() => mockPokemonDataSource.getPokemons(page)).called(1);
       verify(() => mockLocalStorage.getList(any())).called(1);
+      verifyNoMoreInteractions(mockPokemonDataSource);
+      verifyNoMoreInteractions(mockLocalStorage);
+    });
+
+    test(
+        'failure: when the page parameter is not 0 and some failure occurs, should return a Result with a Failure subtype and without the cached data',
+        () async {
+      // Arrange
+      const int page = 1;
+      const failure = ServerFailure();
+
+      when(() => mockPokemonDataSource.getPokemons(page))
+          .thenAnswer((_) async => Result.failure(failure));
+
+      // Act
+      final result = await dataSource.getPokemons(page);
+
+      final Matcher isEmptyOrNull = CustomMatcher(
+        'isEmptyOrNull',
+        'is empty or null',
+        (dynamic item) => item == null || item.isEmpty,
+      );
+
+      // Assert
+      expect(result.isSuccess, isFalse);
+      expect(result.failure, isA<Failure>());
+      expect(result.cachedData, isEmptyOrNull);
+
+      verify(() => mockPokemonDataSource.getPokemons(page)).called(1);
+      verifyNever(() => mockLocalStorage.getList(any()));
       verifyNoMoreInteractions(mockPokemonDataSource);
       verifyNoMoreInteractions(mockLocalStorage);
     });
