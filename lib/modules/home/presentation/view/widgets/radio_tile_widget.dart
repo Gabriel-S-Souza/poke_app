@@ -16,7 +16,10 @@ class RadioTileWidget<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Material(
-        child: Ink(
+        color: Colors.transparent,
+        surfaceTintColor: Colors.transparent,
+        elevation: 0,
+        child: GestureDetector(
           child: InkWell(
             highlightColor: Colors.transparent,
             onTap: () => onChanged?.call(value),

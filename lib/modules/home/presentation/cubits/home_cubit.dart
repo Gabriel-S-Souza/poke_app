@@ -62,14 +62,7 @@ class HomeCubit extends Cubit<HomeState> {
 
   void sortPokemons(SortPokeBy sort, {bool updateState = true}) {
     _pokemons.sort(
-      (a, b) {
-        switch (sort) {
-          case SortPokeBy.number:
-            return a.id.compareTo(b.id);
-          case SortPokeBy.name:
-            return a.name.compareTo(b.name);
-        }
-      },
+      (a, b) => sort == SortPokeBy.number ? a.id.compareTo(b.id) : a.name.compareTo(b.name),
     );
 
     if (updateState) {
