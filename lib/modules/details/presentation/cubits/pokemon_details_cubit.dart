@@ -15,7 +15,7 @@ class PokemonDetailsCubit extends Cubit<PokemonDetailsState> {
     final result = await _getPokemonDetailsUseCase(pokemonId);
     result.when(
       onSuccess: (details) => emit(PokemonDetailsSuccess(details)),
-      onFailure: (failure) {
+      onFailure: (failure, _) {
         Toast.show(failure.message);
         emit(PokemonDetailsError(failure.message));
       },

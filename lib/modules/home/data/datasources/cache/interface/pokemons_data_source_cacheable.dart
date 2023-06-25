@@ -1,6 +1,6 @@
 import '../../../../../../shared/domain/entities/result/result.dart';
 import '../../../../domain/entities/pokemon_entity.dart';
-import '../../interface/pokemon_data_source.dart';
+import '../../remote/interface/pokemon_data_source.dart';
 
 abstract class PokemonDataSourceCacheable implements PokemonDataSource {
   final PokemonDataSource _pokemonDataSource;

@@ -6,7 +6,7 @@ import '../../shared/domain/entities/failure/failure.dart';
 
 mixin HandleRequestErrorMixin {
   Failure handleError(Object e) {
-    if (e is! DioError) return UnmappedFailure(message: e.toString());
+    if (e is! DioError) return UnmappedFailure(e.toString());
 
     if (e.response != null && e.response!.statusCode != null) {
       final error = _handleErrorByStatusCode(e.response!.statusCode);
@@ -40,15 +40,15 @@ mixin HandleRequestErrorMixin {
       case DioErrorType.cancel:
       case DioErrorType.receiveTimeout:
       case DioErrorType.badResponse:
-        return ServerFailure(message: e.message);
+        return ServerFailure(e.message);
       case DioErrorType.unknown:
         if (e.error is SocketException &&
             e.error.toString().toLowerCase().contains('network is unreachable')) {
           return const OfflineFailure();
         }
-        return UnmappedFailure(message: e.message);
+        return UnmappedFailure(e.message);
       default:
-        return UnmappedFailure(message: e.message);
+        return UnmappedFailure(e.message);
     }
   }
 }

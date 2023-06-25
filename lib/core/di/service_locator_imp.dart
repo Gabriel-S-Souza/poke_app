@@ -7,8 +7,8 @@ import '../../modules/details/domain/repositories/pokemon_details_repository.dar
 import '../../modules/details/domain/usecases/get_pokemon_details_use_case.dart';
 import '../../modules/details/presentation/cubits/pokemon_details_cubit.dart';
 import '../../modules/home/data/datasources/cache/imp/pokemon_data_source_cacheable_imp.dart';
-import '../../modules/home/data/datasources/imp/pokemon_data_source_imp.dart';
-import '../../modules/home/data/datasources/interface/pokemon_data_source.dart';
+import '../../modules/home/data/datasources/remote/imp/pokemon_data_source_imp.dart';
+import '../../modules/home/data/datasources/remote/interface/pokemon_data_source.dart';
 import '../../modules/home/data/repositories/pokemon_repository_imp.dart';
 import '../../modules/home/domain/repositories/pokemon_repository_interface.dart';
 import '../../modules/home/domain/usecases/pokemon_use_case.dart';
