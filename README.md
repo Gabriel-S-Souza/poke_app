@@ -6,7 +6,6 @@
   <img src="https://github.com/Gabriel-S-Souza/poke_app/assets/94877176/b5e261e9-441a-4dc2-a479-e1045005de64" width="150" />
   <img src="https://github.com/Gabriel-S-Souza/poke_app/assets/94877176/1ab0037b-0082-4d72-a236-853afbefbfcd" width="150" />
   <img src="https://github.com/Gabriel-S-Souza/poke_app/assets/94877176/be33a3fd-6281-49ec-9a10-363c90049e4c" width="150" />
-  <img src="https://github.com/Gabriel-S-Souza/poke_app/assets/94877176/27a87583-38a6-4ef9-a5a5-70b9571582cd" width="150" />
 </div>
 <br>
 
