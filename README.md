@@ -28,7 +28,7 @@ O PokeApp é um aplicativo desenvolvido em Flutter com o objetivo de explorar os
 - State Management
 
 
-### Principais packages utilizados
+### Alguns packages utilizados
 - flutter_bloc
 - dio
 - get_it
