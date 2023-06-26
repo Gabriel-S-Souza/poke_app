@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import '../../../../../../shared/data/datasources/interface/local_storage.dart';
-import '../../../../../../shared/domain/entities/failure/failure.dart';
 import '../../../../../../shared/domain/entities/result/result.dart';
 import '../../../../domain/entities/pokemon_entity.dart';
 import '../../../models/pokemon_model.dart';
@@ -25,7 +24,7 @@ class PokemonDataSourceCacheableImp extends PokemonDataSourceCacheable {
       return Result.success(result.data);
     } else {
       final cachedPokemons = page == 0 ? _getFromCache() : <PokemonEntity>[];
-      return Result.failure(const OfflineFailure(), cachedPokemons);
+      return Result.failure(result.failure, cachedPokemons);
     }
   }
 
