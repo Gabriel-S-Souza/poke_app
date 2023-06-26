@@ -125,9 +125,9 @@ class __ToastHandlerWidget extends State<_ToastHandlerWidget> with TickerProvide
 
   @override
   void dispose() {
-    super.dispose();
     _animationController.dispose();
     Toast.dispose();
+    super.dispose();
   }
 
   @override

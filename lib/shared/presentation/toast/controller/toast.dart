@@ -7,6 +7,8 @@ class Toast {
 
   static late Toast? _instance;
 
+  Toast._internal() : toastStream = StreamController<ToastData>.broadcast();
+
   static Toast get instance {
     assert(_instance != null, 'Toast must be initialized before use');
     return _instance!;
@@ -15,8 +17,6 @@ class Toast {
   static void initialize() {
     _instance = Toast._internal();
   }
-
-  Toast._internal() : toastStream = StreamController<ToastData>.broadcast();
 
   static void show(
     String message, {
