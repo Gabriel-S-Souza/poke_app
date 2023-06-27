@@ -45,6 +45,8 @@ class _ToastHandlerWidget extends StatefulWidget {
 class __ToastHandlerWidget extends State<_ToastHandlerWidget> with TickerProviderStateMixin {
   List<ToastData> toastQueue = [];
   bool isShowing = false;
+  bool isCustomShowing = false;
+  late OverlayEntry toastCustomEntry;
 
   late AnimationController _animationController;
   late Animation<double> _animation;
@@ -54,6 +56,7 @@ class __ToastHandlerWidget extends State<_ToastHandlerWidget> with TickerProvide
     super.initState();
     Toast.initialize();
     _listenToastStream();
+    _listenToastCustomStream();
     _initializeAnimation();
   }
 
@@ -63,6 +66,19 @@ class __ToastHandlerWidget extends State<_ToastHandlerWidget> with TickerProvide
         toastQueue.add(toastData);
         if (!isShowing) {
           _showNextToast();
+        }
+      }
+    });
+  }
+
+  void _listenToastCustomStream() {
+    Toast.instance.toastCustomStream.addListener(() {
+      if (Toast.instance.toastCustomStream.value != null) {
+        _showCustomToast(Toast.instance.toastCustomStream.value!);
+      } else {
+        if (isCustomShowing) {
+          toastCustomEntry.remove();
+          isCustomShowing = false;
         }
       }
     });
@@ -120,6 +136,33 @@ class __ToastHandlerWidget extends State<_ToastHandlerWidget> with TickerProvide
           _showNextToast();
         }
       });
+    }
+  }
+
+  void _showCustomToast(ToastCustomData toasCustomData) {
+    if (!isCustomShowing) {
+      isCustomShowing = true;
+      toastCustomEntry = OverlayEntry(
+        builder: (context) => SafeArea(
+          child: Material(
+            type: MaterialType.transparency,
+            child: toasCustomData.builder(context),
+          ),
+        ),
+      );
+
+      Overlay.of(context).insert(toastCustomEntry);
+
+      if (toasCustomData.duration != null) {
+        Future.delayed(toasCustomData.duration!).then((_) async {
+          if (isCustomShowing) {
+            toastCustomEntry.remove();
+            isCustomShowing = false;
+          }
+        });
+      } else {
+        isCustomShowing = false;
+      }
     }
   }
 
