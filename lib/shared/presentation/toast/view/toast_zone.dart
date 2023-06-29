@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 import '../controller/toast.dart';
@@ -56,7 +58,7 @@ class __ToastHandlerWidget extends State<_ToastHandlerWidget> with TickerProvide
     super.initState();
     Toast.initialize();
     _listenToastStream();
-    _listenToastCustomStream();
+    _listenToastCustomNotifier();
     _initializeAnimation();
   }
 
@@ -71,12 +73,15 @@ class __ToastHandlerWidget extends State<_ToastHandlerWidget> with TickerProvide
     });
   }
 
-  void _listenToastCustomStream() {
-    Toast.instance.toastCustomStream.addListener(() {
-      if (Toast.instance.toastCustomStream.value != null) {
-        _showCustomToast(Toast.instance.toastCustomStream.value!);
+  void _listenToastCustomNotifier() {
+    Toast.instance.toastCustomNotifier.addListener(() async {
+      log(Toast.instance.toastCustomNotifier.value.toString());
+      if (Toast.instance.toastCustomNotifier.value != null) {
+        _showCustomToast(Toast.instance.toastCustomNotifier.value!);
       } else {
         if (isCustomShowing) {
+          _animationController.reverse();
+          await Future.delayed(const Duration(milliseconds: 500));
           toastCustomEntry.remove();
           isCustomShowing = false;
         }
@@ -146,22 +151,28 @@ class __ToastHandlerWidget extends State<_ToastHandlerWidget> with TickerProvide
         builder: (context) => SafeArea(
           child: Material(
             type: MaterialType.transparency,
-            child: toasCustomData.builder(context),
+            child: toasCustomData.activeFade
+                ? FadeTransition(
+                    opacity: _animation,
+                    child: toasCustomData.builder(context),
+                  )
+                : toasCustomData.builder(context),
           ),
         ),
       );
 
       Overlay.of(context).insert(toastCustomEntry);
+      _animationController.forward();
 
       if (toasCustomData.duration != null) {
         Future.delayed(toasCustomData.duration!).then((_) async {
+          _animationController.reverse();
+          await Future.delayed(const Duration(milliseconds: 500));
           if (isCustomShowing) {
             toastCustomEntry.remove();
             isCustomShowing = false;
           }
         });
-      } else {
-        isCustomShowing = false;
       }
     }
   }

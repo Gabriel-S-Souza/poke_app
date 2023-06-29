@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 class Toast {
   final StreamController<ToastData> toastStream;
-  final ValueNotifier<ToastCustomData?> toastCustomStream = ValueNotifier<ToastCustomData?>(null);
+  final ValueNotifier<ToastCustomData?> toastCustomNotifier = ValueNotifier<ToastCustomData?>(null);
 
   static late Toast? _instance;
 
@@ -41,15 +41,17 @@ class Toast {
   static Future<void> showCustom({
     required Widget Function(BuildContext context) builder,
     Duration? duration,
+    bool activeFade = true,
   }) async {
-    instance.toastCustomStream.value = ToastCustomData(
+    instance.toastCustomNotifier.value = ToastCustomData(
       builder: builder,
       duration: duration,
+      activeFade: activeFade,
     );
   }
 
   static void removeCustomToast() {
-    instance.toastCustomStream.value = null;
+    instance.toastCustomNotifier.value = null;
   }
 
   static void dispose() {
@@ -83,11 +85,13 @@ enum ToastBehavior {
 }
 
 class ToastCustomData {
-  final Widget Function(BuildContext context) builder;
   final Duration? duration;
+  final bool activeFade;
+  final Widget Function(BuildContext context) builder;
 
   ToastCustomData({
-    required this.builder,
     required this.duration,
+    required this.builder,
+    required this.activeFade,
   });
 }
