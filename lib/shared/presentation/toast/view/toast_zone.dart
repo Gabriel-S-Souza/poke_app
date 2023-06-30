@@ -45,6 +45,8 @@ class _ToastHandlerWidget extends StatefulWidget {
 class __ToastHandlerWidget extends State<_ToastHandlerWidget> with TickerProviderStateMixin {
   List<ToastData> toastQueue = [];
   bool isShowing = false;
+  bool isCustomShowing = false;
+  OverlayEntry? toastCustomEntry;
 
   late AnimationController _animationController;
   late Animation<double> _animation;
@@ -54,6 +56,7 @@ class __ToastHandlerWidget extends State<_ToastHandlerWidget> with TickerProvide
     super.initState();
     Toast.initialize();
     _listenToastStream();
+    _listenToastCustomNotifier();
     _initializeAnimation();
   }
 
@@ -63,6 +66,21 @@ class __ToastHandlerWidget extends State<_ToastHandlerWidget> with TickerProvide
         toastQueue.add(toastData);
         if (!isShowing) {
           _showNextToast();
+        }
+      }
+    });
+  }
+
+  void _listenToastCustomNotifier() {
+    Toast.instance.toastCustomNotifier.addListener(() async {
+      if (Toast.instance.toastCustomNotifier.value != null) {
+        _showCustomToast(Toast.instance.toastCustomNotifier.value!);
+      } else {
+        if (isCustomShowing) {
+          _animationController.reverse();
+          await Future.delayed(const Duration(milliseconds: 500));
+          toastCustomEntry?.remove();
+          isCustomShowing = false;
         }
       }
     });
@@ -120,6 +138,50 @@ class __ToastHandlerWidget extends State<_ToastHandlerWidget> with TickerProvide
           _showNextToast();
         }
       });
+    }
+  }
+
+  void _showCustomToast(ToastCustomData toasCustomData) {
+    if (!isCustomShowing) {
+      isCustomShowing = true;
+
+      toastCustomEntry = OverlayEntry(
+        builder: (context) => SafeArea(
+          child: Material(
+            type: MaterialType.transparency,
+            child: toasCustomData.activeFade
+                ? FadeTransition(
+                    opacity: _animation,
+                    child: Stack(
+                      alignment: toasCustomData.alignment,
+                      children: [
+                        toasCustomData.builder(context),
+                      ],
+                    ),
+                  )
+                : Stack(
+                    alignment: toasCustomData.alignment,
+                    children: [
+                      toasCustomData.builder(context),
+                    ],
+                  ),
+          ),
+        ),
+      );
+
+      Overlay.of(context).insert(toastCustomEntry!);
+      _animationController.forward();
+
+      if (toasCustomData.duration != null) {
+        Future.delayed(toasCustomData.duration!).then((_) async {
+          _animationController.reverse();
+          await Future.delayed(const Duration(milliseconds: 500));
+          if (isCustomShowing) {
+            toastCustomEntry?.remove();
+            isCustomShowing = false;
+          }
+        });
+      }
     }
   }
 

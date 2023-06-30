@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 class Toast {
   final StreamController<ToastData> toastStream;
+  final ValueNotifier<ToastCustomData?> toastCustomNotifier = ValueNotifier<ToastCustomData?>(null);
 
   static late Toast? _instance;
 
@@ -37,6 +38,24 @@ class Toast {
     instance.toastStream.add(toast);
   }
 
+  static Future<void> showCustom({
+    required Widget Function(BuildContext context) builder,
+    Duration? duration,
+    bool activeFade = true,
+    AlignmentGeometry alignment = Alignment.topCenter,
+  }) async {
+    instance.toastCustomNotifier.value = ToastCustomData(
+      duration: duration,
+      activeFade: activeFade,
+      alignment: alignment,
+      builder: builder,
+    );
+  }
+
+  static void hideCustom() {
+    instance.toastCustomNotifier.value = null;
+  }
+
   static void dispose() {
     _instance?.toastStream.close();
     _instance = null;
@@ -65,4 +84,18 @@ enum ToastBehavior {
   pinnedDown,
   pinnedUp,
   floating,
+}
+
+class ToastCustomData {
+  final Duration? duration;
+  final bool activeFade;
+  final AlignmentGeometry alignment;
+  final Widget Function(BuildContext context) builder;
+
+  ToastCustomData({
+    required this.duration,
+    required this.activeFade,
+    required this.alignment,
+    required this.builder,
+  });
 }
