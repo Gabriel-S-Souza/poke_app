@@ -42,15 +42,17 @@ class Toast {
     required Widget Function(BuildContext context) builder,
     Duration? duration,
     bool activeFade = true,
+    AlignmentGeometry alignment = Alignment.topCenter,
   }) async {
     instance.toastCustomNotifier.value = ToastCustomData(
-      builder: builder,
       duration: duration,
       activeFade: activeFade,
+      alignment: alignment,
+      builder: builder,
     );
   }
 
-  static void removeCustomToast() {
+  static void hideCustom() {
     instance.toastCustomNotifier.value = null;
   }
 
@@ -87,11 +89,13 @@ enum ToastBehavior {
 class ToastCustomData {
   final Duration? duration;
   final bool activeFade;
+  final AlignmentGeometry alignment;
   final Widget Function(BuildContext context) builder;
 
   ToastCustomData({
     required this.duration,
-    required this.builder,
     required this.activeFade,
+    required this.alignment,
+    required this.builder,
   });
 }

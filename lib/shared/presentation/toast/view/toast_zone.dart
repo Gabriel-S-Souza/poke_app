@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 
 import '../controller/toast.dart';
@@ -48,7 +46,7 @@ class __ToastHandlerWidget extends State<_ToastHandlerWidget> with TickerProvide
   List<ToastData> toastQueue = [];
   bool isShowing = false;
   bool isCustomShowing = false;
-  late OverlayEntry toastCustomEntry;
+  OverlayEntry? toastCustomEntry;
 
   late AnimationController _animationController;
   late Animation<double> _animation;
@@ -75,14 +73,13 @@ class __ToastHandlerWidget extends State<_ToastHandlerWidget> with TickerProvide
 
   void _listenToastCustomNotifier() {
     Toast.instance.toastCustomNotifier.addListener(() async {
-      log(Toast.instance.toastCustomNotifier.value.toString());
       if (Toast.instance.toastCustomNotifier.value != null) {
         _showCustomToast(Toast.instance.toastCustomNotifier.value!);
       } else {
         if (isCustomShowing) {
           _animationController.reverse();
           await Future.delayed(const Duration(milliseconds: 500));
-          toastCustomEntry.remove();
+          toastCustomEntry?.remove();
           isCustomShowing = false;
         }
       }
@@ -147,6 +144,7 @@ class __ToastHandlerWidget extends State<_ToastHandlerWidget> with TickerProvide
   void _showCustomToast(ToastCustomData toasCustomData) {
     if (!isCustomShowing) {
       isCustomShowing = true;
+
       toastCustomEntry = OverlayEntry(
         builder: (context) => SafeArea(
           child: Material(
@@ -154,14 +152,24 @@ class __ToastHandlerWidget extends State<_ToastHandlerWidget> with TickerProvide
             child: toasCustomData.activeFade
                 ? FadeTransition(
                     opacity: _animation,
-                    child: toasCustomData.builder(context),
+                    child: Stack(
+                      alignment: toasCustomData.alignment,
+                      children: [
+                        toasCustomData.builder(context),
+                      ],
+                    ),
                   )
-                : toasCustomData.builder(context),
+                : Stack(
+                    alignment: toasCustomData.alignment,
+                    children: [
+                      toasCustomData.builder(context),
+                    ],
+                  ),
           ),
         ),
       );
 
-      Overlay.of(context).insert(toastCustomEntry);
+      Overlay.of(context).insert(toastCustomEntry!);
       _animationController.forward();
 
       if (toasCustomData.duration != null) {
@@ -169,7 +177,7 @@ class __ToastHandlerWidget extends State<_ToastHandlerWidget> with TickerProvide
           _animationController.reverse();
           await Future.delayed(const Duration(milliseconds: 500));
           if (isCustomShowing) {
-            toastCustomEntry.remove();
+            toastCustomEntry?.remove();
             isCustomShowing = false;
           }
         });
