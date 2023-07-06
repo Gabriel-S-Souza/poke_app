@@ -9,7 +9,7 @@
 </div>
 <br>
 
-O PokeApp é um aplicativo desenvolvido em Flutter com o objetivo de explorar os conceitos de Clean Architecture e outras técnicas de desenvolvimento de software. O app implementa o layout do figma [Pokedéx Community](https://www.figma.com/file/oyy40kpPCamOuJOQu1uYMo/Pok%C3%A9dex-(Community)?type=design&node-id=314-3&mode=design&t=Z5E2UVjFkqhk5inq-0) e consome a [Poke Finder API](https://github.com/Gabriel-S-Souza/poke_finder_api/tree/main) para exibir uma lista paginada de pokemons e permite a visualização dos detalhes do pokemon.
+O PokeApp é um aplicativo desenvolvido em Flutter com o objetivo de explorar os conceitos de Clean Architecture e outras técnicas de desenvolvimento de software. O app implementa o layout do figma [Pokedéx Community](https://www.figma.com/file/oyy40kpPCamOuJOQu1uYMo/Pok%C3%A9dex-(Community)?type=design&node-id=314-3&mode=design&t=Z5E2UVjFkqhk5inq-0) e como fonte de dados desenvolvi a [Poke Finder API](https://github.com/Gabriel-S-Souza/poke_finder_api/tree/main) em NestJs. O PokeApp exibe uma lista paginada de pokemons e permite a visualização dos detalhes do pokemon.
 <br>
 
 ### Técnicas Utilizadas
